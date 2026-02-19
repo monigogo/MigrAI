@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ArrowLeft, Globe, Calendar, User } from "lucide-react";
+import { ArrowLeft, ArrowRight, Globe, Calendar } from "lucide-react";
 
 const COUNTRIES = [
   "Venezuela", "Colombia", "Ecuador", "Perú", "Honduras",
@@ -7,11 +7,12 @@ const COUNTRIES = [
   "Nicaragua", "Brasil", "Argentina", "República Dominicana", "Otro"
 ];
 
-const AGE_RANGES = ["18-25", "26-35", "36-45", "46-55", "56+"];
+const AGE_RANGES = ["18-25 años", "26-35 años", "36-45 años", "46-55 años", "56+ años"];
+
 const SEX_OPTIONS = [
-  { value: "masculino", label: "Masculino", emoji: "👨" },
-  { value: "femenino", label: "Femenino", emoji: "👩" },
-  { value: "otro", label: "Prefiero no decir", emoji: "🙂" },
+  { value: "masculino", label: "Masculino" },
+  { value: "femenino", label: "Femenino" },
+  { value: "otro", label: "Prefiero no decir" },
 ];
 
 interface OnboardingFormProps {
@@ -19,40 +20,17 @@ interface OnboardingFormProps {
   onBack: () => void;
 }
 
-const steps = [
-  {
-    icon: <Globe className="h-7 w-7" />,
-    emoji: "🌎",
-    title: "¿De qué país eres?",
-    subtitle: "Esto nos ayuda a darte la información correcta para tu país.",
-  },
-  {
-    icon: <Calendar className="h-7 w-7" />,
-    emoji: "🎂",
-    title: "¿Cuántos años tienes?",
-    subtitle: "Algunos trámites cambian según la edad.",
-  },
-  {
-    icon: <User className="h-7 w-7" />,
-    emoji: "🙋",
-    title: "¿Cuál es tu sexo?",
-    subtitle: "Para personalizar tu experiencia.",
-  },
-];
-
-const stepLabels = ["País", "Edad", "Sexo"];
-
 const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(0); // 0 = país, 1 = edad + sexo
   const [country, setCountry] = useState("");
   const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
 
-  const canContinue = step === 0 ? !!country : step === 1 ? !!age : !!sex;
+  const canContinue = step === 0 ? !!country : !!age && !!sex;
 
   const handleNext = () => {
-    if (step < 2) {
-      setStep(step + 1);
+    if (step === 0) {
+      setStep(1);
     } else {
       onComplete({ country, age, sex });
     }
@@ -64,118 +42,133 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background px-5 pb-8 pt-6">
-      {/* Back button */}
-      <button
-        onClick={handleBack}
-        className="mb-6 flex items-center gap-2 text-muted-foreground active:scale-95 transition-transform"
-      >
-        <ArrowLeft className="h-5 w-5" />
-        <span className="text-base font-medium">Atrás</span>
-      </button>
+    <div className="flex min-h-screen flex-col bg-[#f0f4f8]">
+      {/* Header */}
+      <div className="bg-white px-4 pt-4 pb-2 shadow-sm">
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1 text-primary text-sm font-medium mb-3"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Atrás
+        </button>
 
-      {/* Progress steps - labeled */}
-      <div className="mb-8">
-        <div className="flex gap-2 mb-2">
-          {[0, 1, 2].map((i) => (
+        {/* Progress bar */}
+        <div className="flex gap-1.5">
+          {[0, 1].map((i) => (
             <div
               key={i}
-              className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                i <= step ? "bg-primary" : "bg-border"
+              className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
+                i <= step ? "bg-primary" : "bg-muted"
               }`}
             />
           ))}
         </div>
-        <div className="flex justify-between px-0.5">
-          {stepLabels.map((label, i) => (
-            <span
-              key={i}
-              className={`text-xs font-medium transition-colors ${
-                i <= step ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-        <p className="text-xs text-muted-foreground mt-1 text-right">
-          Paso {step + 1} de 3
-        </p>
       </div>
 
-      {/* Step header */}
-      <div className="mb-6">
-        <span className="text-4xl">{steps[step].emoji}</span>
-        <h2 className="mt-3 font-heading text-2xl font-bold text-foreground">
-          {steps[step].title}
-        </h2>
-        <p className="mt-1 text-base text-muted-foreground leading-relaxed">
-          {steps[step].subtitle}
-        </p>
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Step 0: País */}
+        {step === 0 && (
+          <div>
+            <div className="px-4 pt-5 pb-4">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+                <Globe className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <h2 className="text-xl font-bold text-foreground">¿De qué país eres?</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Esto nos ayuda a darte información relevante
+              </p>
+            </div>
+
+            <div className="bg-white divide-y divide-border border-y border-border">
+              {COUNTRIES.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCountry(c)}
+                  className={`w-full text-left px-4 py-4 text-base transition-colors ${
+                    country === c
+                      ? "text-primary font-semibold bg-primary/5"
+                      : "text-foreground"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Step 1: Edad + Sexo */}
+        {step === 1 && (
+          <div>
+            {/* Edad */}
+            <div className="px-4 pt-5 pb-4">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+                <Calendar className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <h2 className="text-xl font-bold text-foreground">¿Cuál es tu rango de edad?</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Algunos procesos varían según la edad
+              </p>
+            </div>
+
+            <div className="bg-white divide-y divide-border border-y border-border mb-6">
+              {AGE_RANGES.map((a) => (
+                <button
+                  key={a}
+                  onClick={() => setAge(a)}
+                  className={`w-full text-left px-4 py-4 text-base transition-colors ${
+                    age === a
+                      ? "text-primary font-semibold bg-primary/5"
+                      : "text-foreground"
+                  }`}
+                >
+                  {a}
+                </button>
+              ))}
+            </div>
+
+            {/* Sexo */}
+            <div className="px-4 pb-4">
+              <h2 className="text-xl font-bold text-foreground">¿Cuál es tu sexo?</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Para personalizar tu experiencia
+              </p>
+            </div>
+
+            <div className="bg-white divide-y divide-border border-y border-border">
+              {SEX_OPTIONS.map((s) => (
+                <button
+                  key={s.value}
+                  onClick={() => setSex(s.value)}
+                  className={`w-full text-left px-4 py-4 text-base transition-colors ${
+                    sex === s.value
+                      ? "text-primary font-semibold bg-primary/5"
+                      : "text-foreground"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="h-6" />
+          </div>
+        )}
       </div>
 
-      {/* Options */}
-      <div className="flex-1 flex flex-col gap-3">
-        {step === 0 &&
-          COUNTRIES.map((c) => (
-            <button
-              key={c}
-              onClick={() => setCountry(c)}
-              className={`rounded-2xl border-2 px-5 py-4 text-left text-base font-medium transition-all active:scale-[0.98] ${
-                country === c
-                  ? "border-primary bg-primary/10 text-foreground shadow-sm"
-                  : "border-border bg-card text-foreground hover:border-primary/40"
-              }`}
-            >
-              {country === c ? "✅ " : ""}{c}
-            </button>
-          ))}
-
-        {step === 1 &&
-          AGE_RANGES.map((a) => (
-            <button
-              key={a}
-              onClick={() => setAge(a)}
-              className={`rounded-2xl border-2 px-5 py-4 text-left text-base font-medium transition-all active:scale-[0.98] ${
-                age === a
-                  ? "border-primary bg-primary/10 text-foreground shadow-sm"
-                  : "border-border bg-card text-foreground hover:border-primary/40"
-              }`}
-            >
-              {age === a ? "✅ " : ""}{a} años
-            </button>
-          ))}
-
-        {step === 2 &&
-          SEX_OPTIONS.map((s) => (
-            <button
-              key={s.value}
-              onClick={() => setSex(s.value)}
-              className={`flex items-center gap-4 rounded-2xl border-2 px-5 py-4 text-left text-base font-medium transition-all active:scale-[0.98] ${
-                sex === s.value
-                  ? "border-primary bg-primary/10 text-foreground shadow-sm"
-                  : "border-border bg-card text-foreground hover:border-primary/40"
-              }`}
-            >
-              <span className="text-2xl">{s.emoji}</span>
-              <span>{sex === s.value ? "✅ " : ""}{s.label}</span>
-            </button>
-          ))}
+      {/* Bottom button */}
+      <div className="bg-primary">
+        <button
+          onClick={handleNext}
+          disabled={!canContinue}
+          className="w-full flex items-center justify-center gap-2 py-5 text-lg font-semibold text-primary-foreground disabled:opacity-40 transition-opacity"
+        >
+          {step === 1 ? "Completar" : "Continuar"}
+          <ArrowRight className="h-5 w-5" />
+        </button>
       </div>
-
-      {/* Continue button - grande y visible */}
-      <button
-        onClick={handleNext}
-        disabled={!canContinue}
-        className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-primary py-5 font-heading text-lg font-bold text-primary-foreground shadow-md transition-all disabled:opacity-40 active:scale-[0.98]"
-      >
-        {step === 2 ? "✅ ¡Listo! Empezar" : "Continuar"}
-        {step < 2 && <ArrowRight className="h-5 w-5" />}
-      </button>
-
-      <p className="mt-4 text-center text-xs text-muted-foreground">
-        Tus datos son privados y no se comparten con nadie.
-      </p>
     </div>
   );
 };
