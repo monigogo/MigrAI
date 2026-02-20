@@ -8,6 +8,8 @@
 
 **migrAI** es una aplicación web progresiva (PWA-ready) diseñada para orientar a personas migrantes durante su proceso de integración en un nuevo país. La interfaz está optimizada para usuarios **sin conocimientos tecnológicos avanzados**, priorizando la claridad visual, el lenguaje simple y la accesibilidad en cualquier dispositivo.
 
+> ✅ **Sin registro. Sin login. Sin contraseñas.** El usuario entra directamente y completa un breve onboarding para personalizar su experiencia.
+
 ---
 
 ## 2. Objetivos del Sistema
@@ -18,7 +20,8 @@
 | 2 | Ofrecer respuestas rápidas sobre documentos, derechos y trámites |
 | 3 | Ser accesible para personas con poca experiencia tecnológica |
 | 4 | Funcionar correctamente en móvil, tablet y escritorio |
-| 5 | Preparar la arquitectura frontend para conectarse a un backend externo |
+| 5 | No requerir ningún tipo de cuenta, registro ni contraseña |
+| 6 | Preparar la arquitectura frontend para conectarse a un backend externo |
 
 ---
 
@@ -51,10 +54,9 @@
 
 La aplicación está preparada para integrarse con:
 
-- **API REST** o **GraphQL** para persistencia de datos de usuario
+- **API REST** o **GraphQL** para enviar los datos del onboarding y personalizar respuestas
 - **Servicio de IA** (OpenAI, Gemini, etc.) para el chat inteligente
-- **Base de datos** para guardar perfiles, progreso y conversaciones
-- **Autenticación** por email/password o proveedor social (OAuth)
+- **Sin base de datos de usuarios** — no se almacenan cuentas ni credenciales
 
 ---
 
@@ -66,7 +68,7 @@ src/
 │   ├── Index.tsx          # Pantalla de inicio + tabs de navegación
 │   └── NotFound.tsx       # Página 404
 ├── components/
-│   ├── OnboardingForm.tsx # Formulario de registro inicial (2 pasos)
+│   ├── OnboardingForm.tsx # Formulario de perfil inicial (2 pasos)
 │   ├── Dashboard.tsx      # Panel principal + vista de chat
 │   ├── PathCard.tsx       # Tarjeta de selección de ruta
 │   └── ui/                # Componentes shadcn/ui reutilizables
@@ -82,7 +84,7 @@ src/
 
 ### 6.1 🏠 Pantalla de Inicio (`Index.tsx`)
 
-**Descripción:** Primera pantalla que ve el usuario al entrar a la app.
+**Descripción:** Primera pantalla que ve el usuario al entrar a la app. No requiere ningún tipo de autenticación.
 
 **Funcionalidades:**
 - Header fijo con logo y nombre de la app
@@ -104,7 +106,7 @@ src/
 
 ### 6.2 📝 Formulario de Onboarding (`OnboardingForm.tsx`)
 
-**Descripción:** Recoge datos básicos del usuario para personalizar la experiencia.
+**Descripción:** Recoge datos básicos del usuario para personalizar la experiencia. **No crea ninguna cuenta ni almacena datos de forma permanente.**
 
 **Estructura (2 pasos):**
 
@@ -120,9 +122,9 @@ src/
 - Barra de progreso visual (2 segmentos)
 - Botón "Continuar" solo activo si el campo del paso actual está seleccionado
 - Botón "Atrás" regresa al paso anterior o a la pantalla de inicio
-- Al completar, devuelve `{ country, age, sex }` al componente padre
+- Al completar, devuelve `{ country, age, sex }` al componente padre (estado en memoria, sin persistencia)
 
-**Datos enviados al backend:**
+**Datos disponibles para la sesión:**
 ```typescript
 {
   country: string,   // País de origen
@@ -130,6 +132,8 @@ src/
   sex: string        // "masculino" | "femenino" | "otro"
 }
 ```
+
+> 🔒 Estos datos **no se envían a ninguna base de datos de usuarios**. Se usan únicamente para personalizar la experiencia durante la sesión.
 
 ---
 
@@ -173,7 +177,7 @@ src/
 | Derechos | "derecho" | Lista de derechos del migrante |
 | General | cualquier otra | Mensaje de bienvenida y orientación |
 
-> 🔌 **Punto de integración:** Reemplazar `getAIResponse()` por llamada a API de IA real.
+> 🔌 **Punto de integración:** Reemplazar `getAIResponse()` por llamada a API de IA real, enviando el perfil del usuario como contexto.
 
 ---
 
@@ -234,67 +238,54 @@ src/
 ## 8. Flujo de Usuario (User Flow)
 
 ```
-┌─────────────────────┐
-│   Pantalla de Inicio │
-│   (tabs: Inicio /    │
-│    Aprender)         │
-└────────┬────────────┘
-         │ El usuario elige ruta
-         ▼
-┌─────────────────────┐
-│  Onboarding (2 pasos)│
-│  Paso 1: País        │
-│  Paso 2: Edad + Sexo │
-└────────┬────────────┘
-         │ Completa los datos
-         ▼
-┌─────────────────────┐
-│  Dashboard           │
-│  - Perfil del usuario│
-│  - Tarjetas de acción│
-│  - CTA: Chat IA      │
-└────────┬────────────┘
-         │ Toca "Hablar con migrAI"
-         ▼
-┌─────────────────────┐
-│  Chat con migrAI     │
-│  - Preguntas rápidas │
-│  - Texto libre       │
-│  - Respuestas IA     │
-└─────────────────────┘
+┌──────────────────────────┐
+│   Pantalla de Inicio      │
+│   (Sin login requerido)   │
+│   tabs: Inicio / Aprender │
+└────────────┬─────────────┘
+             │ El usuario elige ruta
+             ▼
+┌──────────────────────────┐
+│  Onboarding (2 pasos)     │
+│  Paso 1: País             │
+│  Paso 2: Edad + Sexo      │
+│  (Sin crear cuenta)       │
+└────────────┬─────────────┘
+             │ Completa los datos
+             ▼
+┌──────────────────────────┐
+│  Dashboard                │
+│  - Perfil de sesión       │
+│  - Tarjetas de acción     │
+│  - CTA: Chat IA           │
+└────────────┬─────────────┘
+             │ Toca "Hablar con migrAI"
+             ▼
+┌──────────────────────────┐
+│  Chat con migrAI          │
+│  - Preguntas rápidas      │
+│  - Texto libre            │
+│  - Respuestas IA          │
+└──────────────────────────┘
 ```
 
 ---
 
 ## 9. Integraciones Pendientes (Backend)
 
-### 9.1 API de usuario
-
-```typescript
-// POST /api/users/onboarding
-// Body:
-{
-  country: string,
-  age: string,
-  sex: "masculino" | "femenino" | "otro"
-}
-
-// Response:
-{
-  userId: string,
-  token: string
-}
-```
-
-### 9.2 API de Chat IA
+### 9.1 API de Chat IA
 
 ```typescript
 // POST /api/chat
-// Headers: Authorization: Bearer <token>
 // Body:
 {
   message: string,
-  userId: string,
+  context: {
+    country: string,
+    age: string,
+    sex: string,
+    path: "new" | "continue"
+  },
   history: Array<{ role: "user" | "assistant", content: string }>
 }
 
@@ -304,11 +295,23 @@ src/
 }
 ```
 
-### 9.3 Autenticación
+> ⚠️ **No se requiere autenticación ni token de usuario** para llamar a la API. El contexto del usuario se envía directamente en el cuerpo de cada petición.
 
-- Soporte para autenticación por **email y contraseña**
-- Soporte para **OAuth** (Google, etc.) como mejora futura
-- JWT para sesiones sin estado
+### 9.2 API de Recursos y Guías (opcional)
+
+```typescript
+// GET /api/resources?country=Venezuela
+// Response:
+{
+  resources: Array<{
+    title: string,
+    tag: string,
+    emoji: string,
+    desc: string,
+    url: string
+  }>
+}
+```
 
 ---
 
@@ -321,18 +324,17 @@ src/
 | **Escalabilidad** | Componentes desacoplados listos para lazy loading |
 | **Mantenibilidad** | TypeScript estricto + componentes con responsabilidad única |
 | **Seguridad** | Sin claves privadas en frontend. HTTPS obligatorio |
-| **Privacidad** | Datos mínimos recogidos. Sin tracking sin consentimiento |
+| **Privacidad** | Sin cuentas de usuario. Sin almacenamiento de datos personales. Sin tracking |
 | **Idioma** | Español (preparado para internacionalización futura con i18n) |
+| **Sin barreras** | La app es 100% funcional sin ningún tipo de registro o login |
 
 ---
 
 ## 11. Pendientes y Mejoras Futuras
 
-- [ ] Autenticación de usuarios (login / registro)
-- [ ] Persistencia del progreso del usuario en base de datos
-- [ ] Integración con API de IA real (OpenAI / Gemini)
-- [ ] Historial de conversaciones del chat
-- [ ] Notificaciones de recordatorio de trámites
+- [ ] Integración con API de IA real (OpenAI / Gemini) para el chat
+- [ ] Recursos y guías cargados dinámicamente desde backend según país
+- [ ] Notificaciones push de recordatorio de trámites
 - [ ] Modo de texto grande (accesibilidad visual)
 - [ ] Soporte para más idiomas (Portugués, Inglés, Creole)
 - [ ] PWA con instalación en pantalla de inicio
@@ -350,5 +352,6 @@ src/
 
 ---
 
-*Documento generado: Febrero 2026 — Versión 1.0*
+*Documento actualizado: Febrero 2026 — Versión 1.1*
 *Proyecto: migrAI — Plataforma de orientación para migrantes*
+*⚠️ Política: Sin login. Sin registro. Sin contraseñas.*
