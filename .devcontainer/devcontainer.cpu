@@ -1,0 +1,9 @@
+{
+	"name": "CPU Dev",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"args": {
+      "USE_CUDA": "false"
+    }
+}

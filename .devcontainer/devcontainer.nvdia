@@ -1,0 +1,15 @@
+{
+	"name": "NVIDIA GPU Dev",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"args": {
+      "USE_CUDA": "true"
+    },
+	
+	"runArgs": [
+		"--gpus",
+		"all",
+		"--shm-size=6gb"
+	]
+}

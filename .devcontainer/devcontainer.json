@@ -1,0 +1,44 @@
+{
+    "name": "MigrAI",
+
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    "remoteUser": "vscode",
+
+    // ESTA ES LA CLAVE: Configura uv para todo el contenedor
+    "containerEnv": {
+        "UV_SYSTEM_PYTHON": "1",
+        "UV_PROJECT_ENVIRONMENT":"/usr/local" 
+    },
+
+   "postCreateCommand": "uv sync --python /usr/local/bin/python3 && cd frontend && npm install",
+    
+    "postStartCommand": "cd backend && uvicorn app.main:app --reload --host 0.0.0.0 & cd frontend && npm run dev -- --host",
+
+    "mounts": [
+    // Persiste la caché de uv para que no descargue librerías de Python cada vez
+    "source=uv-cache,target=/home/vscode/.cache/uv,type=volume",
+    // Persiste la caché de npm
+    "source=npm-cache,target=/home/vscode/.npm,type=volume"
+],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "github.copilot",
+                "charliermarsh.ruff",
+                "dsznajder.es7-react-js-snippets",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python3",
+                "python.analysis.extraPaths": ["./backend"],
+                "python.terminal.activateEnvironment": false
+    }
+        }
+    }
+}
