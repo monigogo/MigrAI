@@ -174,7 +174,6 @@ const Index = () => {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { title: "UNED", subtitle: "España", emoji: "🇪🇸", desc: "Cursos abiertos y gratuitos en línea.", url: "https://www.uned.es" },
-                    { title: "Somos F5", subtitle: "España / Francia", emoji: "🚀", desc: "Bootcamps tech 100% gratuitos e inclusivos.", url: "https://www.somosf5.org" },
                     { title: "Academica.mx", subtitle: "México", emoji: "🇲🇽", desc: "Cursos respaldados por universidades.", url: "https://www.academica.mx" },
                     { title: "edX", subtitle: "Global", emoji: "📚", desc: "Harvard, MIT y más. Audita gratis.", url: "https://www.edx.org" },
                     { title: "Coursera", subtitle: "Global", emoji: "🌐", desc: "Google, IBM y más. Certificados.", url: "https://www.coursera.org" },
