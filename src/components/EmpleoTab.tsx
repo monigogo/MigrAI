@@ -20,6 +20,7 @@ const conPapelesLinks: EmpleoLink[] = [
 ];
 
 const sinPapelesLinks: EmpleoLink[] = [
+  { title: "Job Today", desc: "Encuentra trabajo rápido en hostelería, retail y más. Respuesta en 24h.", url: "https://jobtoday.com/es/", logo: "https://www.google.com/s2/favicons?domain=jobtoday.com&sz=64" },
   { title: "Nextdoor", desc: "Red social de vecinos para encontrar trabajo y servicios cerca de ti.", url: "https://es.nextdoor.com/", logo: "https://www.google.com/s2/favicons?domain=nextdoor.com&sz=64" },
   { title: "Milanuncios", desc: "Anuncios clasificados de empleo, servicios y mucho más en toda España.", url: "https://www.milanuncios.com/", logo: "https://www.google.com/s2/favicons?domain=milanuncios.com&sz=64" },
   { title: "Wallapop", desc: "Compra, vende y encuentra servicios y empleo cerca de ti.", url: "https://es.wallapop.com/", logo: "https://www.google.com/s2/favicons?domain=wallapop.com&sz=64" },
