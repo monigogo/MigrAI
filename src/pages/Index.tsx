@@ -3,6 +3,7 @@ import { Compass, ArrowRight, GraduationCap, Star, ChevronRight } from "lucide-r
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
+import FormacionesTab from "@/components/FormacionesTab";
 import globeImg from "@/assets/globe.png";
 
 type AppState = "home" | "onboarding" | "dashboard";
@@ -158,137 +159,7 @@ const Index = () => {
               </div>
             </>
           ) : (
-            <>
-              {/* Hero header */}
-              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/15 via-accent to-primary/5 p-6 border border-primary/10">
-                <div className="relative z-10">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-xs font-bold text-primary mb-3">
-                    🎓 Formación gratuita
-                  </span>
-                  <h1 className="font-heading text-[1.6rem] leading-tight font-extrabold tracking-tight text-foreground">
-                    Estudia gratis<br />
-                    <span className="text-primary">con tu pasaporte</span>
-                  </h1>
-                  <p className="mt-2 text-sm text-muted-foreground max-w-[280px] leading-relaxed">
-                    Opciones de formación accesibles solo con pasaporte vigente.
-                  </p>
-                </div>
-                <div className="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-primary/8 blur-2xl" />
-              </div>
-
-              {/* Tecnología */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5 px-1">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-primary/15 text-base">💻</span>
-                  <h2 className="font-heading text-base font-bold text-foreground">Formaciones en Tecnología</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: "Somos F5", subtitle: "España / Francia", logo: "https://www.google.com/s2/favicons?domain=somosf5.org&sz=64", desc: "Bootcamps tech 100% gratuitos e inclusivos.", url: "https://www.somosf5.org" },
-                    { title: "Factoría F5", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=factoriaf5.org&sz=64", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
-                    { title: "Cibervoluntarios", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=cibervoluntarios.org&sz=64", desc: "Formación digital gratuita e inclusión tecnológica.", url: "https://www.cibervoluntarios.org/es" },
-                    { title: "42 Madrid", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=42madrid.com&sz=64", desc: "Campus de programación gratuito, sin profesores ni horarios.", url: "https://www.42madrid.com/" },
-                  ].map((item, i) => (
-                    <a
-                      key={i}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative rounded-2xl border border-border bg-card p-4 flex flex-col gap-3 transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.97]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-xl bg-accent border border-border flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={item.logo} alt={item.title} className="w-7 h-7 object-contain" />
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="font-heading text-sm font-bold text-foreground leading-tight">{item.title}</h3>
-                          <p className="text-[11px] text-primary font-semibold">{item.subtitle}</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                      <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Fundaciones */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5 px-1">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-warm/15 text-base">🤝</span>
-                  <h2 className="font-heading text-base font-bold text-foreground">Fundaciones y ONG</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: "Fundación Altius", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=fundacionaltius.org&sz=64", desc: "Formación e inserción sociolaboral para personas en riesgo de exclusión.", url: "https://www.fundacionaltius.org/areas/formacion/" },
-                    { title: "Fundación Tomillo", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=tomillo.org&sz=64", desc: "Formación gratuita para la inclusión social y laboral.", url: "https://tomillo.org/formacion/" },
-                    { title: "Fundación Orange", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=fundacionorange.es&sz=64", desc: "Formación inclusiva y accesible para personas con autismo.", url: "https://fundacionorange.es/junto-al-autismo/formacion/" },
-                    { title: "AESCO", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=ong-aesco.com&sz=64", desc: "Proyectos de integración y apoyo a migrantes en Madrid.", url: "https://ong-aesco.com/proyectos-madrid/" },
-                    { title: "Cruz Roja Madrid", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=cursoscruzrojamadrid.com&sz=64", desc: "Certificados profesionales y cursos gratuitos.", url: "https://cursoscruzrojamadrid.com/cursos/certificados-profesionales/" },
-                  ].map((item, i) => (
-                    <a
-                      key={i}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative rounded-2xl border border-border bg-card p-4 flex flex-col gap-3 transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.97]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-xl bg-accent border border-border flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={item.logo} alt={item.title} className="w-7 h-7 object-contain" />
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="font-heading text-sm font-bold text-foreground leading-tight">{item.title}</h3>
-                          <p className="text-[11px] text-primary font-semibold">{item.subtitle}</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                      <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Startups */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5 px-1">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-success/15 text-base">🚀</span>
-                  <h2 className="font-heading text-base font-bold text-foreground">Startups e Innovación</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: "International Lab", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=madridinnova.es&sz=64", desc: "Espacio de innovación para startups y emprendedores internacionales.", url: "https://www.madridinnova.es/espacios/international-lab/" },
-                    { title: "Nantik Lum", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=nantiklum.org&sz=64", desc: "Emprendimiento social y microfinanzas para colectivos vulnerables.", url: "https://nantiklum.org/" },
-                  ].map((item, i) => (
-                    <a
-                      key={i}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative rounded-2xl border border-border bg-card p-4 flex flex-col gap-3 transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.97]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-xl bg-accent border border-border flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={item.logo} alt={item.title} className="w-7 h-7 object-contain" />
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="font-heading text-sm font-bold text-foreground leading-tight">{item.title}</h3>
-                          <p className="text-[11px] text-primary font-semibold">{item.subtitle}</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                      <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </>
+            <FormacionesTab />
           )}
         </div>
 
