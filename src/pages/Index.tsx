@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Compass, ArrowRight, MapPin, GraduationCap, Star, ChevronRight } from "lucide-react";
+import { Compass, ArrowRight, GraduationCap, Star, ChevronRight } from "lucide-react";
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
+import globeImg from "@/assets/globe.png";
 
 type AppState = "home" | "onboarding" | "dashboard";
 
@@ -37,35 +38,32 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-muted flex justify-center">
-      <div className="w-full max-w-md flex flex-col min-h-screen bg-background shadow-xl">
+    <div className="min-h-screen bg-background flex justify-center">
+      <div className="w-full max-w-md flex flex-col min-h-screen">
 
         {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-border bg-card/95 backdrop-blur-md px-5 pt-5 pb-0">
+        <header className="sticky top-0 z-10 bg-background/90 backdrop-blur-md px-6 pt-6 pb-0">
           <div className="flex items-center gap-3 mb-5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary shadow-md">
-              <MapPin className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-heading text-2xl font-bold text-foreground">
+            <span className="font-heading text-2xl font-extrabold tracking-tight text-foreground">
               migr<span className="text-primary">AI</span>
             </span>
           </div>
 
           {/* Tab bar */}
-          <nav className="flex gap-0">
+          <nav className="flex gap-0 border-b border-border">
             <button
               onClick={() => setTab("inicio")}
-              className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold transition-colors border-b-2 ${
+              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
                 tab === "inicio"
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              🏠 Inicio
+              Inicio
             </button>
             <button
               onClick={() => setTab("formaciones")}
-              className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold transition-colors border-b-2 ${
+              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
                 tab === "formaciones"
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -78,18 +76,36 @@ const Index = () => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 px-5 pb-10 pt-6 space-y-7">
+        <div className="flex-1 px-6 pb-12 pt-8 space-y-10">
           {tab === "inicio" ? (
             <>
               {/* Hero */}
-              <div className="rounded-3xl bg-primary/10 border border-primary/15 p-6">
-                <p className="text-4xl mb-3">👋</p>
-                <h1 className="font-heading text-2xl font-extrabold tracking-tight text-foreground leading-snug">
-                  ¡Hola! Estamos aquí<br />para ayudarte
-                </h1>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
-                </p>
+              <div className="relative">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 pt-2">
+                    <h1 className="font-heading text-[2rem] leading-[1.15] font-extrabold tracking-tight text-foreground">
+                      Claridad<br />
+                      Migratoria<br />
+                      <span className="text-primary">a tu Alcance</span>
+                    </h1>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground max-w-[240px]">
+                      Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
+                    </p>
+                  </div>
+                  <img
+                    src={globeImg}
+                    alt="Globo terráqueo"
+                    className="w-36 h-36 object-contain shrink-0 -mt-2"
+                  />
+                </div>
+
+                <button
+                  onClick={() => handleSelectPath("new")}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-md hover:shadow-lg transition-all active:scale-[0.97]"
+                >
+                  Comenzar ahora
+                  <ArrowRight className="h-4 w-4" />
+                </button>
               </div>
 
               {/* Path selection */}
@@ -119,17 +135,17 @@ const Index = () => {
                   <Star className="h-5 w-5 text-warm fill-warm" />
                   <h2 className="font-heading text-base font-bold text-foreground">Recursos útiles</h2>
                 </div>
-                <div className="rounded-3xl border border-border bg-card overflow-hidden shadow-sm">
+                <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
                   {recommendations.map((r, i) => (
                     <button
                       key={i}
-                      className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-muted active:bg-muted/80 ${
+                      className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                         i < recommendations.length - 1 ? "border-b border-border" : ""
                       }`}
                     >
                       <span className="text-3xl shrink-0">{r.emoji}</span>
                       <div className="flex-1 min-w-0">
-                        <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
+                        <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
                           {r.tag}
                         </span>
                         <h3 className="font-heading text-sm font-semibold text-foreground">{r.title}</h3>
@@ -151,7 +167,7 @@ const Index = () => {
                   Cursos sencillos para prepararte mejor.
                 </p>
               </div>
-              <div className="rounded-3xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
                 {[
                   { title: "Inglés para trámites", desc: "Palabras clave para hablar en oficinas de inmigración.", tag: "Idioma", emoji: "🗣️" },
                   { title: "Preparación cívica", desc: "Lo necesario para el examen de ciudadanía.", tag: "Cívica", emoji: "🏛️" },
@@ -160,13 +176,13 @@ const Index = () => {
                 ].map((item, i, arr) => (
                   <button
                     key={i}
-                    className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-muted active:bg-muted/80 ${
+                    className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                       i < arr.length - 1 ? "border-b border-border" : ""
                     }`}
                   >
                     <span className="text-3xl shrink-0">{item.emoji}</span>
                     <div className="flex-1 min-w-0">
-                      <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
+                      <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
                         {item.tag}
                       </span>
                       <h3 className="font-heading text-sm font-semibold text-foreground">{item.title}</h3>
@@ -181,7 +197,7 @@ const Index = () => {
         </div>
 
         {/* Footer */}
-        <p className="px-5 pb-6 pt-2 text-center text-xs text-muted-foreground">
+        <p className="px-6 pb-6 pt-2 text-center text-xs text-muted-foreground">
           migrAI no reemplaza la asesoría de un abogado.
         </p>
       </div>
