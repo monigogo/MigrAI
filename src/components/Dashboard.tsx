@@ -100,7 +100,17 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
   // ─── CHAT VIEW ───────────────────────────────────────────────────
   if (chatOpen) {
     return (
-      <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+        {/* Country coat of arms watermark */}
+        {COUNTRY_CODES[userData.country] && (
+          <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
+            <img
+              src={`https://flagcdn.com/w320/${COUNTRY_CODES[userData.country]}.png`}
+              alt=""
+              className="w-72 h-72 object-contain opacity-[0.04]"
+            />
+          </div>
+        )}
         {/* Chat header */}
         <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/90 backdrop-blur-md px-6 py-4">
           <div className="flex items-center gap-3">
