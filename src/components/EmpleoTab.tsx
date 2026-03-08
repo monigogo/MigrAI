@@ -17,6 +17,7 @@ const conPapelesLinks: EmpleoLink[] = [
   { title: "Turijobs", desc: "Ofertas de empleo en turismo, hostelería y restauración.", url: "https://www.turijobs.com/es-es", logo: "https://www.google.com/s2/favicons?domain=turijobs.com&sz=64" },
   { title: "Jobandtalent", desc: "Encuentra trabajo temporal y fijo en logística, retail y más sectores.", url: "https://jobs.jobandtalent.com/es", logo: "https://www.google.com/s2/favicons?domain=jobandtalent.com&sz=64" },
   { title: "BuscoJobs", desc: "Portal de empleo con ofertas en todos los sectores en España.", url: "https://www.buscojobs.com.es/", logo: "https://www.google.com/s2/favicons?domain=buscojobs.com.es&sz=64" },
+  { title: "Adecco", desc: "Agencia de empleo temporal y fijo. Ofertas en todos los sectores.", url: "https://www.adecco.com/es-es", logo: "https://www.google.com/s2/favicons?domain=adecco.com&sz=64" },
 ];
 
 const sinPapelesLinks: EmpleoLink[] = [
