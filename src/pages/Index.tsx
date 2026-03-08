@@ -114,14 +114,6 @@ const Index = () => {
                   <AnimatedGlobe />
                 </div>
 
-                <button
-                  onClick={() => handleSelectPath("new")}
-                  className="mt-6 inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary/85 px-7 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-[0.97] group"
-                >
-                  Comenzar ahora
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              </div>
 
               {/* Path selection */}
               <div className="space-y-3">
