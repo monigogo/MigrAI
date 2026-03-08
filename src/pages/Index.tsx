@@ -75,6 +75,17 @@ const Index = () => {
               <GraduationCap className="h-4 w-4" />
               Formaciones
             </button>
+            <button
+              onClick={() => setTab("empleo")}
+              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
+                tab === "empleo"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Briefcase className="h-4 w-4" />
+              Empleo
+            </button>
           </nav>
         </header>
 
@@ -138,7 +149,13 @@ const Index = () => {
                   {recommendations.map((r, i) => (
                     <button
                       key={i}
-                      onClick={() => r.url ? window.open(r.url, '_blank', 'noopener,noreferrer') : undefined}
+                      onClick={() => {
+                        if ((r as any).action === "empleo") {
+                          setTab("empleo");
+                        } else if (r.url) {
+                          window.open(r.url, '_blank', 'noopener,noreferrer');
+                        }
+                      }}
                       className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                         i < recommendations.length - 1 ? "border-b border-border" : ""
                       }`}
