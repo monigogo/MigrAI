@@ -1,12 +1,29 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Globe, Calendar } from "lucide-react";
 
-const COUNTRIES = [
-  "Argentina", "Bolivia", "Brasil", "Chile", "Colombia",
-  "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España",
-  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá",
-  "Paraguay", "Perú", "Portugal", "República Dominicana",
-  "Uruguay", "Venezuela", "Otro"
+const COUNTRIES: { name: string; flag: string }[] = [
+  { name: "Argentina", flag: "🇦🇷" },
+  { name: "Bolivia", flag: "🇧🇴" },
+  { name: "Brasil", flag: "🇧🇷" },
+  { name: "Chile", flag: "🇨🇱" },
+  { name: "Colombia", flag: "🇨🇴" },
+  { name: "Costa Rica", flag: "🇨🇷" },
+  { name: "Cuba", flag: "🇨🇺" },
+  { name: "Ecuador", flag: "🇪🇨" },
+  { name: "El Salvador", flag: "🇸🇻" },
+  { name: "España", flag: "🇪🇸" },
+  { name: "Guatemala", flag: "🇬🇹" },
+  { name: "Honduras", flag: "🇭🇳" },
+  { name: "México", flag: "🇲🇽" },
+  { name: "Nicaragua", flag: "🇳🇮" },
+  { name: "Panamá", flag: "🇵🇦" },
+  { name: "Paraguay", flag: "🇵🇾" },
+  { name: "Perú", flag: "🇵🇪" },
+  { name: "Portugal", flag: "🇵🇹" },
+  { name: "República Dominicana", flag: "🇩🇴" },
+  { name: "Uruguay", flag: "🇺🇾" },
+  { name: "Venezuela", flag: "🇻🇪" },
+  { name: "Otro", flag: "🌍" },
 ];
 
 const AGE_RANGES = ["18-25 años", "26-35 años", "36-45 años", "46-55 años", "56+ años"];
@@ -82,17 +99,18 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
             <div className="mx-6 rounded-2xl border border-border bg-card overflow-hidden">
               {COUNTRIES.map((c, i) => (
                 <button
-                  key={c}
-                  onClick={() => setCountry(c)}
-                  className={`w-full text-left px-5 py-4 text-base transition-colors ${
+                  key={c.name}
+                  onClick={() => setCountry(c.name)}
+                  className={`w-full text-left px-5 py-4 text-base transition-colors flex items-center gap-3 ${
                     i < COUNTRIES.length - 1 ? "border-b border-border" : ""
                   } ${
-                    country === c
+                    country === c.name
                       ? "text-primary font-bold bg-primary/10"
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
-                  {c}
+                  <span className="text-2xl">{c.flag}</span>
+                  {c.name}
                 </button>
               ))}
             </div>
