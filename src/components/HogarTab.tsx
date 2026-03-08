@@ -14,6 +14,7 @@ const hogarLinks: HogarLink[] = [
   { title: "Badi", desc: "Encuentra habitaciones y compañeros de piso en tu ciudad.", url: "https://badi.com/es/", logo: "https://www.google.com/s2/favicons?domain=badi.com&sz=64" },
   { title: "Pisos.com", desc: "Portal inmobiliario con miles de pisos en alquiler y venta.", url: "https://www.pisos.com/", logo: "https://www.google.com/s2/favicons?domain=pisos.com&sz=64" },
   { title: "Spotahome", desc: "Alquila pisos y habitaciones online con visitas virtuales.", url: "https://www.spotahome.com/es", logo: "https://www.google.com/s2/favicons?domain=spotahome.com&sz=64" },
+  { title: "Booking", desc: "Alojamiento temporal: hoteles, apartamentos y hostales en toda España.", url: "https://www.booking.com/", logo: "https://www.google.com/s2/favicons?domain=booking.com&sz=64" },
 ];
 
 const HogarTab = () => {
