@@ -50,10 +50,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex justify-center">
-      <div className="w-full max-w-md flex flex-col min-h-screen">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl flex flex-col min-h-screen">
 
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg px-6 pt-5 pb-0 border-b border-border/50">
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg px-4 sm:px-6 pt-5 pb-0 border-b border-border/50">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-md">
@@ -88,11 +88,11 @@ const Index = () => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 px-6 pb-12 pt-6 space-y-8">
+        <div className="flex-1 px-4 sm:px-6 pb-12 pt-6 space-y-8">
           {tab === "inicio" ? (
             <>
               {/* Hero Card */}
-              <div className="relative rounded-3xl bg-gradient-to-br from-primary via-primary/90 to-primary/75 p-6 pb-5 overflow-hidden shadow-xl shadow-primary/15">
+              <div className="relative rounded-3xl bg-gradient-to-br from-primary via-primary/90 to-primary/75 p-5 sm:p-6 md:p-8 pb-5 overflow-hidden shadow-xl shadow-primary/15">
                 {/* Decorative circles */}
                 <div className="absolute -top-10 -right-10 w-36 h-36 bg-white/10 rounded-full blur-sm" />
                 <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-white/5 rounded-full" />
@@ -104,11 +104,11 @@ const Index = () => {
                       <Sparkles className="h-3 w-3" />
                       Tu guía migratoria
                     </div>
-                    <h1 className="font-heading text-[1.65rem] leading-[1.15] font-extrabold tracking-tight text-primary-foreground">
+                    <h1 className="font-heading text-[1.5rem] sm:text-[1.65rem] md:text-3xl leading-[1.15] font-extrabold tracking-tight text-primary-foreground">
                       Claridad Migratoria<br />
                       <span className="text-white/80">a tu Alcance</span>
                     </h1>
-                    <p className="mt-2.5 text-[13px] leading-relaxed text-primary-foreground/75 max-w-[200px]">
+                    <p className="mt-2.5 text-[13px] sm:text-sm leading-relaxed text-primary-foreground/75 max-w-[200px] sm:max-w-[280px]">
                       Te guiamos paso a paso con tu proceso migratorio.
                     </p>
                   </div>
@@ -117,8 +117,8 @@ const Index = () => {
               </div>
 
               {/* Path selection */}
-              <div className="space-y-3">
-                <p className="font-heading font-bold text-foreground text-base px-1">
+              <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+                <p className="font-heading font-bold text-foreground text-base px-1 md:col-span-2">
                   ¿Por dónde quieres empezar?
                 </p>
                 <PathCard
@@ -145,7 +145,7 @@ const Index = () => {
                   </div>
                   <h2 className="font-heading text-base font-bold text-foreground">Recursos útiles</h2>
                 </div>
-                <div className="space-y-2.5">
+                <div className="space-y-2.5 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
                   {recommendations.map((r, i) => (
                     <button
                       key={i}

@@ -143,7 +143,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
   // ─── CHAT VIEW ───────────────────────────────────────────────────
   if (chatOpen) {
     return (
-      <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+      <div className="flex min-h-screen flex-col bg-background relative overflow-hidden max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto w-full">
         {/* Country flag watermark */}
         {code && (
           <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -156,7 +156,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         )}
 
         {/* Chat header with country gradient */}
-        <header className={`sticky top-0 z-10 flex items-center justify-between border-b bg-gradient-to-r ${theme.headerBg} backdrop-blur-md px-6 py-4`}>
+        <header className={`sticky top-0 z-10 flex items-center justify-between border-b bg-gradient-to-r ${theme.headerBg} backdrop-blur-md px-4 sm:px-6 py-4`}>
           <div className="flex items-center gap-3">
             <BotAvatar country={userData.country} size="md" />
             <div>
@@ -174,12 +174,12 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </header>
 
         {/* Intro banner */}
-        <div className={`mx-6 mt-4 rounded-2xl ${theme.accentBg} border ${theme.chatBubble} p-4 text-sm text-foreground relative z-[1]`}>
+        <div className={`mx-4 sm:mx-6 mt-4 rounded-2xl ${theme.accentBg} border ${theme.chatBubble} p-3 sm:p-4 text-sm text-foreground relative z-[1]`}>
           💡 <strong>Consejo:</strong> Puedes tocar una de las preguntas de abajo, o escribir la tuya.
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 relative z-[1]">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 relative z-[1]">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
@@ -210,7 +210,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </div>
 
         {/* Quick question buttons */}
-        <div className="px-6 pb-2 relative z-[1]">
+        <div className="px-4 sm:px-6 pb-2 relative z-[1]">
           <p className="text-xs text-muted-foreground mb-2 font-medium">Preguntas rápidas:</p>
           <div className="flex flex-col gap-2">
             {quickQuestions.map((q) => (
@@ -226,7 +226,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </div>
 
         {/* Input */}
-        <div className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-md px-6 py-4 relative z-[1]">
+        <div className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 relative z-[1]">
           <div className="flex items-center gap-2">
             <input
               value={input}
@@ -254,7 +254,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
 
   // ─── DASHBOARD VIEW ──────────────────────────────────────────────
   return (
-    <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-background relative overflow-hidden max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto w-full">
       {/* Country flag watermark in dashboard too */}
       {code && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -266,7 +266,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </div>
       )}
 
-      <div className="relative z-[1] px-6 pb-8 pt-6 flex flex-col flex-1">
+      <div className="relative z-[1] px-4 sm:px-6 pb-8 pt-6 flex flex-col flex-1">
         <button
           onClick={onBack}
           className="mb-6 flex items-center gap-2 text-muted-foreground active:scale-95 transition-transform"
@@ -304,7 +304,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         <p className="text-base text-muted-foreground leading-relaxed mb-6">{subtitle}</p>
 
         {/* Action cards with country accent */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-3">
           {actions.map((action, i) => (
             <button
               key={i}
