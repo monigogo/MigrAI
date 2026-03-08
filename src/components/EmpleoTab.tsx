@@ -11,6 +11,7 @@ export interface EmpleoLink {
 const empleoLinks: EmpleoLink[] = [
   { title: "Nextdoor", desc: "Red social de vecinos para encontrar trabajo y servicios cerca de ti.", url: "https://es.nextdoor.com/", logo: "https://www.google.com/s2/favicons?domain=nextdoor.com&sz=64" },
   { title: "InfoJobs", desc: "El portal de empleo líder en España. Busca ofertas y envía tu CV.", url: "https://www.infojobs.net/", logo: "https://www.google.com/s2/favicons?domain=infojobs.net&sz=64" },
+  { title: "Indeed", desc: "Buscador de empleo mundial. Miles de ofertas en España actualizadas a diario.", url: "https://es.indeed.com/", logo: "https://www.google.com/s2/favicons?domain=indeed.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
