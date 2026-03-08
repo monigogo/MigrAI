@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Compass, ArrowRight, GraduationCap, Star, ChevronRight, Briefcase } from "lucide-react";
+import { Compass, ArrowRight, GraduationCap, Star, ChevronRight, Briefcase, Home } from "lucide-react";
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
 import FormacionesTab from "@/components/FormacionesTab";
 import EmpleoTab from "@/components/EmpleoTab";
+import HogarTab from "@/components/HogarTab";
 import AnimatedGlobe from "@/components/AnimatedGlobe";
 
 type AppState = "home" | "onboarding" | "dashboard";
@@ -20,7 +21,7 @@ const Index = () => {
   const [state, setState] = useState<AppState>("home");
   const [path, setPath] = useState<"new" | "continue">("new");
   const [userData, setUserData] = useState<{ country: string; age: string; sex: string } | null>(null);
-  const [tab, setTab] = useState<"inicio" | "formaciones" | "empleo">("inicio");
+  const [tab, setTab] = useState<"inicio" | "formaciones" | "empleo" | "hogar">("inicio");
 
   const handleSelectPath = (selected: "new" | "continue") => {
     setPath(selected);
@@ -85,6 +86,17 @@ const Index = () => {
             >
               <Briefcase className="h-4 w-4" />
               Empleo
+            </button>
+            <button
+              onClick={() => setTab("hogar")}
+              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
+                tab === "hogar"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Home className="h-4 w-4" />
+              Hogar
             </button>
           </nav>
         </header>
@@ -182,6 +194,8 @@ const Index = () => {
             </>
           ) : tab === "formaciones" ? (
             <FormacionesTab />
+          ) : tab === "hogar" ? (
+            <HogarTab />
           ) : (
             <EmpleoTab />
           )}
