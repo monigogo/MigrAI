@@ -232,6 +232,7 @@ const Index = () => {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { title: "International Lab", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=madridinnova.es&sz=64", desc: "Espacio de innovación para startups y emprendedores internacionales.", url: "https://www.madridinnova.es/espacios/international-lab/" },
+                    { title: "Nantik Lum", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=nantiklum.org&sz=64", desc: "Emprendimiento social y microfinanzas para colectivos vulnerables.", url: "https://nantiklum.org/" },
                   ].map((item, i) => (
                     <a
                       key={i}
