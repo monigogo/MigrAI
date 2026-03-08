@@ -1,12 +1,29 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Globe, Calendar } from "lucide-react";
 
-const COUNTRIES = [
-  "Argentina", "Bolivia", "Brasil", "Chile", "Colombia",
-  "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España",
-  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá",
-  "Paraguay", "Perú", "Portugal", "República Dominicana",
-  "Uruguay", "Venezuela", "Otro"
+const COUNTRIES: { name: string; flag: string }[] = [
+  { name: "Argentina", flag: "🇦🇷" },
+  { name: "Bolivia", flag: "🇧🇴" },
+  { name: "Brasil", flag: "🇧🇷" },
+  { name: "Chile", flag: "🇨🇱" },
+  { name: "Colombia", flag: "🇨🇴" },
+  { name: "Costa Rica", flag: "🇨🇷" },
+  { name: "Cuba", flag: "🇨🇺" },
+  { name: "Ecuador", flag: "🇪🇨" },
+  { name: "El Salvador", flag: "🇸🇻" },
+  { name: "España", flag: "🇪🇸" },
+  { name: "Guatemala", flag: "🇬🇹" },
+  { name: "Honduras", flag: "🇭🇳" },
+  { name: "México", flag: "🇲🇽" },
+  { name: "Nicaragua", flag: "🇳🇮" },
+  { name: "Panamá", flag: "🇵🇦" },
+  { name: "Paraguay", flag: "🇵🇾" },
+  { name: "Perú", flag: "🇵🇪" },
+  { name: "Portugal", flag: "🇵🇹" },
+  { name: "República Dominicana", flag: "🇩🇴" },
+  { name: "Uruguay", flag: "🇺🇾" },
+  { name: "Venezuela", flag: "🇻🇪" },
+  { name: "Otro", flag: "🌍" },
 ];
 
 const AGE_RANGES = ["18-25 años", "26-35 años", "36-45 años", "46-55 años", "56+ años"];
