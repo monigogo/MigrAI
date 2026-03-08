@@ -21,6 +21,7 @@ const empleoLinks: EmpleoLink[] = [
   { title: "Tecnoempleo", desc: "Portal de empleo especializado en tecnología e informática en España.", url: "https://www.tecnoempleo.com/", logo: "https://www.google.com/s2/favicons?domain=tecnoempleo.com&sz=64" },
   { title: "Turijobs", desc: "Ofertas de empleo en turismo, hostelería y restauración.", url: "https://www.turijobs.com/es-es", logo: "https://www.google.com/s2/favicons?domain=turijobs.com&sz=64" },
   { title: "Jobandtalent", desc: "Encuentra trabajo temporal y fijo en logística, retail y más sectores.", url: "https://jobs.jobandtalent.com/es", logo: "https://www.google.com/s2/favicons?domain=jobandtalent.com&sz=64" },
+  { title: "BuscoJobs", desc: "Portal de empleo con ofertas en todos los sectores en España.", url: "https://www.buscojobs.com.es/", logo: "https://www.google.com/s2/favicons?domain=buscojobs.com.es&sz=64" },
 ];
 
 const EmpleoTab = () => {
