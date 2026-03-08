@@ -94,11 +94,7 @@ const Index = () => {
                       Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
                     </p>
                   </div>
-                  <img
-                    src={globeImg}
-                    alt="Globo terráqueo"
-                    className="w-36 h-36 object-contain shrink-0 -mt-2"
-                  />
+                  <AnimatedGlobe />
                 </div>
 
                 <button
