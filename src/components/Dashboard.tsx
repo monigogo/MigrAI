@@ -329,7 +329,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           </p>
           <button
             onClick={() => setChatOpen(true)}
-            className={`flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r ${theme.gradient} py-5 font-heading text-lg font-bold text-white shadow-lg active:scale-[0.98] transition-transform`}
+            className={`flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r ${theme.gradient} py-5 font-heading text-lg font-bold text-white shadow-lg active:scale-[0.98] transition-transform drop-shadow-md`}
           >
             <span className="text-2xl">{theme.emoji}</span>
             Hablar con migrAI
