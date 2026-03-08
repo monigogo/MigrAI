@@ -29,6 +29,7 @@ const sinPapelesLinks: EmpleoLink[] = [
   { title: "Webel", desc: "App para encontrar y ofrecer servicios profesionales cerca de ti.", url: "https://appwebel.com/", logo: "https://www.google.com/s2/favicons?domain=appwebel.com&sz=64" },
   { title: "Domestico24", desc: "Encuentra trabajo en limpieza, cuidado de personas y tareas del hogar.", url: "https://domestico24.es/es", logo: "https://www.google.com/s2/favicons?domain=domestico24.es&sz=64" },
   { title: "Sitly", desc: "Plataforma para encontrar trabajo como canguro o cuidador de niños.", url: "https://www.sitly.es/", logo: "https://www.google.com/s2/favicons?domain=sitly.es&sz=64" },
+  { title: "Parroquias – Bolsa de trabajo", desc: "Parroquias que ofrecen bolsas de empleo y ayuda para encontrar trabajo.", url: "https://parroquiasantamariadeladehesa.es/bolsa-de-trabajo-2/", emoji: "⛪" },
 ];
 
 const LinkCard = ({ link }: { link: EmpleoLink }) => (
