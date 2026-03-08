@@ -129,8 +129,8 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
-                <div className="mr-2 mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-                  <span className="text-sm">🤖</span>
+                <div className="mr-2 mt-1">
+                  <BotAvatar country={userData.country} />
                 </div>
               )}
               <div
