@@ -109,7 +109,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
-                  <span className="text-2xl">{c.flag}</span>
+                  <img src={`https://flagcdn.com/w40/${c.code}.png`} alt={c.name} className="w-7 h-5 rounded-sm object-cover" />
                   {c.name}
                 </button>
               ))}
