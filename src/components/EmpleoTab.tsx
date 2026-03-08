@@ -17,6 +17,9 @@ const empleoLinks: EmpleoLink[] = [
   { title: "Wallapop", desc: "Compra, vende y encuentra servicios y empleo cerca de ti.", url: "https://es.wallapop.com/", logo: "https://www.google.com/s2/favicons?domain=wallapop.com&sz=64" },
   { title: "TopNanny", desc: "Encuentra trabajo como niñera o cuidador/a de niños en tu zona.", url: "https://topnanny.es/", logo: "https://www.google.com/s2/favicons?domain=topnanny.es&sz=64" },
   { title: "LinkedIn", desc: "La red profesional más grande del mundo. Conecta, busca empleo y crece.", url: "https://www.linkedin.com/", logo: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" },
+  { title: "Rover", desc: "Encuentra trabajo como cuidador de mascotas: paseos, alojamiento y más.", url: "https://www.rover.com/es/", logo: "https://www.google.com/s2/favicons?domain=rover.com&sz=64" },
+  { title: "Tecnoempleo", desc: "Portal de empleo especializado en tecnología e informática en España.", url: "https://www.tecnoempleo.com/", logo: "https://www.google.com/s2/favicons?domain=tecnoempleo.com&sz=64" },
+  { title: "Turijobs", desc: "Ofertas de empleo en turismo, hostelería y restauración.", url: "https://www.turijobs.com/es-es", logo: "https://www.google.com/s2/favicons?domain=turijobs.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
