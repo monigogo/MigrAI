@@ -113,8 +113,7 @@ const Index = () => {
                   </div>
                   <AnimatedGlobe />
                 </div>
-
-
+              </div>
               {/* Path selection */}
               <div className="space-y-3">
                 <p className="font-heading font-bold text-foreground text-base px-1">
