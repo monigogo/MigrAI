@@ -206,6 +206,7 @@ const Index = () => {
                   {[
                     { title: "Fundación Altius", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=fundacionaltius.org&sz=64", desc: "Formación e inserción sociolaboral para personas en riesgo de exclusión.", url: "https://www.fundacionaltius.org/areas/formacion/" },
                     { title: "Fundación Tomillo", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=tomillo.org&sz=64", desc: "Formación gratuita para la inclusión social y laboral.", url: "https://tomillo.org/formacion/" },
+                    { title: "Fundación Orange", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=fundacionorange.es&sz=64", desc: "Formación inclusiva y accesible para personas con autismo.", url: "https://fundacionorange.es/junto-al-autismo/formacion/" },
                   ].map((item, i) => (
                     <a
                       key={i}
