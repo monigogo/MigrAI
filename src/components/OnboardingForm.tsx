@@ -99,17 +99,18 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
             <div className="mx-6 rounded-2xl border border-border bg-card overflow-hidden">
               {COUNTRIES.map((c, i) => (
                 <button
-                  key={c}
-                  onClick={() => setCountry(c)}
-                  className={`w-full text-left px-5 py-4 text-base transition-colors ${
+                  key={c.name}
+                  onClick={() => setCountry(c.name)}
+                  className={`w-full text-left px-5 py-4 text-base transition-colors flex items-center gap-3 ${
                     i < COUNTRIES.length - 1 ? "border-b border-border" : ""
                   } ${
-                    country === c
+                    country === c.name
                       ? "text-primary font-bold bg-primary/10"
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
-                  {c}
+                  <span className="text-2xl">{c.flag}</span>
+                  {c.name}
                 </button>
               ))}
             </div>
