@@ -104,9 +104,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         {/* Chat header */}
         <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/90 backdrop-blur-md px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/15">
-              <span className="text-xl">🤖</span>
-            </div>
+            <BotAvatar country={userData.country} size="md" />
             <div>
               <p className="font-heading text-base font-bold text-foreground">migrAI</p>
               <p className="text-xs text-muted-foreground">Asistente virtual • Siempre disponible</p>
