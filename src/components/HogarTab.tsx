@@ -10,6 +10,7 @@ export interface HogarLink {
 
 const hogarLinks: HogarLink[] = [
   { title: "Idealista", desc: "El portal inmobiliario líder en España. Pisos en alquiler y venta.", url: "https://www.idealista.com/", logo: "https://www.google.com/s2/favicons?domain=idealista.com&sz=64" },
+  { title: "Yaencontré", desc: "Buscador de pisos y casas en alquiler y venta en toda España.", url: "https://www.yaencontre.com/", logo: "https://www.google.com/s2/favicons?domain=yaencontre.com&sz=64" },
 ];
 
 const HogarTab = () => {
