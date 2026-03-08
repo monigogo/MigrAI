@@ -162,7 +162,7 @@ const FormacionesTab = () => {
             <br />
             con tu pasaporte
           </h1>
-          <p className="mt-3 text-sm text-white/60 max-w-[260px] leading-relaxed">
+          <p className="mt-3 text-sm text-white/80 max-w-[260px] leading-relaxed">
             Formaciones accesibles para migrantes. Solo necesitas tu pasaporte vigente.
           </p>
         </div>
@@ -178,7 +178,7 @@ const FormacionesTab = () => {
             </div>
             <div>
               <h2 className="font-heading text-[15px] font-bold text-foreground leading-tight">{section.label}</h2>
-              <p className="text-[11px] text-muted-foreground">{section.resources.length} recursos disponibles</p>
+              <p className="text-[11px] text-foreground/80">{section.resources.length} recursos disponibles</p>
             </div>
           </div>
 
@@ -211,8 +211,8 @@ const FormacionesTab = () => {
                   <div className="flex items-center gap-2">
                     <h3 className="font-heading text-sm font-bold text-foreground truncate">{item.title}</h3>
                   </div>
-                  <p className="text-[11px] text-foreground/70 font-semibold mt-0.5">{item.subtitle}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed mt-1 line-clamp-2">{item.desc}</p>
+                  <p className="text-[11px] text-foreground font-semibold mt-0.5">{item.subtitle}</p>
+                  <p className="text-xs text-foreground/75 leading-relaxed mt-1 line-clamp-2">{item.desc}</p>
                 </div>
 
                 {/* Arrow */}
