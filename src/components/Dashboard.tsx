@@ -43,7 +43,7 @@ const COUNTRY_THEMES: Record<string, CountryTheme> = {
   "México": { gradient: "from-green-600 via-red-600 to-green-600", accent: "text-green-700", accentBg: "bg-green-500/10", greeting: "¡Bienvenido/a, compa!", emoji: "🌮", culturalIcon: "🎸", motto: "Viva México", headerBg: "from-green-600/90 to-red-600/90", buttonBg: "bg-green-600", chatBubble: "border-green-300/40" },
   "Nicaragua": { gradient: "from-blue-600 to-blue-700", accent: "text-blue-600", accentBg: "bg-blue-500/10", greeting: "¡Bienvenido/a, hermano/a!", emoji: "🌋", culturalIcon: "🏖️", motto: "En Dios confiamos", headerBg: "from-blue-600/90 to-blue-700/90", buttonBg: "bg-blue-600", chatBubble: "border-blue-300/40" },
   "Panamá": { gradient: "from-red-500 to-blue-600", accent: "text-red-500", accentBg: "bg-red-500/10", greeting: "¡Bienvenido/a, fren!", emoji: "🚢", culturalIcon: "🌴", motto: "Pro Mundi Beneficio", headerBg: "from-red-500/90 to-blue-600/90", buttonBg: "bg-red-500", chatBubble: "border-red-300/40" },
-  "Paraguay": { gradient: "from-red-600 via-white to-blue-600", accent: "text-red-600", accentBg: "bg-red-500/10", greeting: "¡Bienvenido/a!", emoji: "🧉", culturalIcon: "🎶", motto: "Paz y justicia", headerBg: "from-red-600/90 to-blue-600/90", buttonBg: "bg-red-600", chatBubble: "border-red-300/40" },
+  "Paraguay": { gradient: "from-red-600 to-blue-600", accent: "text-red-600", accentBg: "bg-red-500/10", greeting: "¡Bienvenido/a!", emoji: "🧉", culturalIcon: "🎶", motto: "Paz y justicia", headerBg: "from-red-600/90 to-blue-600/90", buttonBg: "bg-red-600", chatBubble: "border-red-300/40" },
   "Perú": { gradient: "from-red-600 to-red-700", accent: "text-red-600", accentBg: "bg-red-500/10", greeting: "¡Bienvenido/a, causa!", emoji: "🦙", culturalIcon: "🏔️", motto: "Firme y feliz por la unión", headerBg: "from-red-600/90 to-red-700/90", buttonBg: "bg-red-600", chatBubble: "border-red-300/40" },
   "Portugal": { gradient: "from-green-600 to-red-600", accent: "text-green-600", accentBg: "bg-green-500/10", greeting: "Bem-vindo/a!", emoji: "⚓", culturalIcon: "🎸", motto: "Esta é a ditosa pátria", headerBg: "from-green-600/90 to-red-600/90", buttonBg: "bg-green-600", chatBubble: "border-green-300/40" },
   "República Dominicana": { gradient: "from-red-600 via-blue-700 to-red-600", accent: "text-red-600", accentBg: "bg-red-500/10", greeting: "¡Bienvenido/a, manito/a!", emoji: "🏝️", culturalIcon: "🥁", motto: "Dios, Patria, Libertad", headerBg: "from-red-600/90 to-blue-700/90", buttonBg: "bg-red-600", chatBubble: "border-red-300/40" },
@@ -329,7 +329,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           </p>
           <button
             onClick={() => setChatOpen(true)}
-            className={`flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r ${theme.gradient} py-5 font-heading text-lg font-bold text-white shadow-lg active:scale-[0.98] transition-transform`}
+            className={`flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r ${theme.gradient} py-5 font-heading text-lg font-bold text-white shadow-lg active:scale-[0.98] transition-transform drop-shadow-md`}
           >
             <span className="text-2xl">{theme.emoji}</span>
             Hablar con migrAI
