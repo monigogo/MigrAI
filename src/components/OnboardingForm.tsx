@@ -2,9 +2,11 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Globe, Calendar } from "lucide-react";
 
 const COUNTRIES = [
-  "Venezuela", "Colombia", "Ecuador", "Perú", "Honduras",
-  "Guatemala", "El Salvador", "Cuba", "Haití", "México",
-  "Nicaragua", "Brasil", "Argentina", "República Dominicana", "Otro"
+  "Argentina", "Bolivia", "Brasil", "Chile", "Colombia",
+  "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España",
+  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá",
+  "Paraguay", "Perú", "Portugal", "República Dominicana",
+  "Uruguay", "Venezuela", "Otro"
 ];
 
 const AGE_RANGES = ["18-25 años", "26-35 años", "36-45 años", "46-55 años", "56+ años"];
