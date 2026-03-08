@@ -58,9 +58,9 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background max-w-md sm:max-w-lg md:max-w-2xl mx-auto w-full">
       {/* Header */}
-      <div className="px-6 pt-6 pb-4">
+      <div className="px-4 sm:px-6 pt-6 pb-4">
         <button
           onClick={handleBack}
           className="flex items-center gap-1.5 text-primary text-sm font-semibold mb-4"
@@ -86,7 +86,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
       <div className="flex-1 overflow-y-auto">
         {step === 0 && (
           <div>
-            <div className="px-6 pt-4 pb-5">
+            <div className="px-4 sm:px-6 pt-4 pb-5">
               <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15">
                 <Globe className="h-6 w-6 text-primary" />
               </div>
@@ -96,7 +96,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
               </p>
             </div>
 
-            <div className="mx-6 rounded-2xl border border-border bg-card overflow-hidden">
+            <div className="mx-4 sm:mx-6 rounded-2xl border border-border bg-card overflow-hidden md:grid md:grid-cols-2">
               {COUNTRIES.map((c, i) => (
                 <button
                   key={c.name}
@@ -119,7 +119,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
 
         {step === 1 && (
           <div>
-            <div className="px-6 pt-4 pb-5">
+            <div className="px-4 sm:px-6 pt-4 pb-5">
               <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15">
                 <Calendar className="h-6 w-6 text-primary" />
               </div>
@@ -129,7 +129,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
               </p>
             </div>
 
-            <div className="mx-6 rounded-2xl border border-border bg-card overflow-hidden mb-8">
+            <div className="mx-4 sm:mx-6 rounded-2xl border border-border bg-card overflow-hidden mb-8">
               {AGE_RANGES.map((a, i) => (
                 <button
                   key={a}
@@ -147,14 +147,14 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
               ))}
             </div>
 
-            <div className="px-6 pb-5">
+            <div className="px-4 sm:px-6 pb-5">
               <h2 className="text-2xl font-extrabold text-foreground font-heading">¿Cuál es tu sexo?</h2>
               <p className="text-sm text-muted-foreground mt-1">
                 Para personalizar tu experiencia
               </p>
             </div>
 
-            <div className="mx-6 rounded-2xl border border-border bg-card overflow-hidden mb-8">
+            <div className="mx-4 sm:mx-6 rounded-2xl border border-border bg-card overflow-hidden mb-8">
               {SEX_OPTIONS.map((s, i) => (
                 <button
                   key={s.value}
@@ -176,7 +176,7 @@ const OnboardingForm = ({ onComplete, onBack }: OnboardingFormProps) => {
       </div>
 
       {/* Bottom button */}
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <button
           onClick={handleNext}
           disabled={!canContinue}
