@@ -23,7 +23,7 @@ const sections: Section[] = [
   {
     label: "Tecnología",
     icon: <Terminal className="w-5 h-5" />,
-    accent: "text-emerald-700",
+    accent: "text-foreground",
     accentBg: "bg-emerald-800/10",
     accentBorder: "border-emerald-700/20",
     resources: [
