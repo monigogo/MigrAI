@@ -175,10 +175,10 @@ const Index = () => {
                 <h2 className="font-heading text-base font-bold text-foreground px-1">💻 Formaciones en Tecnología</h2>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { title: "Somos F5", subtitle: "España / Francia", emoji: "🚀", desc: "Bootcamps tech 100% gratuitos e inclusivos.", url: "https://www.somosf5.org" },
-                    { title: "Factoría F5", subtitle: "España", emoji: "⚡", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
-                    { title: "Cibervoluntarios", subtitle: "España", emoji: "🌍", desc: "Formación digital gratuita e inclusión tecnológica.", url: "https://www.cibervoluntarios.org/es" },
-                    { title: "42 Madrid", subtitle: "España", emoji: "🔢", desc: "Campus de programación gratuito, sin profesores ni horarios.", url: "https://www.42madrid.com/" },
+                    { title: "Somos F5", subtitle: "España / Francia", logo: "https://www.google.com/s2/favicons?domain=somosf5.org&sz=64", desc: "Bootcamps tech 100% gratuitos e inclusivos.", url: "https://www.somosf5.org" },
+                    { title: "Factoría F5", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=factoriaf5.org&sz=64", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
+                    { title: "Cibervoluntarios", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=cibervoluntarios.org&sz=64", desc: "Formación digital gratuita e inclusión tecnológica.", url: "https://www.cibervoluntarios.org/es" },
+                    { title: "42 Madrid", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=42madrid.com&sz=64", desc: "Campus de programación gratuito, sin profesores ni horarios.", url: "https://www.42madrid.com/" },
                     
                   ].map((item, i) => (
                     <a
@@ -188,7 +188,7 @@ const Index = () => {
                       rel="noopener noreferrer"
                       className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
                     >
-                      <span className="text-3xl">{item.emoji}</span>
+                      <img src={item.logo} alt={item.title} className="w-10 h-10 object-contain rounded-lg" />
                       <div>
                         <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
                         <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
