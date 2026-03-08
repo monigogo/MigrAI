@@ -203,7 +203,7 @@ const FormacionesTab = () => {
                   <div className="flex items-center gap-2">
                     <h3 className="font-heading text-sm font-bold text-foreground truncate">{item.title}</h3>
                   </div>
-                  <p className={`text-[11px] ${section.accent} font-semibold mt-0.5`}>{item.subtitle}</p>
+                  <p className="text-[11px] text-foreground/70 font-semibold mt-0.5">{item.subtitle}</p>
                   <p className="text-xs text-muted-foreground leading-relaxed mt-1 line-clamp-2">{item.desc}</p>
                 </div>
 
