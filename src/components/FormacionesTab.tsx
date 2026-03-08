@@ -113,7 +113,7 @@ const sections: Section[] = [
   {
     label: "Startups e Innovación",
     icon: <Rocket className="w-5 h-5" />,
-    accent: "text-teal-700",
+    accent: "text-foreground",
     accentBg: "bg-teal-700/10",
     accentBorder: "border-teal-700/20",
     resources: [
