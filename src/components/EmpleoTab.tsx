@@ -13,6 +13,7 @@ const empleoLinks: EmpleoLink[] = [
   { title: "InfoJobs", desc: "El portal de empleo líder en España. Busca ofertas y envía tu CV.", url: "https://www.infojobs.net/", logo: "https://www.google.com/s2/favicons?domain=infojobs.net&sz=64" },
   { title: "Indeed", desc: "Buscador de empleo mundial. Miles de ofertas en España actualizadas a diario.", url: "https://es.indeed.com/", logo: "https://www.google.com/s2/favicons?domain=indeed.com&sz=64" },
   { title: "Job Today", desc: "Encuentra trabajo rápido en hostelería, retail y más. Respuesta en 24h.", url: "https://jobtoday.com/es/", logo: "https://www.google.com/s2/favicons?domain=jobtoday.com&sz=64" },
+  { title: "Milanuncios", desc: "Anuncios clasificados de empleo, servicios y mucho más en toda España.", url: "https://www.milanuncios.com/", logo: "https://www.google.com/s2/favicons?domain=milanuncios.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
