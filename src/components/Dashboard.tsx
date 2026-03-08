@@ -7,6 +7,32 @@ interface DashboardProps {
   onBack: () => void;
 }
 
+const COUNTRY_CODES: Record<string, string> = {
+  "Argentina": "ar", "Bolivia": "bo", "Brasil": "br", "Chile": "cl",
+  "Colombia": "co", "Costa Rica": "cr", "Cuba": "cu", "Ecuador": "ec",
+  "El Salvador": "sv", "Guatemala": "gt", "Honduras": "hn", "México": "mx",
+  "Nicaragua": "ni", "Panamá": "pa", "Paraguay": "py", "Perú": "pe",
+  "Portugal": "pt", "República Dominicana": "do", "Uruguay": "uy", "Venezuela": "ve",
+};
+
+const BotAvatar = ({ country, size = "sm" }: { country: string; size?: "sm" | "md" }) => {
+  const code = COUNTRY_CODES[country];
+  const dim = size === "md" ? "h-11 w-11" : "h-8 w-8";
+  const imgDim = size === "md" ? "w-6 h-4" : "w-5 h-3.5";
+  return (
+    <div className={`flex ${dim} shrink-0 items-center justify-center rounded-2xl bg-primary/10 relative`}>
+      <span className={size === "md" ? "text-xl" : "text-sm"}>🤖</span>
+      {code && (
+        <img
+          src={`https://flagcdn.com/w40/${code}.png`}
+          alt={country}
+          className={`absolute -bottom-1 -right-1 ${imgDim} rounded-sm object-cover border-2 border-background shadow-sm`}
+        />
+      )}
+    </div>
+  );
+};
+
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const exampleResponses: Record<string, string> = {
