@@ -9,6 +9,7 @@ import globeImg from "@/assets/globe.png";
 type AppState = "home" | "onboarding" | "dashboard";
 
 const recommendations = [
+  { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64" },
   { title: "Curso de inglés básico", tag: "Idioma", emoji: "🗣️", desc: "Aprende palabras clave para tus trámites." },
   { title: "Derechos del migrante", tag: "Legal", emoji: "⚖️", desc: "Conoce qué protecciones tienes por ley." },
   { title: "Cómo buscar trabajo", tag: "Empleo", emoji: "💼", desc: "Consejos para conseguir tu primer empleo." },
