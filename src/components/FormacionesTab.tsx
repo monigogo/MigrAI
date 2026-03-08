@@ -178,7 +178,7 @@ const FormacionesTab = () => {
             </div>
             <div>
               <h2 className="font-heading text-[15px] font-bold text-foreground leading-tight">{section.label}</h2>
-              <p className="text-[11px] text-muted-foreground">{section.resources.length} recursos disponibles</p>
+              <p className="text-[11px] text-foreground/80">{section.resources.length} recursos disponibles</p>
             </div>
           </div>
 
