@@ -22,6 +22,7 @@ const empleoLinks: EmpleoLink[] = [
   { title: "Turijobs", desc: "Ofertas de empleo en turismo, hostelería y restauración.", url: "https://www.turijobs.com/es-es", logo: "https://www.google.com/s2/favicons?domain=turijobs.com&sz=64" },
   { title: "Jobandtalent", desc: "Encuentra trabajo temporal y fijo en logística, retail y más sectores.", url: "https://jobs.jobandtalent.com/es", logo: "https://www.google.com/s2/favicons?domain=jobandtalent.com&sz=64" },
   { title: "BuscoJobs", desc: "Portal de empleo con ofertas en todos los sectores en España.", url: "https://www.buscojobs.com.es/", logo: "https://www.google.com/s2/favicons?domain=buscojobs.com.es&sz=64" },
+  { title: "Webel", desc: "App para encontrar y ofrecer servicios profesionales cerca de ti.", url: "https://appwebel.com/", logo: "https://www.google.com/s2/favicons?domain=appwebel.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
