@@ -9,6 +9,7 @@ import globeImg from "@/assets/globe.png";
 type AppState = "home" | "onboarding" | "dashboard";
 
 const recommendations = [
+  { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64" },
   { title: "Curso de inglés básico", tag: "Idioma", emoji: "🗣️", desc: "Aprende palabras clave para tus trámites." },
   { title: "Derechos del migrante", tag: "Legal", emoji: "⚖️", desc: "Conoce qué protecciones tienes por ley." },
   { title: "Cómo buscar trabajo", tag: "Empleo", emoji: "💼", desc: "Consejos para conseguir tu primer empleo." },
@@ -140,11 +141,18 @@ const Index = () => {
                   {recommendations.map((r, i) => (
                     <button
                       key={i}
+                      onClick={() => r.url ? window.open(r.url, '_blank', 'noopener,noreferrer') : undefined}
                       className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                         i < recommendations.length - 1 ? "border-b border-border" : ""
                       }`}
                     >
-                      <span className="text-3xl shrink-0">{r.emoji}</span>
+                      {r.logo ? (
+                        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center overflow-hidden shrink-0">
+                          <img src={r.logo} alt={r.title} className="w-6 h-6 object-contain" />
+                        </div>
+                      ) : (
+                        <span className="text-3xl shrink-0">{r.emoji}</span>
+                      )}
                       <div className="flex-1 min-w-0">
                         <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
                           {r.tag}
