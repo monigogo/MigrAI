@@ -16,6 +16,7 @@ const hogarLinks: HogarLink[] = [
   { title: "Spotahome", desc: "Alquila pisos y habitaciones online con visitas virtuales.", url: "https://www.spotahome.com/es", logo: "https://www.google.com/s2/favicons?domain=spotahome.com&sz=64" },
   { title: "Booking", desc: "Alojamiento temporal: hoteles, apartamentos y hostales en toda España.", url: "https://www.booking.com/", logo: "https://www.google.com/s2/favicons?domain=booking.com&sz=64" },
   { title: "Airbnb", desc: "Alquiler temporal de pisos, habitaciones y alojamientos únicos.", url: "https://www.airbnb.es/", logo: "https://www.google.com/s2/favicons?domain=airbnb.es&sz=64" },
+  { title: "Fotocasa", desc: "Portal inmobiliario con pisos, casas y habitaciones en alquiler y venta.", url: "https://www.fotocasa.es/es/", logo: "https://www.google.com/s2/favicons?domain=fotocasa.es&sz=64" },
 ];
 
 const HogarTab = () => {
