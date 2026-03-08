@@ -11,8 +11,8 @@ interface PathCardProps {
 
 const PathCard = ({ icon, title, description, onClick, variant = "primary" }: PathCardProps) => {
   const bgClass = variant === "primary"
-    ? "bg-card border-border hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5"
-    : "bg-card border-border hover:border-warm/40 hover:shadow-lg hover:-translate-y-0.5";
+    ? "bg-primary/5 border-primary/30 hover:border-primary/50 hover:shadow-lg hover:-translate-y-0.5"
+    : "bg-warm/5 border-warm/30 hover:border-warm/50 hover:shadow-lg hover:-translate-y-0.5";
 
   const iconBgClass = variant === "primary"
     ? "bg-gradient-to-br from-primary/20 to-primary/5 text-primary shadow-sm border border-primary/10"
