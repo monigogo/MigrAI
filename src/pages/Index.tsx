@@ -88,32 +88,34 @@ const Index = () => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 px-6 pb-12 pt-8 space-y-10">
+        <div className="flex-1 px-6 pb-12 pt-6 space-y-8">
           {tab === "inicio" ? (
             <>
-              {/* Hero */}
-              <div className="relative">
-                {/* Decorative gradient blob */}
-                <div className="absolute -top-4 -right-6 w-40 h-40 bg-gradient-to-br from-primary/8 to-primary/3 rounded-full blur-3xl pointer-events-none" />
+              {/* Hero Card */}
+              <div className="relative rounded-3xl bg-gradient-to-br from-primary via-primary/90 to-primary/75 p-6 pb-5 overflow-hidden shadow-xl shadow-primary/15">
+                {/* Decorative circles */}
+                <div className="absolute -top-10 -right-10 w-36 h-36 bg-white/10 rounded-full blur-sm" />
+                <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-white/5 rounded-full" />
+                <div className="absolute top-4 right-4 w-16 h-16 bg-white/5 rounded-full" />
                 
-                <div className="flex items-start justify-between gap-3 relative">
-                  <div className="flex-1 pt-1">
-                    <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-[11px] font-bold px-3 py-1.5 rounded-full mb-4">
+                <div className="relative flex items-center gap-4">
+                  <div className="flex-1">
+                    <div className="inline-flex items-center gap-1.5 bg-white/20 text-primary-foreground text-[11px] font-bold px-3 py-1.5 rounded-full mb-3 backdrop-blur-sm">
                       <Sparkles className="h-3 w-3" />
                       Tu guía migratoria
                     </div>
-                    <h1 className="font-heading text-[1.85rem] leading-[1.12] font-extrabold tracking-tight text-foreground">
-                      Claridad<br />
-                      Migratoria<br />
-                      <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">a tu Alcance</span>
+                    <h1 className="font-heading text-[1.65rem] leading-[1.15] font-extrabold tracking-tight text-primary-foreground">
+                      Claridad Migratoria<br />
+                      <span className="text-white/80">a tu Alcance</span>
                     </h1>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground max-w-[220px]">
-                      Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
+                    <p className="mt-2.5 text-[13px] leading-relaxed text-primary-foreground/75 max-w-[200px]">
+                      Te guiamos paso a paso con tu proceso migratorio.
                     </p>
                   </div>
                   <AnimatedGlobe />
                 </div>
               </div>
+
               {/* Path selection */}
               <div className="space-y-3">
                 <p className="font-heading font-bold text-foreground text-base px-1">
