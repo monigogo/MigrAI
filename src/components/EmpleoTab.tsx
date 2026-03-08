@@ -20,6 +20,7 @@ const empleoLinks: EmpleoLink[] = [
   { title: "Rover", desc: "Encuentra trabajo como cuidador de mascotas: paseos, alojamiento y más.", url: "https://www.rover.com/es/", logo: "https://www.google.com/s2/favicons?domain=rover.com&sz=64" },
   { title: "Tecnoempleo", desc: "Portal de empleo especializado en tecnología e informática en España.", url: "https://www.tecnoempleo.com/", logo: "https://www.google.com/s2/favicons?domain=tecnoempleo.com&sz=64" },
   { title: "Turijobs", desc: "Ofertas de empleo en turismo, hostelería y restauración.", url: "https://www.turijobs.com/es-es", logo: "https://www.google.com/s2/favicons?domain=turijobs.com&sz=64" },
+  { title: "Jobandtalent", desc: "Encuentra trabajo temporal y fijo en logística, retail y más sectores.", url: "https://jobs.jobandtalent.com/es", logo: "https://www.google.com/s2/favicons?domain=jobandtalent.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
