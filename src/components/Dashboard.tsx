@@ -146,9 +146,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           ))}
           {typing && (
             <div className="flex justify-start items-center gap-2">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-                <span className="text-sm">🤖</span>
-              </div>
+              <BotAvatar country={userData.country} />
               <div className="rounded-2xl rounded-bl-md bg-card border border-border px-4 py-3 text-base text-muted-foreground">
                 <span className="animate-pulse">migrAI está escribiendo…</span>
               </div>
