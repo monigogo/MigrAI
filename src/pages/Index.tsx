@@ -230,6 +230,7 @@ const Index = () => {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { title: "Factoría F5", subtitle: "España", emoji: "🚀", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
+                    { title: "Cibervoluntarios", subtitle: "España", emoji: "🌍", desc: "Formación digital gratuita e inclusión tecnológica.", url: "https://www.cibervoluntarios.org/es" },
                     { title: "Argentina Programa", subtitle: "Argentina", emoji: "🇦🇷", desc: "Formación en tecnología gratuita del gobierno.", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
                   ].map((item, i) => (
                     <a
