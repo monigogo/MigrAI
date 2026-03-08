@@ -4,7 +4,7 @@ import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
 import FormacionesTab from "@/components/FormacionesTab";
-import globeImg from "@/assets/globe.png";
+import AnimatedGlobe from "@/components/AnimatedGlobe";
 
 type AppState = "home" | "onboarding" | "dashboard";
 
@@ -94,11 +94,7 @@ const Index = () => {
                       Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
                     </p>
                   </div>
-                  <img
-                    src={globeImg}
-                    alt="Globo terráqueo"
-                    className="w-36 h-36 object-contain shrink-0 -mt-2"
-                  />
+                  <AnimatedGlobe />
                 </div>
 
                 <button
