@@ -180,8 +180,10 @@ const Index = () => {
                 </div>
               </div>
             </>
-          ) : (
+          ) : tab === "formaciones" ? (
             <FormacionesTab />
+          ) : (
+            <EmpleoTab />
           )}
         </div>
 
