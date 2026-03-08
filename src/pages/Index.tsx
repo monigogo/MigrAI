@@ -70,7 +70,7 @@ const Index = () => {
               }`}
             >
               <GraduationCap className="h-4 w-4" />
-              Aprender
+              Formaciones
             </button>
           </nav>
         </header>
@@ -161,21 +161,28 @@ const Index = () => {
             <>
               <div>
                 <h1 className="font-heading text-2xl font-extrabold tracking-tight text-foreground mb-1">
-                  📚 Aprende a tu ritmo
+                  🎓 Estudia gratis con tu pasaporte
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Cursos sencillos para prepararte mejor.
+                  Opciones de formación gratuita en distintos países, accesibles solo con pasaporte vigente.
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
                 {[
-                  { title: "Inglés para trámites", desc: "Palabras clave para hablar en oficinas de inmigración.", tag: "Idioma", emoji: "🗣️" },
-                  { title: "Preparación cívica", desc: "Lo necesario para el examen de ciudadanía.", tag: "Cívica", emoji: "🏛️" },
-                  { title: "Herramientas digitales", desc: "Aprende a usar el celular y apps para tus gestiones.", tag: "Digital", emoji: "📱" },
-                  { title: "Derechos laborales", desc: "Qué derechos tienes como trabajador migrante.", tag: "Legal", emoji: "⚖️" },
+                  { title: "UNED — España", desc: "Cursos abiertos y gratuitos en línea de la Universidad Nacional de Educación a Distancia.", tag: "Universidad", emoji: "🇪🇸", url: "https://www.uned.es" },
+                  { title: "SENCE — Chile", desc: "Capacitaciones gratuitas del gobierno chileno para residentes y migrantes con pasaporte.", tag: "Gobierno", emoji: "🇨🇱", url: "https://www.sence.cl" },
+                  { title: "SENA — Colombia", desc: "Formación técnica y tecnológica gratuita. Acepta extranjeros con pasaporte o PEP.", tag: "Técnico", emoji: "🇨🇴", url: "https://www.sena.edu.co" },
+                  { title: "Coursera para Campus", desc: "Cursos universitarios gratis de Google, IBM y más. Certificados opcionales.", tag: "Online", emoji: "🌐", url: "https://www.coursera.org" },
+                  { title: "edX — Cursos gratuitos", desc: "Formación de Harvard, MIT y otras universidades. Audita cursos sin costo.", tag: "Online", emoji: "📚", url: "https://www.edx.org" },
+                  { title: "Academica.mx — México", desc: "Plataforma de cursos gratuitos respaldada por universidades mexicanas.", tag: "Universidad", emoji: "🇲🇽", url: "https://www.academica.mx" },
+                  { title: "INEFOP — Uruguay", desc: "Cursos de capacitación laboral gratuitos para personas en situación migratoria.", tag: "Gobierno", emoji: "🇺🇾", url: "https://www.inefop.org.uy" },
+                  { title: "Argentina Programa", desc: "Formación en tecnología gratuita del gobierno argentino, abierta a residentes.", tag: "Tecnología", emoji: "🇦🇷", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
                 ].map((item, i, arr) => (
-                  <button
+                  <a
                     key={i}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                       i < arr.length - 1 ? "border-b border-border" : ""
                     }`}
@@ -189,7 +196,7 @@ const Index = () => {
                       <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
                     </div>
                     <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-                  </button>
+                  </a>
                 ))}
               </div>
             </>
