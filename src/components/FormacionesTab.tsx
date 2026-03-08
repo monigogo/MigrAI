@@ -64,7 +64,7 @@ const sections: Section[] = [
   {
     label: "Fundaciones y ONG",
     icon: <Heart className="w-5 h-5" />,
-    accent: "text-amber-700",
+    accent: "text-foreground",
     accentBg: "bg-amber-700/10",
     accentBorder: "border-amber-700/20",
     resources: [
