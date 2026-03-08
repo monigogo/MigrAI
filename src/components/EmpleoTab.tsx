@@ -9,7 +9,7 @@ export interface EmpleoLink {
 }
 
 const empleoLinks: EmpleoLink[] = [
-  // Aquí irás agregando los links que me pases
+  { title: "Nextdoor", desc: "Red social de vecinos para encontrar trabajo y servicios cerca de ti.", url: "https://es.nextdoor.com/", logo: "https://www.google.com/s2/favicons?domain=nextdoor.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
