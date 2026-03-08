@@ -78,31 +78,6 @@ const EmpleoTab = () => {
         </div>
       </div>
 
-      {/* Con papeles */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2.5 px-1">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-600/10 flex items-center justify-center">
-            <FileText className="h-4 w-4 text-emerald-600" />
-          </div>
-          <div>
-            <h3 className="font-heading text-base font-bold text-foreground">📄 Con papeles</h3>
-            <p className="text-[11px] text-muted-foreground">Portales que requieren documentación</p>
-          </div>
-        </div>
-        <div className="space-y-2.5">
-          {conPapelesLinks.map((link, i) => (
-            <LinkCard key={i} link={link} index={i} />
-          ))}
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="flex items-center gap-3 px-2">
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        <span className="text-xs text-muted-foreground font-medium">ó</span>
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
-
       {/* Sin papeles */}
       <div className="space-y-4">
         <div className="flex items-center gap-2.5 px-1">
@@ -116,6 +91,31 @@ const EmpleoTab = () => {
         </div>
         <div className="space-y-2.5">
           {sinPapelesLinks.map((link, i) => (
+            <LinkCard key={i} link={link} index={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="flex items-center gap-3 px-2">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <span className="text-xs text-muted-foreground font-medium">ó</span>
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      </div>
+
+      {/* Con papeles */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2.5 px-1">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-600/10 flex items-center justify-center">
+            <FileText className="h-4 w-4 text-emerald-600" />
+          </div>
+          <div>
+            <h3 className="font-heading text-base font-bold text-foreground">📄 Con papeles</h3>
+            <p className="text-[11px] text-muted-foreground">Portales que requieren documentación</p>
+          </div>
+        </div>
+        <div className="space-y-2.5">
+          {conPapelesLinks.map((link, i) => (
             <LinkCard key={i} link={link} index={i} />
           ))}
         </div>
