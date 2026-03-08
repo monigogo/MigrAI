@@ -228,7 +228,8 @@ const Index = () => {
                 <h2 className="font-heading text-base font-bold text-foreground px-1">💻 Formaciones en Tecnología</h2>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { title: "Factoría F5", subtitle: "España", emoji: "🚀", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
+                    { title: "Somos F5", subtitle: "España / Francia", emoji: "🚀", desc: "Bootcamps tech 100% gratuitos e inclusivos.", url: "https://www.somosf5.org" },
+                    { title: "Factoría F5", subtitle: "España", emoji: "⚡", desc: "Bootcamps gratuitos en desarrollo web, datos e IA.", url: "https://factoriaf5.org/aprende/" },
                     { title: "Cibervoluntarios", subtitle: "España", emoji: "🌍", desc: "Formación digital gratuita e inclusión tecnológica.", url: "https://www.cibervoluntarios.org/es" },
                     { title: "Argentina Programa", subtitle: "Argentina", emoji: "🇦🇷", desc: "Formación en tecnología gratuita del gobierno.", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
                   ].map((item, i) => (
