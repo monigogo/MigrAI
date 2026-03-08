@@ -276,6 +276,31 @@ const Index = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Startups */}
+              <div className="space-y-3">
+                <h2 className="font-heading text-base font-bold text-foreground px-1">🚀 Startups e Innovación</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { title: "International Lab", subtitle: "Madrid, España", emoji: "💡", desc: "Espacio de innovación para startups y emprendedores internacionales.", url: "https://www.madridinnova.es/espacios/international-lab/" },
+                  ].map((item, i) => (
+                    <a
+                      key={i}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
+                    >
+                      <span className="text-3xl">{item.emoji}</span>
+                      <div>
+                        <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
+                        <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </>
           )}
         </div>
