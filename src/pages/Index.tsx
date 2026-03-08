@@ -63,9 +63,6 @@ const Index = () => {
                 migr<span className="text-primary">AI</span>
               </span>
             </div>
-            <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
-              Beta
-            </span>
           </div>
 
           {/* Tab bar - scrollable */}
