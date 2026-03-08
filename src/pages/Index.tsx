@@ -258,6 +258,7 @@ const Index = () => {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { title: "Fundación Altius", subtitle: "España", emoji: "🏠", desc: "Formación e inserción sociolaboral para personas en riesgo de exclusión.", url: "https://www.fundacionaltius.org/areas/formacion/" },
+                    { title: "Fundación Tomillo", subtitle: "España", emoji: "🌱", desc: "Formación gratuita para la inclusión social y laboral.", url: "https://tomillo.org/formacion/" },
                   ].map((item, i) => (
                     <a
                       key={i}
