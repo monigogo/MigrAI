@@ -141,11 +141,18 @@ const Index = () => {
                   {recommendations.map((r, i) => (
                     <button
                       key={i}
+                      onClick={() => r.url ? window.open(r.url, '_blank', 'noopener,noreferrer') : undefined}
                       className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
                         i < recommendations.length - 1 ? "border-b border-border" : ""
                       }`}
                     >
-                      <span className="text-3xl shrink-0">{r.emoji}</span>
+                      {r.logo ? (
+                        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center overflow-hidden shrink-0">
+                          <img src={r.logo} alt={r.title} className="w-6 h-6 object-contain" />
+                        </div>
+                      ) : (
+                        <span className="text-3xl shrink-0">{r.emoji}</span>
+                      )}
                       <div className="flex-1 min-w-0">
                         <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
                           {r.tag}
