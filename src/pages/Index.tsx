@@ -168,34 +168,6 @@ const Index = () => {
                 </p>
               </div>
 
-              {/* Universidades */}
-              <div className="space-y-3">
-                <h2 className="font-heading text-base font-bold text-foreground px-1">🏛️ Universidades</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: "UNED", subtitle: "España", emoji: "🇪🇸", desc: "Cursos abiertos y gratuitos en línea.", url: "https://www.uned.es" },
-                    { title: "Academica.mx", subtitle: "México", emoji: "🇲🇽", desc: "Cursos respaldados por universidades.", url: "https://www.academica.mx" },
-                    { title: "edX", subtitle: "Global", emoji: "📚", desc: "Harvard, MIT y más. Audita gratis.", url: "https://www.edx.org" },
-                    { title: "Coursera", subtitle: "Global", emoji: "🌐", desc: "Google, IBM y más. Certificados.", url: "https://www.coursera.org" },
-                  ].map((item, i) => (
-                    <a
-                      key={i}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
-                    >
-                      <span className="text-3xl">{item.emoji}</span>
-                      <div>
-                        <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
-                        <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
 
 
               {/* Tecnología */}
