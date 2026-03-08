@@ -50,7 +50,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex justify-center">
-      <div className="w-full max-w-md flex flex-col min-h-screen">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl flex flex-col min-h-screen">
 
         {/* Header */}
         <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg px-6 pt-5 pb-0 border-b border-border/50">
