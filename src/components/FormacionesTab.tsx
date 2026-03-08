@@ -162,7 +162,7 @@ const FormacionesTab = () => {
             <br />
             con tu pasaporte
           </h1>
-          <p className="mt-3 text-sm text-white/60 max-w-[260px] leading-relaxed">
+          <p className="mt-3 text-sm text-white/80 max-w-[260px] leading-relaxed">
             Formaciones accesibles para migrantes. Solo necesitas tu pasaporte vigente.
           </p>
         </div>
