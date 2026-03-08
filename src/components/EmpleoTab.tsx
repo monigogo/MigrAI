@@ -16,6 +16,7 @@ const empleoLinks: EmpleoLink[] = [
   { title: "Milanuncios", desc: "Anuncios clasificados de empleo, servicios y mucho más en toda España.", url: "https://www.milanuncios.com/", logo: "https://www.google.com/s2/favicons?domain=milanuncios.com&sz=64" },
   { title: "Wallapop", desc: "Compra, vende y encuentra servicios y empleo cerca de ti.", url: "https://es.wallapop.com/", logo: "https://www.google.com/s2/favicons?domain=wallapop.com&sz=64" },
   { title: "TopNanny", desc: "Encuentra trabajo como niñera o cuidador/a de niños en tu zona.", url: "https://topnanny.es/", logo: "https://www.google.com/s2/favicons?domain=topnanny.es&sz=64" },
+  { title: "LinkedIn", desc: "La red profesional más grande del mundo. Conecta, busca empleo y crece.", url: "https://www.linkedin.com/", logo: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" },
 ];
 
 const EmpleoTab = () => {
