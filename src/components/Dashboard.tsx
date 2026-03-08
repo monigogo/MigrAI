@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, BookOpen, FileText, MessageCircle, HelpCircle, Send, X, ChevronRight } from "lucide-react";
+import { ArrowLeft, Send, X, ChevronRight } from "lucide-react";
 
 interface DashboardProps {
   userData: { country: string; age: string; sex: string };
@@ -76,9 +76,9 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
     return (
       <div className="flex min-h-screen flex-col bg-background">
         {/* Chat header */}
-        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/90 backdrop-blur-md px-4 py-4">
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/90 backdrop-blur-md px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/15">
               <span className="text-xl">🤖</span>
             </div>
             <div>
@@ -88,7 +88,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           </div>
           <button
             onClick={() => setChatOpen(false)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card hover:bg-accent transition-colors active:scale-95"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card hover:bg-accent transition-colors active:scale-95"
             aria-label="Cerrar chat"
           >
             <X className="h-5 w-5 text-foreground" />
@@ -96,16 +96,16 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </header>
 
         {/* Intro banner */}
-        <div className="mx-4 mt-4 rounded-2xl bg-primary/10 border border-primary/20 p-4 text-sm text-foreground">
+        <div className="mx-6 mt-4 rounded-2xl bg-primary/10 border border-primary/20 p-4 text-sm text-foreground">
           💡 <strong>Consejo:</strong> Puedes tocar una de las preguntas de abajo, o escribir la tuya.
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
-                <div className="mr-2 mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <div className="mr-2 mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
                   <span className="text-sm">🤖</span>
                 </div>
               )}
@@ -122,7 +122,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           ))}
           {typing && (
             <div className="flex justify-start items-center gap-2">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
                 <span className="text-sm">🤖</span>
               </div>
               <div className="rounded-2xl rounded-bl-md bg-card border border-border px-4 py-3 text-base text-muted-foreground">
@@ -134,14 +134,14 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </div>
 
         {/* Quick question buttons */}
-        <div className="px-4 pb-2">
+        <div className="px-6 pb-2">
           <p className="text-xs text-muted-foreground mb-2 font-medium">Preguntas rápidas:</p>
           <div className="flex flex-col gap-2">
             {quickQuestions.map((q) => (
               <button
                 key={q.text}
                 onClick={() => sendMessage(q.text)}
-                className="rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground text-left hover:border-primary/40 hover:bg-primary/5 transition-all active:scale-[0.98]"
+                className="rounded-2xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground text-left hover:border-primary/40 hover:bg-accent transition-all active:scale-[0.98]"
               >
                 {q.label}
               </button>
@@ -150,19 +150,19 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         </div>
 
         {/* Input */}
-        <div className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-md px-4 py-4">
+        <div className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-md px-6 py-4">
           <div className="flex items-center gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
               placeholder="Escribe tu pregunta aquí…"
-              className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              className="flex-1 rounded-2xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim()}
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm disabled:opacity-40 transition-all active:scale-95"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm disabled:opacity-40 transition-all active:scale-95"
               aria-label="Enviar mensaje"
             >
               <Send className="h-5 w-5" />
@@ -178,7 +178,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
 
   // ─── DASHBOARD VIEW ──────────────────────────────────────────────
   return (
-    <div className="flex min-h-screen flex-col bg-background px-5 pb-8 pt-6">
+    <div className="flex min-h-screen flex-col bg-background px-6 pb-8 pt-6">
       <button
         onClick={onBack}
         className="mb-6 flex items-center gap-2 text-muted-foreground active:scale-95 transition-transform"
@@ -188,18 +188,18 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
       </button>
 
       {/* Profile badge */}
-      <div className="mb-6 flex items-center gap-4 rounded-2xl bg-card border border-border p-4 shadow-sm">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-2xl">
+      <div className="mb-6 flex items-center gap-4 rounded-2xl bg-card border border-border p-5 shadow-sm">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-2xl">
           🧑
         </div>
         <div>
           <p className="font-heading font-bold text-foreground text-base">{userData.country}</p>
-          <p className="text-sm text-muted-foreground">{userData.age} años · {userData.sex}</p>
+          <p className="text-sm text-muted-foreground">{userData.age} · {userData.sex}</p>
         </div>
       </div>
 
       {/* Greeting */}
-      <h1 className="font-heading text-2xl font-bold text-foreground">{greeting}</h1>
+      <h1 className="font-heading text-2xl font-extrabold text-foreground">{greeting}</h1>
       <p className="mt-1 text-base text-muted-foreground leading-relaxed">{subtitle}</p>
 
       {/* Action cards */}
@@ -207,7 +207,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         {actions.map((action, i) => (
           <button
             key={i}
-            className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 active:scale-[0.98] shadow-sm"
+            className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md active:scale-[0.98] shadow-sm"
           >
             <span className="text-3xl">{action.icon}</span>
             <div className="flex-1">
@@ -219,7 +219,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         ))}
       </div>
 
-      {/* AI Chat CTA - muy visible */}
+      {/* AI Chat CTA */}
       <div className="mt-auto pt-8">
         <p className="text-center text-sm text-muted-foreground mb-3">
           ¿Tienes alguna duda? Pregúntale a migrAI
