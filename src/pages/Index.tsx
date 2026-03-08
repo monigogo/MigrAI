@@ -208,6 +208,7 @@ const Index = () => {
                     { title: "Fundación Tomillo", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=tomillo.org&sz=64", desc: "Formación gratuita para la inclusión social y laboral.", url: "https://tomillo.org/formacion/" },
                     { title: "Fundación Orange", subtitle: "España", logo: "https://www.google.com/s2/favicons?domain=fundacionorange.es&sz=64", desc: "Formación inclusiva y accesible para personas con autismo.", url: "https://fundacionorange.es/junto-al-autismo/formacion/" },
                     { title: "AESCO", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=ong-aesco.com&sz=64", desc: "Proyectos de integración y apoyo a migrantes en Madrid.", url: "https://ong-aesco.com/proyectos-madrid/" },
+                    { title: "Cruz Roja Madrid", subtitle: "Madrid, España", logo: "https://www.google.com/s2/favicons?domain=cursoscruzrojamadrid.com&sz=64", desc: "Certificados profesionales y cursos gratuitos.", url: "https://cursoscruzrojamadrid.com/cursos/certificados-profesionales/" },
                   ].map((item, i) => (
                     <a
                       key={i}
