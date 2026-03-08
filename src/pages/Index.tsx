@@ -164,40 +164,64 @@ const Index = () => {
                   🎓 Estudia gratis con tu pasaporte
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Opciones de formación gratuita en distintos países, accesibles solo con pasaporte vigente.
+                  Opciones de formación gratuita accesibles solo con pasaporte vigente.
                 </p>
               </div>
-              <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
-                {[
-                  { title: "UNED — España", desc: "Cursos abiertos y gratuitos en línea de la Universidad Nacional de Educación a Distancia.", tag: "Universidad", emoji: "🇪🇸", url: "https://www.uned.es" },
-                  { title: "SENCE — Chile", desc: "Capacitaciones gratuitas del gobierno chileno para residentes y migrantes con pasaporte.", tag: "Gobierno", emoji: "🇨🇱", url: "https://www.sence.cl" },
-                  { title: "SENA — Colombia", desc: "Formación técnica y tecnológica gratuita. Acepta extranjeros con pasaporte o PEP.", tag: "Técnico", emoji: "🇨🇴", url: "https://www.sena.edu.co" },
-                  { title: "Coursera para Campus", desc: "Cursos universitarios gratis de Google, IBM y más. Certificados opcionales.", tag: "Online", emoji: "🌐", url: "https://www.coursera.org" },
-                  { title: "edX — Cursos gratuitos", desc: "Formación de Harvard, MIT y otras universidades. Audita cursos sin costo.", tag: "Online", emoji: "📚", url: "https://www.edx.org" },
-                  { title: "Academica.mx — México", desc: "Plataforma de cursos gratuitos respaldada por universidades mexicanas.", tag: "Universidad", emoji: "🇲🇽", url: "https://www.academica.mx" },
-                  { title: "INEFOP — Uruguay", desc: "Cursos de capacitación laboral gratuitos para personas en situación migratoria.", tag: "Gobierno", emoji: "🇺🇾", url: "https://www.inefop.org.uy" },
-                  { title: "Argentina Programa", desc: "Formación en tecnología gratuita del gobierno argentino, abierta a residentes.", tag: "Tecnología", emoji: "🇦🇷", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
-                ].map((item, i, arr) => (
-                  <a
-                    key={i}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
-                      i < arr.length - 1 ? "border-b border-border" : ""
-                    }`}
-                  >
-                    <span className="text-3xl shrink-0">{item.emoji}</span>
-                    <div className="flex-1 min-w-0">
-                      <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
-                        {item.tag}
-                      </span>
-                      <h3 className="font-heading text-sm font-semibold text-foreground">{item.title}</h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-                  </a>
-                ))}
+
+              {/* Universidades */}
+              <div className="space-y-3">
+                <h2 className="font-heading text-base font-bold text-foreground px-1">🏛️ Universidades</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { title: "UNED", subtitle: "España", emoji: "🇪🇸", desc: "Cursos abiertos y gratuitos en línea.", url: "https://www.uned.es" },
+                    { title: "Academica.mx", subtitle: "México", emoji: "🇲🇽", desc: "Cursos respaldados por universidades.", url: "https://www.academica.mx" },
+                    { title: "edX", subtitle: "Global", emoji: "📚", desc: "Harvard, MIT y más. Audita gratis.", url: "https://www.edx.org" },
+                    { title: "Coursera", subtitle: "Global", emoji: "🌐", desc: "Google, IBM y más. Certificados.", url: "https://www.coursera.org" },
+                  ].map((item, i) => (
+                    <a
+                      key={i}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
+                    >
+                      <span className="text-3xl">{item.emoji}</span>
+                      <div>
+                        <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
+                        <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Gobierno */}
+              <div className="space-y-3">
+                <h2 className="font-heading text-base font-bold text-foreground px-1">🏢 Programas de Gobierno</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { title: "SENCE", subtitle: "Chile", emoji: "🇨🇱", desc: "Capacitaciones gratuitas para migrantes.", url: "https://www.sence.cl" },
+                    { title: "SENA", subtitle: "Colombia", emoji: "🇨🇴", desc: "Formación técnica. Acepta pasaporte/PEP.", url: "https://www.sena.edu.co" },
+                    { title: "INEFOP", subtitle: "Uruguay", emoji: "🇺🇾", desc: "Capacitación laboral para migrantes.", url: "https://www.inefop.org.uy" },
+                    { title: "Argentina Programa", subtitle: "Argentina", emoji: "🇦🇷", desc: "Formación en tecnología gratuita.", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
+                  ].map((item, i) => (
+                    <a
+                      key={i}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
+                    >
+                      <span className="text-3xl">{item.emoji}</span>
+                      <div>
+                        <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
+                        <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </a>
+                  ))}
+                </div>
               </div>
             </>
           )}
