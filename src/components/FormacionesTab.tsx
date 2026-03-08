@@ -23,7 +23,7 @@ const sections: Section[] = [
   {
     label: "Tecnología",
     icon: <Terminal className="w-5 h-5" />,
-    accent: "text-emerald-700",
+    accent: "text-foreground",
     accentBg: "bg-emerald-800/10",
     accentBorder: "border-emerald-700/20",
     resources: [
@@ -64,7 +64,7 @@ const sections: Section[] = [
   {
     label: "Fundaciones y ONG",
     icon: <Heart className="w-5 h-5" />,
-    accent: "text-amber-700",
+    accent: "text-foreground",
     accentBg: "bg-amber-700/10",
     accentBorder: "border-amber-700/20",
     resources: [
@@ -113,7 +113,7 @@ const sections: Section[] = [
   {
     label: "Startups e Innovación",
     icon: <Rocket className="w-5 h-5" />,
-    accent: "text-teal-700",
+    accent: "text-foreground",
     accentBg: "bg-teal-700/10",
     accentBorder: "border-teal-700/20",
     resources: [
@@ -203,7 +203,7 @@ const FormacionesTab = () => {
                   <div className="flex items-center gap-2">
                     <h3 className="font-heading text-sm font-bold text-foreground truncate">{item.title}</h3>
                   </div>
-                  <p className={`text-[11px] ${section.accent} font-semibold mt-0.5`}>{item.subtitle}</p>
+                  <p className="text-[11px] text-foreground/70 font-semibold mt-0.5">{item.subtitle}</p>
                   <p className="text-xs text-muted-foreground leading-relaxed mt-1 line-clamp-2">{item.desc}</p>
                 </div>
 
