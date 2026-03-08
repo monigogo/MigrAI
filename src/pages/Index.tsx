@@ -161,7 +161,6 @@ const Index = () => {
           ) : (
             <FormacionesTab />
           )}
-          )}
         </div>
 
         {/* Footer */}
