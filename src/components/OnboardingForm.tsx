@@ -11,7 +11,7 @@ const COUNTRIES: { name: string; code: string }[] = [
   { name: "Cuba", code: "cu" },
   { name: "Ecuador", code: "ec" },
   { name: "El Salvador", code: "sv" },
-  { name: "España", code: "es" },
+  
   { name: "Guatemala", code: "gt" },
   { name: "Honduras", code: "hn" },
   { name: "México", code: "mx" },
