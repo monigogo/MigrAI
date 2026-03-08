@@ -205,7 +205,6 @@ const Index = () => {
                     { title: "SENCE", subtitle: "Chile", emoji: "🇨🇱", desc: "Capacitaciones gratuitas para migrantes.", url: "https://www.sence.cl" },
                     { title: "SENA", subtitle: "Colombia", emoji: "🇨🇴", desc: "Formación técnica. Acepta pasaporte/PEP.", url: "https://www.sena.edu.co" },
                     { title: "INEFOP", subtitle: "Uruguay", emoji: "🇺🇾", desc: "Capacitación laboral para migrantes.", url: "https://www.inefop.org.uy" },
-                    { title: "Argentina Programa", subtitle: "Argentina", emoji: "🇦🇷", desc: "Formación en tecnología gratuita.", url: "https://www.argentina.gob.ar/economia/conocimiento/argentina-programa" },
                   ].map((item, i) => (
                     <a
                       key={i}
