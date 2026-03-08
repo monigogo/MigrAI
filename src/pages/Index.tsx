@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Compass, ArrowRight, GraduationCap, Star, ChevronRight, Briefcase, Home } from "lucide-react";
+import { Compass, ArrowRight, GraduationCap, Star, ChevronRight, Briefcase, Home, Sparkles } from "lucide-react";
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
@@ -11,10 +11,17 @@ import AnimatedGlobe from "@/components/AnimatedGlobe";
 type AppState = "home" | "onboarding" | "dashboard";
 
 const recommendations = [
-  { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64" },
-  { title: "Buscar vivienda", tag: "Hogar", emoji: "🏠", desc: "Recursos para encontrar piso o alquiler en España.", action: "hogar" as const },
-  { title: "Derechos laborales del inmigrante", tag: "Legal", emoji: "⚖️", desc: "Conoce tus derechos legales en el trabajo.", url: "https://www.seg-social.es/wps/wcm/connect/wss/37cada90-3821-4c78-ba53-e22ee3bfb7f9/94_F06.pdf?MOD=AJPERES", logo: "https://www.google.com/s2/favicons?domain=seg-social.es&sz=64" },
-  { title: "Cómo buscar trabajo", tag: "Empleo", emoji: "💼", desc: "Consejos para conseguir tu primer empleo.", action: "empleo" as const },
+  { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64", color: "from-violet-500/20 to-purple-600/10" },
+  { title: "Buscar vivienda", tag: "Hogar", emoji: "🏠", desc: "Recursos para encontrar piso o alquiler en España.", action: "hogar" as const, color: "from-emerald-400/20 to-green-500/10" },
+  { title: "Derechos laborales del inmigrante", tag: "Legal", emoji: "⚖️", desc: "Conoce tus derechos legales en el trabajo.", url: "https://www.seg-social.es/wps/wcm/connect/wss/37cada90-3821-4c78-ba53-e22ee3bfb7f9/94_F06.pdf?MOD=AJPERES", logo: "https://www.google.com/s2/favicons?domain=seg-social.es&sz=64", color: "from-blue-500/20 to-indigo-500/10" },
+  { title: "Cómo buscar trabajo", tag: "Empleo", emoji: "💼", desc: "Consejos para conseguir tu primer empleo.", action: "empleo" as const, color: "from-amber-400/20 to-orange-500/10" },
+];
+
+const tabs = [
+  { id: "inicio" as const, label: "Inicio", icon: null },
+  { id: "formaciones" as const, label: "Formación", icon: GraduationCap },
+  { id: "empleo" as const, label: "Empleo", icon: Briefcase },
+  { id: "hogar" as const, label: "Hogar", icon: Home },
 ];
 
 const Index = () => {
@@ -46,58 +53,37 @@ const Index = () => {
       <div className="w-full max-w-md flex flex-col min-h-screen">
 
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-background/90 backdrop-blur-md px-6 pt-6 pb-0">
-          <div className="flex items-center gap-3 mb-5">
-            <span className="font-heading text-2xl font-extrabold tracking-tight text-foreground">
-              migr<span className="text-primary">AI</span>
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg px-6 pt-5 pb-0 border-b border-border/50">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-md">
+                <Sparkles className="h-4.5 w-4.5 text-primary-foreground" />
+              </div>
+              <span className="font-heading text-xl font-extrabold tracking-tight text-foreground">
+                migr<span className="text-primary">AI</span>
+              </span>
+            </div>
+            <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+              Beta
             </span>
           </div>
 
-          {/* Tab bar */}
-          <nav className="flex gap-0 border-b border-border">
-            <button
-              onClick={() => setTab("inicio")}
-              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
-                tab === "inicio"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Inicio
-            </button>
-            <button
-              onClick={() => setTab("formaciones")}
-              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
-                tab === "formaciones"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <GraduationCap className="h-4 w-4" />
-              Formaciones
-            </button>
-            <button
-              onClick={() => setTab("empleo")}
-              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
-                tab === "empleo"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Briefcase className="h-4 w-4" />
-              Empleo
-            </button>
-            <button
-              onClick={() => setTab("hogar")}
-              className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold transition-colors border-b-2 -mb-px ${
-                tab === "hogar"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Home className="h-4 w-4" />
-              Hogar
-            </button>
+          {/* Tab bar - scrollable */}
+          <nav className="flex gap-1 -mx-1 overflow-x-auto scrollbar-hide pb-0">
+            {tabs.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold transition-all rounded-t-xl whitespace-nowrap ${
+                  tab === t.id
+                    ? "bg-card text-primary border border-border/60 border-b-card shadow-sm -mb-px relative z-[1]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-card/50"
+                }`}
+              >
+                {t.icon && <t.icon className="h-3.5 w-3.5" />}
+                {t.label}
+              </button>
+            ))}
           </nav>
         </header>
 
@@ -107,14 +93,21 @@ const Index = () => {
             <>
               {/* Hero */}
               <div className="relative">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 pt-2">
-                    <h1 className="font-heading text-[2rem] leading-[1.15] font-extrabold tracking-tight text-foreground">
+                {/* Decorative gradient blob */}
+                <div className="absolute -top-4 -right-6 w-40 h-40 bg-gradient-to-br from-primary/8 to-primary/3 rounded-full blur-3xl pointer-events-none" />
+                
+                <div className="flex items-start justify-between gap-3 relative">
+                  <div className="flex-1 pt-1">
+                    <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-[11px] font-bold px-3 py-1.5 rounded-full mb-4">
+                      <Sparkles className="h-3 w-3" />
+                      Tu guía migratoria
+                    </div>
+                    <h1 className="font-heading text-[1.85rem] leading-[1.12] font-extrabold tracking-tight text-foreground">
                       Claridad<br />
                       Migratoria<br />
-                      <span className="text-primary">a tu Alcance</span>
+                      <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">a tu Alcance</span>
                     </h1>
-                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground max-w-[240px]">
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground max-w-[220px]">
                       Te guiamos paso a paso con tu proceso migratorio. Sin complicaciones.
                     </p>
                   </div>
@@ -123,10 +116,10 @@ const Index = () => {
 
                 <button
                   onClick={() => handleSelectPath("new")}
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-md hover:shadow-lg transition-all active:scale-[0.97]"
+                  className="mt-6 inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary/85 px-7 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-[0.97] group"
                 >
                   Comenzar ahora
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
 
@@ -152,12 +145,14 @@ const Index = () => {
               </div>
 
               {/* Recommendations */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2 px-1">
-                  <Star className="h-5 w-5 text-warm fill-warm" />
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400/30 to-orange-500/15 flex items-center justify-center">
+                    <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                  </div>
                   <h2 className="font-heading text-base font-bold text-foreground">Recursos útiles</h2>
                 </div>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+                <div className="space-y-2.5">
                   {recommendations.map((r, i) => (
                     <button
                       key={i}
@@ -170,25 +165,25 @@ const Index = () => {
                           window.open(r.url, '_blank', 'noopener,noreferrer');
                         }
                       }}
-                      className={`w-full flex items-center gap-4 p-5 text-left transition-colors hover:bg-accent active:bg-accent/80 ${
-                        i < recommendations.length - 1 ? "border-b border-border" : ""
-                      }`}
+                      className="w-full rounded-2xl border border-border bg-card p-4 flex items-center gap-4 text-left transition-all hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5 active:scale-[0.98] group"
                     >
                       {r.logo ? (
-                        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={r.logo} alt={r.title} className="w-6 h-6 object-contain" />
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${r.color} flex items-center justify-center overflow-hidden shrink-0 shadow-sm border border-border/50 p-2`}>
+                          <img src={r.logo} alt={r.title} className="w-7 h-7 object-contain" />
                         </div>
                       ) : (
-                        <span className="text-3xl shrink-0">{r.emoji}</span>
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${r.color} flex items-center justify-center shrink-0 shadow-sm border border-border/50`}>
+                          <span className="text-2xl">{r.emoji}</span>
+                        </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <span className="inline-block rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-semibold text-primary mb-1">
+                        <span className="inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary mb-1 uppercase tracking-wider">
                           {r.tag}
                         </span>
-                        <h3 className="font-heading text-sm font-semibold text-foreground">{r.title}</h3>
-                        <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{r.desc}</p>
+                        <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors">{r.title}</h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed line-clamp-2">{r.desc}</p>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+                      <ChevronRight className="h-5 w-5 text-muted-foreground/50 group-hover:text-primary shrink-0 transition-colors" />
                     </button>
                   ))}
                 </div>
@@ -204,9 +199,12 @@ const Index = () => {
         </div>
 
         {/* Footer */}
-        <p className="px-6 pb-6 pt-2 text-center text-xs text-muted-foreground">
-          migrAI no reemplaza la asesoría de un abogado.
-        </p>
+        <div className="px-6 pb-6 pt-2 text-center">
+          <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/70">
+            <span>🔒</span>
+            <span>migrAI no reemplaza la asesoría de un abogado.</span>
+          </div>
+        </div>
       </div>
     </div>
   );
