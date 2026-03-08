@@ -164,6 +164,8 @@ const Index = () => {
                       onClick={() => {
                         if ((r as any).action === "empleo") {
                           setTab("empleo");
+                        } else if ((r as any).action === "hogar") {
+                          setTab("hogar");
                         } else if (r.url) {
                           window.open(r.url, '_blank', 'noopener,noreferrer');
                         }
