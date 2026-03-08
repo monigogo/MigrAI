@@ -196,32 +196,7 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Gobierno */}
-              <div className="space-y-3">
-                <h2 className="font-heading text-base font-bold text-foreground px-1">🏢 Programas de Gobierno</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: "SENCE", subtitle: "Chile", emoji: "🇨🇱", desc: "Capacitaciones gratuitas para migrantes.", url: "https://www.sence.cl" },
-                    { title: "SENA", subtitle: "Colombia", emoji: "🇨🇴", desc: "Formación técnica. Acepta pasaporte/PEP.", url: "https://www.sena.edu.co" },
-                    { title: "INEFOP", subtitle: "Uruguay", emoji: "🇺🇾", desc: "Capacitación laboral para migrantes.", url: "https://www.inefop.org.uy" },
-                  ].map((item, i) => (
-                    <a
-                      key={i}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-2xl border border-border bg-card p-4 flex flex-col gap-2 transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.97]"
-                    >
-                      <span className="text-3xl">{item.emoji}</span>
-                      <div>
-                        <h3 className="font-heading text-sm font-bold text-foreground">{item.title}</h3>
-                        <p className="text-xs text-primary font-semibold">{item.subtitle}</p>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                    </a>
-                  ))}
-                </div>
-              </div>
+
 
               {/* Tecnología */}
               <div className="space-y-3">
