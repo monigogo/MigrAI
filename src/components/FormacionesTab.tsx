@@ -133,6 +133,14 @@ const sections: Section[] = [
         url: "https://nantiklum.org/",
         icon: <TrendingUp className="w-4 h-4" />,
       },
+      {
+        title: "Latinas in Tech",
+        subtitle: "Global",
+        logo: "https://www.google.com/s2/favicons?domain=latinasintech.org&sz=64",
+        desc: "Comunidad global que conecta, apoya y empodera a latinas en tecnología.",
+        url: "https://latinasintech.org/",
+        icon: <Users className="w-4 h-4" />,
+      },
     ],
   },
 ];
