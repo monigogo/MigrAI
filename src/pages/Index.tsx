@@ -12,7 +12,7 @@ type AppState = "home" | "onboarding" | "dashboard";
 
 const recommendations = [
   { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64" },
-  { title: "Curso de inglés básico", tag: "Idioma", emoji: "🗣️", desc: "Aprende palabras clave para tus trámites." },
+  { title: "Buscar vivienda", tag: "Hogar", emoji: "🏠", desc: "Recursos para encontrar piso o alquiler en España.", action: "hogar" as const },
   { title: "Derechos laborales del inmigrante", tag: "Legal", emoji: "⚖️", desc: "Conoce tus derechos legales en el trabajo.", url: "https://www.seg-social.es/wps/wcm/connect/wss/37cada90-3821-4c78-ba53-e22ee3bfb7f9/94_F06.pdf?MOD=AJPERES", logo: "https://www.google.com/s2/favicons?domain=seg-social.es&sz=64" },
   { title: "Cómo buscar trabajo", tag: "Empleo", emoji: "💼", desc: "Consejos para conseguir tu primer empleo.", action: "empleo" as const },
 ];
