@@ -3,6 +3,7 @@ import { Compass, ArrowRight, GraduationCap, Star, ChevronRight } from "lucide-r
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
 import Dashboard from "@/components/Dashboard";
+import FormacionesTab from "@/components/FormacionesTab";
 import globeImg from "@/assets/globe.png";
 
 type AppState = "home" | "onboarding" | "dashboard";
