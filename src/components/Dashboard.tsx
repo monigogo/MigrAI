@@ -99,6 +99,7 @@ const quickQuestions = [
 
 const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
   const [chatOpen, setChatOpen] = useState(false);
+  const [resolucionOpen, setResolucionOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "assistant", content: exampleResponses.default },
   ]);
