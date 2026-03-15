@@ -27,12 +27,16 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 RUN curl -Ls https://astral.sh/uv/install.sh | sh \
  && mv /root/.local/bin/uv /usr/local/bin/uv
 
+# Instala greenlet con root antes de cambiar al usuario vscode
+RUN pip install greenlet
+
 RUN mkdir -p /home/vscode/.cache/uv \
  && chown -R vscode:vscode /home/vscode/.cache
 
 RUN chown -R vscode:vscode /usr/local/lib/python3.11/site-packages \
  && chown -R vscode:vscode /usr/local/bin \
- && chown -R vscode:vscode /usr/local/share
+ && chown -R vscode:vscode /usr/local/share \
+ && chown -R vscode:vscode /usr/local/include  # ← línea nueva
 
 ENV UV_SYSTEM_PYTHON=1
 ENV UV_LINK_MODE=copy
