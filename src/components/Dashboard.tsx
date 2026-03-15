@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, X, ChevronRight } from "lucide-react";
-import ResolucionFavorableDialog from "@/components/ResolucionFavorableDialog";
+import ResolucionFavorableTab from "@/components/ResolucionFavorableTab";
 
 interface DashboardProps {
   userData: { country: string; age: string; sex: string };
@@ -99,6 +99,7 @@ const quickQuestions = [
 
 const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
   const [chatOpen, setChatOpen] = useState(false);
+  const [resolucionOpen, setResolucionOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "assistant", content: exampleResponses.default },
   ]);
@@ -140,6 +141,17 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         { icon: "🤖", title: "Preguntarle a migrAI", desc: "Escríbele sobre tu caso específico." },
         { icon: "✅", title: "Resolución favorable", desc: "¿Tienes tu favorable? Descubre qué hacer ahora.", isDialog: true },
       ];
+
+  // ─── RESOLUCIÓN FAVORABLE VIEW ──────────────────────────────────
+  if (resolucionOpen) {
+    return (
+      <div className="min-h-screen bg-background flex justify-center">
+        <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl flex flex-col min-h-screen px-4 sm:px-6 py-6">
+          <ResolucionFavorableTab onBack={() => setResolucionOpen(false)} />
+        </div>
+      </div>
+    );
+  }
 
   // ─── CHAT VIEW ───────────────────────────────────────────────────
   if (chatOpen) {
@@ -308,7 +320,20 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-3">
           {actions.map((action, i) =>
             (action as any).isDialog ? (
-              <ResolucionFavorableDialog key={i} />
+              <button
+                key={i}
+                onClick={() => setResolucionOpen(true)}
+                className={`flex items-center gap-4 rounded-2xl border ${theme.chatBubble} bg-card p-5 text-left transition-all hover:shadow-lg active:scale-[0.98] shadow-sm`}
+              >
+                <div className={`w-12 h-12 rounded-2xl ${theme.accentBg} flex items-center justify-center shrink-0`}>
+                  <span className="text-2xl">{action.icon}</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-foreground text-base">{action.title}</h3>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{action.desc}</p>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground/50 shrink-0" />
+              </button>
             ) : (
               <button
                 key={i}
