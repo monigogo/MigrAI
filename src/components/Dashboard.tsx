@@ -135,7 +135,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         { icon: "❓", title: "Preguntas frecuentes", desc: "Las dudas más comunes, explicadas fácil." },
       ]
     : [
-        { icon: "➡️", title: "Mi siguiente paso", desc: "Descubre qué tienes que hacer ahora." },
+        { icon: "🔎", title: "Consultar estado de expediente", desc: "Revisa el estado de tu trámite en la sede electrónica.", url: "https://sede.administracionespublicas.gob.es/infoext2/consulta.html" },
         { icon: "🤖", title: "Preguntarle a migrAI", desc: "Escríbele sobre tu caso específico." },
         { icon: "📄", title: "Mis documentos", desc: "Revisa qué papeles tienes y cuáles faltan." },
       ];
@@ -308,6 +308,11 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           {actions.map((action, i) => (
             <button
               key={i}
+              onClick={() => {
+                if ((action as any).url) {
+                  window.open((action as any).url, '_blank', 'noopener,noreferrer');
+                }
+              }}
               className={`flex items-center gap-4 rounded-2xl border ${theme.chatBubble} bg-card p-5 text-left transition-all hover:shadow-lg active:scale-[0.98] shadow-sm`}
             >
               <div className={`w-12 h-12 rounded-2xl ${theme.accentBg} flex items-center justify-center shrink-0`}>
