@@ -308,6 +308,11 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
           {actions.map((action, i) => (
             <button
               key={i}
+              onClick={() => {
+                if ((action as any).url) {
+                  window.open((action as any).url, '_blank', 'noopener,noreferrer');
+                }
+              }}
               className={`flex items-center gap-4 rounded-2xl border ${theme.chatBubble} bg-card p-5 text-left transition-all hover:shadow-lg active:scale-[0.98] shadow-sm`}
             >
               <div className={`w-12 h-12 rounded-2xl ${theme.accentBg} flex items-center justify-center shrink-0`}>
