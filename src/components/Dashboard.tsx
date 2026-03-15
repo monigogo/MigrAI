@@ -142,6 +142,17 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         { icon: "✅", title: "Resolución favorable", desc: "¿Tienes tu favorable? Descubre qué hacer ahora.", isDialog: true },
       ];
 
+  // ─── RESOLUCIÓN FAVORABLE VIEW ──────────────────────────────────
+  if (resolucionOpen) {
+    return (
+      <div className="min-h-screen bg-background flex justify-center">
+        <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl flex flex-col min-h-screen px-4 sm:px-6 py-6">
+          <ResolucionFavorableTab onBack={() => setResolucionOpen(false)} />
+        </div>
+      </div>
+    );
+  }
+
   // ─── CHAT VIEW ───────────────────────────────────────────────────
   if (chatOpen) {
     return (
