@@ -135,7 +135,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
         { icon: "❓", title: "Preguntas frecuentes", desc: "Las dudas más comunes, explicadas fácil." },
       ]
     : [
-        { icon: "➡️", title: "Mi siguiente paso", desc: "Descubre qué tienes que hacer ahora." },
+        { icon: "🔎", title: "Consultar estado de expediente", desc: "Revisa el estado de tu trámite en la sede electrónica.", url: "https://sede.administracionespublicas.gob.es/infoext2/consulta.html" },
         { icon: "🤖", title: "Preguntarle a migrAI", desc: "Escríbele sobre tu caso específico." },
         { icon: "📄", title: "Mis documentos", desc: "Revisa qué papeles tienes y cuáles faltan." },
       ];
