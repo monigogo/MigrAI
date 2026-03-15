@@ -1,0 +1,38 @@
+# === Python & Backend ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+uv.lock
+
+# === Node / Bun / Frontend ===
+node_modules/
+dist/
+build/
+.vite/
+frontend/bun.lock
+frontend/bun.lockb
+
+# === Secretos y Entorno (¡CRÍTICO!) ===
+.env
+*.env
+.env.*
+backend/.env
+frontend/.env
+
+# === IDEs & Sistema ===
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+.DS_Store
+*.log
+
+# === Datos & Modelos ===
+data/pdfs/
+*.bin
+*.safetensors
