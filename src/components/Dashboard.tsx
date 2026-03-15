@@ -138,7 +138,7 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
     : [
         { icon: "🔎", title: "Consultar estado de expediente", desc: "Revisa el estado de tu trámite en la sede electrónica.", url: "https://sede.administracionespublicas.gob.es/infoext2/consulta.html" },
         { icon: "🤖", title: "Preguntarle a migrAI", desc: "Escríbele sobre tu caso específico." },
-        { icon: "✅", title: "Resolución favorable", desc: "¿Tienes tu favorable? Descubre qué hacer ahora." },
+        { icon: "✅", title: "Resolución favorable", desc: "¿Tienes tu favorable? Descubre qué hacer ahora.", isDialog: true },
       ];
 
   // ─── CHAT VIEW ───────────────────────────────────────────────────
