@@ -306,26 +306,30 @@ const Dashboard = ({ userData, path, onBack }: DashboardProps) => {
 
         {/* Action cards with country accent */}
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-3">
-          {actions.map((action, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                if ((action as any).url) {
-                  window.open((action as any).url, '_blank', 'noopener,noreferrer');
-                }
-              }}
-              className={`flex items-center gap-4 rounded-2xl border ${theme.chatBubble} bg-card p-5 text-left transition-all hover:shadow-lg active:scale-[0.98] shadow-sm`}
-            >
-              <div className={`w-12 h-12 rounded-2xl ${theme.accentBg} flex items-center justify-center shrink-0`}>
-                <span className="text-2xl">{action.icon}</span>
-              </div>
-              <div className="flex-1">
-                <h3 className={`font-heading font-bold text-foreground text-base`}>{action.title}</h3>
-                <p className="mt-0.5 text-sm text-muted-foreground">{action.desc}</p>
-              </div>
-              <ChevronRight className={`h-5 w-5 text-muted-foreground/50 shrink-0`} />
-            </button>
-          ))}
+          {actions.map((action, i) =>
+            (action as any).isDialog ? (
+              <ResolucionFavorableDialog key={i} />
+            ) : (
+              <button
+                key={i}
+                onClick={() => {
+                  if ((action as any).url) {
+                    window.open((action as any).url, '_blank', 'noopener,noreferrer');
+                  }
+                }}
+                className={`flex items-center gap-4 rounded-2xl border ${theme.chatBubble} bg-card p-5 text-left transition-all hover:shadow-lg active:scale-[0.98] shadow-sm`}
+              >
+                <div className={`w-12 h-12 rounded-2xl ${theme.accentBg} flex items-center justify-center shrink-0`}>
+                  <span className="text-2xl">{action.icon}</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-foreground text-base">{action.title}</h3>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{action.desc}</p>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground/50 shrink-0" />
+              </button>
+            )
+          )}
         </div>
 
         {/* AI Chat CTA with country color */}
