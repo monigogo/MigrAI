@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, X, ChevronRight } from "lucide-react";
-import ResolucionFavorableDialog from "@/components/ResolucionFavorableDialog";
+import ResolucionFavorableTab from "@/components/ResolucionFavorableTab";
 
 interface DashboardProps {
   userData: { country: string; age: string; sex: string };
