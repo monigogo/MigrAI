@@ -20,8 +20,13 @@
 
     "mounts": [
         "source=uv-cache,target=/home/vscode/.cache/uv,type=volume",
-        "source=npm-cache,target=/home/vscode/.npm,type=volume"
-    ],
+        "source=npm-cache,target=/home/vscode/.npm,type=volume",
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+],
+
+    "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+},
 
     "customizations": {
         "vscode": {

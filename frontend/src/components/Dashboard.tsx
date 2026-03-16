@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, X, ChevronRight } from "lucide-react";
 import ResolucionFavorableTab from "@/components/ResolucionFavorableTab";
-import { enviarPregunta } from "@/services/api";
+import { enviarPregunta, enviarPreguntaStream } from "@/services/api";
 
 interface DashboardProps {
   userData: { country: string; age: string; sex: string };
@@ -113,52 +113,69 @@ const Dashboard = ({ userData, path, onBack, sesionId }: DashboardProps) => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+const handleSend = async () => {
+  if (!input.trim() || isLoading) return;
 
-    const newMessages: ChatMessage[] = [...messages, { role: "user", content: input }];
-    setMessages(newMessages);
-    const currentInput = input;
-    setInput("");
-    setIsLoading(true);
+  const newMessages: ChatMessage[] = [...messages, { role: "user", content: input }];
+  setMessages([...newMessages, { role: "assistant", content: "" }]);
+  const currentInput = input;
+  setInput("");
+  setIsLoading(true);
 
-    try {
-      const botResponse = await enviarPregunta({
-        pregunta: currentInput,
-        sesion_id: sesionId,
-        pais: userData.country,
-        rango_edad: userData.age,
+  await enviarPreguntaStream(
+    { pregunta: currentInput, sesion_id: sesionId, pais: userData.country, rango_edad: userData.age },
+    (token) => {
+      setMessages(prev => {
+        const actualizados = [...prev];
+        actualizados[actualizados.length - 1] = {
+          role:    "assistant",
+          content: actualizados[actualizados.length - 1].content + token,
+        };
+        return actualizados;
       });
-      setMessages([...newMessages, { role: "assistant", content: botResponse.respuesta }]);
-    } catch (error) {
-      setMessages([...newMessages, { role: "assistant", content: "Lo siento, ocurrió un error al contactar al asistente." }]);
-    } finally {
+    },
+    (_meta) => { setIsLoading(false); },
+    (msg) => {
+      setMessages(prev => {
+        const actualizados = [...prev];
+        actualizados[actualizados.length - 1] = { role: "assistant", content: msg };
+        return actualizados;
+      });
       setIsLoading(false);
     }
-  };
+  );
+};
 
-  const handleQuickQuestion = async (text: string) => {
-    if (isLoading) return;
+const handleQuickQuestion = async (text: string) => {
+  if (isLoading) return;
 
-    const newMessages: ChatMessage[] = [...messages, { role: "user", content: text }];
-    setMessages(newMessages);
-    setIsLoading(true);
+  const newMessages: ChatMessage[] = [...messages, { role: "user", content: text }];
+  setMessages([...newMessages, { role: "assistant", content: "" }]);
+  setIsLoading(true);
 
-    try {
-      const botResponse = await enviarPregunta({
-        pregunta: text,
-        sesion_id: sesionId,
-        pais: userData.country,
-        rango_edad: userData.age,
+  await enviarPreguntaStream(
+    { pregunta: text, sesion_id: sesionId, pais: userData.country, rango_edad: userData.age },
+    (token) => {
+      setMessages(prev => {
+        const actualizados = [...prev];
+        actualizados[actualizados.length - 1] = {
+          role:    "assistant",
+          content: actualizados[actualizados.length - 1].content + token,
+        };
+        return actualizados;
       });
-      setMessages([...newMessages, { role: "assistant", content: botResponse.respuesta }]);
-    } catch (error) {
-      setMessages([...newMessages, { role: "assistant", content: "Lo siento, ocurrió un error al contactar al asistente." }]);
-    } finally {
+    },
+    (_meta) => { setIsLoading(false); },
+    (msg) => {
+      setMessages(prev => {
+        const actualizados = [...prev];
+        actualizados[actualizados.length - 1] = { role: "assistant", content: msg };
+        return actualizados;
+      });
       setIsLoading(false);
     }
-  };
-
+  );
+};
   function setChatOpen(arg0: boolean): void {
     throw new Error("Function not implemented.");
   }
