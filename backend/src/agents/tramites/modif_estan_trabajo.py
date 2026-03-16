@@ -35,8 +35,6 @@ async def agente_modif_estancia_trabajo(state: dict) -> dict:
     ai_message = AIMessage(content=respuesta.content)
 
     return {
-        **state,
-        "messages":          state["messages"] + [ai_message],
         "expert_response":   respuesta.content,
         "tramite_detectado": "modif_estancia_trabajo",
         "last_agent":        "modif_estancia_trabajo",

@@ -35,8 +35,6 @@ async def agente_arraigo_familiar(state: dict) -> dict:
     ai_message = AIMessage(content=respuesta.content)
 
     return {
-        **state,
-        "messages":          state["messages"] + [ai_message],
         "expert_response":   respuesta.content,
         "tramite_detectado": "arraigo_familiar",
         "last_agent":        "arraigo_familiar",
