@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log
+bun.lockb
+dist/
+build/
+.env*
+.DS_Store
+.git/
+.vscode/
+tests/
+Dockerfile
+.dockerignore

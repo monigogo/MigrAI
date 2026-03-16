@@ -8,6 +8,8 @@ from ..graph.orchestrator import migrai_graph
 from ..tools.pdf_reader import extract_text_from_pdf
 from ..db.supabase_client import supabase_manager, supabase
 from ..config.cultural import construir_contexto_cultural, PAISES_IDIOMAS
+from fastapi.responses import StreamingResponse
+import json
 
 router = APIRouter(prefix="/api/v1", tags=["migrai"])
 
@@ -127,6 +129,67 @@ async def preguntar(request: PreguntaRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.post("/preguntar-stream")
+async def preguntar_stream(request: PreguntaRequest):
+    """
+    Igual que /preguntar pero envía la respuesta palabra a palabra.
+    El frontend la muestra con efecto de escritura en tiempo real.
+    """
+    perfil = construir_contexto_cultural(request.pais, request.rango_edad)
+
+    async def generar():
+        try:
+            input_data = {
+                "messages": [HumanMessage(content=request.pregunta)],
+                "pais": request.pais,
+                "rango_edad": request.rango_edad,
+                "idioma_codigo": perfil["idioma_codigo"],
+                "idioma_nombre": perfil["idioma_nombre"],
+                "contexto_cultural": perfil["contexto_cultural"],
+                "tono_edad": perfil["tono_edad"],
+            }
+
+            config = {"configurable": {"thread_id": request.sesion_id}}
+            respuesta_completa = ""
+            tramite_detectado  = "desconocido"
+            last_agent         = "desconocido"
+
+            # LangGraph emite eventos a medida que cada nodo termina
+            async for evento in migrai_graph.astream_events(input_data, config=config, version="v2"):
+                tipo = evento.get("event")
+                # Capturamos solo los tokens del LLM cuando escribe
+                if tipo == "on_chat_model_stream" and evento.get("name", "").startswith("llm_respuesta_final"):
+                    chunk = evento.get("data", {}).get("chunk")
+                    if chunk and hasattr(chunk, "content") and chunk.content:
+                        respuesta_completa += chunk.content
+                        # Enviamos cada trozo al frontend en formato SSE
+                        yield f"data: {json.dumps({'token': chunk.content})}\n\n"
+
+                # Cuando el grafo termina, capturamos los metadatos del estado final
+                elif tipo == "on_chain_end" and evento.get("name") == "LangGraph":
+                    estado_final = evento.get("data", {}).get("output", {})
+                    tramite_detectado = estado_final.get("tramite_detectado", "desconocido")
+                    last_agent        = estado_final.get("last_agent", "desconocido")
+
+            # Guardamos la conversación completa en Supabase una sola vez al final
+            conversacion_id = supabase_manager.guardar_conversacion(
+                sesion_id=        request.sesion_id,
+                tramite=          tramite_detectado,
+                pregunta=         request.pregunta,
+                respuesta=        respuesta_completa,
+                agente_usado=     last_agent,
+                idioma_respuesta= perfil["idioma_codigo"],
+                pais_usuario=     request.pais,
+            )
+
+            # Enviamos un último evento con los metadatos finales
+            yield f"data: {json.dumps({'fin': True, 'conversacion_id': conversacion_id, 'tramite_detectado': tramite_detectado, 'idioma_usado': perfil['idioma_nombre']})}\n\n"
+
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(generar(), media_type="text/event-stream")
 
 
 @router.post("/preguntar-con-documento", response_model=PreguntaResponse)
