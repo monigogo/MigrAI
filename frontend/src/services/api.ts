@@ -47,15 +47,13 @@ export interface MensajeHistorial {
 
 // ── Constantes ──────────────────────────────────────────────────────────────
 
-// Con el proxy de Vite corregido (sin rewrite), /api/v1 llega completo al backend
-const API_BASE_URL = "/api/v1";
+// Soporte MULTI-ENTORNO:
+// Si estás en local (Vite/Docker), usa "/api/v1".
+// Si estás en producción (Vercel/Netlify), leerá la variable de entorno que le pongas con tu URL real del backend.
+const API_BASE_URL = import.meta.env.VITE_API_URL || "/api/v1";
 
 // ── Sesión anónima ───────────────────────────────────────────────────────────
 
-/**
- * Genera o recupera el ID anónimo del usuario.
- * Se guarda en localStorage — persiste aunque cierre el navegador.
- */
 export const getSesionId = (): string => {
   let id = localStorage.getItem("migrai_sesion_id");
   if (!id) {
@@ -65,18 +63,11 @@ export const getSesionId = (): string => {
   return id;
 };
 
-/**
- * Guarda el perfil del usuario en localStorage.
- */
 export const guardarPerfil = (pais: string, rangoEdad: string): void => {
   localStorage.setItem("migrai_pais",       pais);
   localStorage.setItem("migrai_rango_edad", rangoEdad);
 };
 
-/**
- * Recupera el perfil guardado.
- * Devuelve null si el usuario no ha completado la bienvenida.
- */
 export const getPerfil = (): { pais: string; rangoEdad: string } | null => {
   const pais      = localStorage.getItem("migrai_pais");
   const rangoEdad = localStorage.getItem("migrai_rango_edad");
@@ -84,10 +75,6 @@ export const getPerfil = (): { pais: string; rangoEdad: string } | null => {
   return { pais, rangoEdad };
 };
 
-/**
- * Borra el perfil guardado.
- * Útil para que el usuario pueda cambiar su país.
- */
 export const borrarPerfil = (): void => {
   localStorage.removeItem("migrai_pais");
   localStorage.removeItem("migrai_rango_edad");
@@ -95,19 +82,12 @@ export const borrarPerfil = (): void => {
 
 // ── Endpoints ────────────────────────────────────────────────────────────────
 
-/**
- * Obtiene la lista de países y rangos de edad disponibles.
- */
 export const obtenerPaises = async (): Promise<PaisesResponse> => {
   const response = await fetch(`${API_BASE_URL}/paises`);
   if (!response.ok) throw new Error("No se pudo obtener la lista de países.");
   return response.json();
 };
 
-/**
- * Crea o actualiza la sesión anónima del usuario en Supabase.
- * Se llama al terminar la pantalla de bienvenida.
- */
 export const crearSesion = async (perfil: PerfilData): Promise<any> => {
   const response = await fetch(`${API_BASE_URL}/sesion`, {
     method:  "POST",
@@ -118,10 +98,6 @@ export const crearSesion = async (perfil: PerfilData): Promise<any> => {
   return response.json();
 };
 
-/**
- * Envía una pregunta al chatbot.
- * El backend decide qué agente responde y guarda todo en Supabase.
- */
 export const enviarPregunta = async (
   datosPregunta: PreguntaData
 ): Promise<PreguntaRespuesta> => {
@@ -150,10 +126,57 @@ export const enviarPregunta = async (
   }
 };
 
-/**
- * Guarda si el usuario resolvió sus dudas.
- * Si dice NO → se marca para análisis y mejora.
- */
+export const enviarPreguntaStream = async (
+  datosPregunta: PreguntaData,
+  onToken: (token: string) => void,
+  onFin: (meta: PreguntaRespuesta) => void,
+  onError: (msg: string) => void
+): Promise<void> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/preguntar-stream`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(datosPregunta),
+    });
+
+    if (!response.ok || !response.body) {
+      onError("No se pudo conectar al asistente.");
+      return;
+    }
+
+    const reader  = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const texto = decoder.decode(value);
+      const lineas = texto.split("\n\n");
+
+      for (const linea of lineas) {
+        if (!linea.startsWith("data: ")) continue;
+        try {
+          const data = JSON.parse(linea.replace("data: ", ""));
+          if (data.token)  onToken(data.token);
+          if (data.error)  onError(data.error);
+          if (data.fin)    onFin({
+            respuesta:         "",
+            tramite_detectado: data.tramite_detectado,
+            conversacion_id:   data.conversacion_id,
+            idioma_usado:      data.idioma_usado,
+          });
+        } catch {
+          // chunk incompleto, se ignora
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error en enviarPreguntaStream:", error);
+    onError("Lo siento, no puedo responder ahora. Inténtalo de nuevo.");
+  }
+};
+
 export const enviarFeedback = async (
   conversacionId: string,
   dudasResueltas: boolean
@@ -174,9 +197,6 @@ export const enviarFeedback = async (
   }
 };
 
-/**
- * Obtiene el historial de conversaciones de la sesión actual.
- */
 export const obtenerHistorial = async (): Promise<MensajeHistorial[]> => {
   try {
     const sesionId = getSesionId();
@@ -190,9 +210,6 @@ export const obtenerHistorial = async (): Promise<MensajeHistorial[]> => {
   }
 };
 
-/**
- * Verifica que el backend está vivo.
- */
 export const checkHealth = async (): Promise<boolean> => {
   try {
     const response = await fetch(`${API_BASE_URL}/health`);
