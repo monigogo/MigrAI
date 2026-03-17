@@ -12,6 +12,8 @@ FROM nginx:alpine-slim
 # Generamos la configuración proxy adecuada para despliegues como Render/Sliplane
 RUN echo "server { \
     listen 80; \
+    large_client_header_buffers 4 32k; \
+    client_header_buffer_size 32k; \
     location / { \
         root /usr/share/nginx/html; \
         index index.html index.htm; \
