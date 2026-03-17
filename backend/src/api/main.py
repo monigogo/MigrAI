@@ -2,13 +2,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import router
-from ..rag.embeddings import _get_model
+ 
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Pre-carga el modelo de embeddings una sola vez al arrancar
-    _get_model()
+    # _get_model()
     yield
 
 

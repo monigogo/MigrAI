@@ -41,7 +41,7 @@ PROMPTS_POR_AGENTE = {
 
 
 async def detectar_agente(pregunta: str) -> str:
-    """Llama al orquestador para decidir qué agente usar."""
+
     llm = get_llm("orchestrator")
     messages = [
         SystemMessage(content=ORCHESTRATOR_PROMPT),
@@ -59,13 +59,9 @@ async def preguntar(
     historial: list,
     agente_actual: str,
 ) -> tuple[str, str]:
-    """
-    Envía la pregunta al agente con el historial completo.
-    Devuelve (respuesta, agente_usado).
-    """
+
     perfil = construir_contexto_cultural(PERFIL["pais"], PERFIL["rango_edad"])
 
-    # Si es la primera pregunta o cambia el tema, detecta el agente
     if not historial:
         agente_actual = await detectar_agente(pregunta)
 
@@ -87,7 +83,7 @@ async def preguntar(
         contexto_rag=rag,
     )
 
-    # Sistema + historial + pregunta actual
+
     messages = [SystemMessage(content=prompt)]
     for turno in historial[-16:]:  # últimos 8 intercambios
         messages.append(turno)
@@ -147,7 +143,7 @@ async def main():
                 pregunta, historial, agente_actual
             )
 
-            # Guarda en historial local
+     
             historial.append(HumanMessage(content=pregunta))
             historial.append(AIMessage(content=respuesta))
 

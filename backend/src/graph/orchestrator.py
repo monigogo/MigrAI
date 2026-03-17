@@ -53,8 +53,7 @@ async def orchestrator_node(state: MigraiState) -> MigraiState:
     ]
 
     if next_agent not in agentes_validos:
-        # Modo conversacional del orquestador.
-        # Pasamos lo que el orquestador quiere preguntar a 'respuesta_final'
+
         return {
             "next_agent": "respuesta_final",
             "expert_response": respuesta.content,

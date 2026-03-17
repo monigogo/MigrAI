@@ -13,10 +13,7 @@ def _get_model() -> SentenceTransformer:
 
 
 def get_embedding(texto: str) -> list[float]:
-    """
-    Genera un vector de 384 dimensiones en local.
-    Sin llamadas a APIs externas. Completamente gratis.
-    """
+
     texto = texto.replace("\n", " ").strip()
     vector = _get_model().encode(texto, normalize_embeddings=True)
     return vector.tolist()

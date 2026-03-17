@@ -9,11 +9,11 @@ load_dotenv(dotenv_path=_env_path, override=True)
 
 
 class Settings(BaseSettings):
-    # OpenRouter
+   
     groq_api_key: str = Field(..., env="GROQ_API_KEY")
     openrouter_api_key: str = Field(..., env="OPENROUTER_API_KEY")
 
-    # LangSmith
+  
     langchain_api_key: str = Field(..., env="LANGCHAIN_API_KEY")
     langchain_tracing_v2: str = Field("true", env="LANGCHAIN_TRACING_V2")
     langchain_project: str = Field("migrai-dev", env="LANGCHAIN_PROJECT")
@@ -21,12 +21,12 @@ class Settings(BaseSettings):
         "https://api.smith.langchain.com", env="LANGCHAIN_ENDPOINT"
     )
 
-    # Supabase
+  
     supabase_url: str = Field(..., env="SUPABASE_URL")
     supabase_key: str = Field(..., env="SUPABASE_ANON_KEY")
     supabase_db_url: str = Field("", env="SUPABASE_DB_URL")
 
-    # App
+  
     app_env: str = Field("development", env="APP_ENV")
 
     model_config = {

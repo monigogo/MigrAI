@@ -2,10 +2,7 @@ import fitz  # PyMuPDF
 
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
-    """
-    Lee los bytes de un PDF y devuelve el texto completo.
-    Se usa cuando el usuario adjunta un documento de su comunidad autónoma.
-    """
+
     doc   = fitz.open(stream=file_bytes, filetype="pdf")
     partes = []
 

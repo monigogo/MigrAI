@@ -1,5 +1,5 @@
 # ── Bloque cultural ────────────────────────────────────────────────────────
-# Se inyecta en TODOS los agentes antes de su prompt específico
+
 BLOQUE_CULTURAL = """
 PERFIL DEL USUARIO:
 - País de origen: {pais}

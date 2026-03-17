@@ -1,9 +1,9 @@
 # ---------------------------------------------------------
 # FRONTEND DOCKERFILE
-# Compila con Vite y sirve con Nginx.
+
 # ---------------------------------------------------------
 
-# ===== ETAPA 1: Construcción (Build) =====
+# ===== ETAPA 1: Construcción  =====
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -20,11 +20,10 @@ COPY . .
 
 RUN npm run build
 
-# ===== ETAPA 2: Servidor (Producción) =====
+# ===== ETAPA 2: Servidor  =====
 FROM nginx:alpine-slim
 
-# Configuracion Nginx para SPA (React Router support) y Proxy inverso
-# Para evitar problemas de CORS, dirigimos las peticiones /api al backend
+# Configuracion Nginx para SPA (React Router support) y Proxy 
 RUN echo "server { \
     listen 80; \
     location / { \
