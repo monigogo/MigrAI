@@ -1,7 +1,7 @@
 # 🌍 MigrAI
 
 **MigrAI** es Guia  virtual inteligente y experto en extranjería española, construido con arquitecturas de múltiples agentes (Multi-Agent System) y Generación Aumentada por Recuperación (RAG). Su propósito es guiar de manera clara, legal y personalizada a personas hispanohablantes (y sus distintas variantes culturales) a través de los complejos trámites de residencia, arraigo y permisos en España.
-## link demo: https://migrai-pat1sd.sliplane.app/
+
 ## ✨ Características Principales
 
 *   **🕵️‍♂️ Sistema Multi-Agente:** Utiliza LangGraph para orquestar a distintos agentes "expertos" donde cada uno domina un área técnica específica (Arraigo Social, Familiar, Socioformativo, NIE/TIE, etc.).
@@ -63,4 +63,6 @@ El proyecto utiliza flujos de trabajo en **GitHub Actions**. Cualquier Pull Requ
 - Compilación del clúster Multi-Stage de Docker sin errores de arquitectura.
 
 ---
+
+## link demo: https://migrai-pat1sd.sliplane.app/
 _Hecho con ❤️ para facilitar la integración y por la comunidad migrante._
