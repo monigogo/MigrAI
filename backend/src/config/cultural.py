@@ -1,4 +1,4 @@
-# Mapa país → idioma
+
 PAISES_IDIOMAS = {
     "Argentina":             {"idioma": "es", "nombre": "español rioplatense"},
     "Bolivia":               {"idioma": "es", "nombre": "español boliviano"},
@@ -185,10 +185,7 @@ TONO_POR_EDAD = {
 
 
 def construir_contexto_cultural(pais: str, rango_edad: str) -> dict:
-    """
-    Devuelve el perfil completo para personalizar al agente.
-    Se llama desde cada agente antes de construir el prompt.
-    """
+
     info = PAISES_IDIOMAS.get(pais, {"idioma": "es", "nombre": "español"})
     contexto = CONTEXTO_CULTURAL.get(pais, CONTEXTO_CULTURAL["default"])
     tono = TONO_POR_EDAD.get(rango_edad, TONO_POR_EDAD["26-35"])

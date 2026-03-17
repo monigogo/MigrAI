@@ -1,8 +1,8 @@
 # ---------------------------------------------------------
-# BACKEND DOCKERFILE - ULTRA OPTIMIZADO
+# BACKEND DOCKERFILE
 # ---------------------------------------------------------
 
-# ===== ETAPA 1: Construcción (Builder) =====
+# ===== ETAPA 1: Construcción =====
 FROM python:3.11-slim AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -20,8 +20,8 @@ RUN pip install --no-cache-dir uv
 
 COPY pyproject.toml ./
 
-# TRUCO MÁGICO 1: Instalar la versión CPU de PyTorch
-# Esto lo configuramos en pyproject.toml usando uv sources.
+# Instalar la versión CPU de PyTorch
+
 
 # Crear y activar entorno virtual aislado
 RUN uv venv /app/.venv
@@ -32,7 +32,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 RUN uv sync --no-dev
 
 
-# ===== ETAPA 2: Producción (Imagen final) =====
+# ===== ETAPA 2: Producción =====
 FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -41,9 +41,8 @@ ENV PYTHONPATH=/app
 
 WORKDIR /app
 
-# TRUCO MÁGICO 2: Multistage.
-# Copiamos solo el entorno virtual ya compilado desde el builder.
-# Se queda atrás gcc, pip caché, git, y uv. Imagen mucho más limpia.
+#  Multistage.
+
 COPY --from=builder /app/.venv /app/.venv
 
 # Copiar el código fuente de la app
@@ -53,6 +52,5 @@ COPY . .
 ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
-# En despliegues gratuitos como Render se inyecta automáticamente $PORT
-# Si no hay (ej. local), usamos 8000
+# En despliegues 
 CMD ["sh", "-c", "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
