@@ -46,7 +46,7 @@ class FeedbackRequest(BaseModel):
 
 @router.get("/paises")
 async def listar_paises():
-    """Lista de países disponibles para el selector del frontend."""
+ 
     return {
         "paises":      sorted(PAISES_IDIOMAS.keys()),
         "rangos_edad": ["18-25", "26-35", "36-50", "51+"],
@@ -55,10 +55,7 @@ async def listar_paises():
 
 @router.post("/sesion")
 async def crear_sesion(body: PerfilRequest):
-    """
-    Crea o actualiza la sesión anónima del usuario.
-    Se llama al terminar la pantalla de bienvenida.
-    """
+   
     perfil = construir_contexto_cultural(body.pais, body.rango_edad)
     ahora  = datetime.now(timezone.utc).isoformat()
 
@@ -91,8 +88,6 @@ async def preguntar(request: PreguntaRequest):
     """Endpoint principal: recibe la pregunta y devuelve la respuesta del agente."""
     perfil = construir_contexto_cultural(request.pais, request.rango_edad)
     try:
-        # El input para el grafo ahora es un diccionario con los mensajes
-        # y los datos del perfil que no cambian en la conversación.
         input_data = {
             "messages": [HumanMessage(content=request.pregunta)],
             "pais": request.pais,
@@ -104,10 +99,9 @@ async def preguntar(request: PreguntaRequest):
         }
 
         config = {"configurable": {"thread_id": request.sesion_id}}
-        # Invocamos el grafo con el nuevo input. LangGraph cargará el historial.
+       
         resultado = await migrai_graph.ainvoke(input_data, config=config)
 
-        # La respuesta final está en el último mensaje del estado
         final_response = resultado["messages"][-1].content
 
         conversacion_id = supabase_manager.guardar_conversacion(
@@ -132,10 +126,7 @@ async def preguntar(request: PreguntaRequest):
     
 @router.post("/preguntar-stream")
 async def preguntar_stream(request: PreguntaRequest):
-    """
-    Igual que /preguntar pero envía la respuesta palabra a palabra.
-    El frontend la muestra con efecto de escritura en tiempo real.
-    """
+ 
     perfil = construir_contexto_cultural(request.pais, request.rango_edad)
 
     async def generar():
@@ -155,15 +146,15 @@ async def preguntar_stream(request: PreguntaRequest):
             tramite_detectado  = "desconocido"
             last_agent         = "desconocido"
 
-            # LangGraph emite eventos a medida que cada nodo termina
+          
             async for evento in migrai_graph.astream_events(input_data, config=config, version="v2"):
                 tipo = evento.get("event")
-                # Capturamos solo los tokens del LLM cuando escribe
+            
                 if tipo == "on_chat_model_stream" and evento.get("name", "").startswith("llm_respuesta_final"):
                     chunk = evento.get("data", {}).get("chunk")
                     if chunk and hasattr(chunk, "content") and chunk.content:
                         respuesta_completa += chunk.content
-                        # Enviamos cada trozo al frontend en formato SSE
+                 
                         yield f"data: {json.dumps({'token': chunk.content})}\n\n"
 
                 # Cuando el grafo termina, capturamos los metadatos del estado final
@@ -205,8 +196,7 @@ async def preguntar_con_documento(
     try:
         texto_doc = extract_text_from_pdf(await archivo.read())
 
-        # El input para el grafo ahora es un diccionario con los mensajes
-        # y los datos del perfil que no cambian en la conversación.
+
         input_data = {
             "messages": [HumanMessage(content=pregunta)],
             "document_content": texto_doc,
@@ -219,10 +209,9 @@ async def preguntar_con_documento(
         }
 
         config = {"configurable": {"thread_id": sesion_id}}
-        # Invocamos el grafo con el nuevo input. LangGraph cargará el historial.
         resultado = await migrai_graph.ainvoke(input_data, config=config)
 
-        # La respuesta final está en el último mensaje del estado
+      
         final_response = resultado["messages"][-1].content
 
         conversacion_id = supabase_manager.guardar_conversacion(

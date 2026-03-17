@@ -29,9 +29,6 @@ async def agente_arraigo_social(state: dict) -> dict:
         contexto_rag=rag,
     )
 
-    # Construimos la lista de mensajes para el LLM
-    # 1. El prompt del sistema con las instrucciones
-    # 2. El historial de la conversación
     messages = [SystemMessage(content=prompt)] + state["messages"]
     respuesta = await llm.ainvoke(messages)
     ai_message = AIMessage(content=respuesta.content)

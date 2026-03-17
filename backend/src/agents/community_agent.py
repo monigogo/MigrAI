@@ -110,11 +110,11 @@ def ask_community_assistant(
     )
     prompt_final = apply_tone_to_prompt(base_prompt, tone_config)
 
-    # 5. Historial — priorizar frontend sobre Supabase
+    # 5. Historial 
     messages = [{"role": "system", "content": prompt_final}]
 
     if history:
-        for h in history[-12:]:  # últimos 12 mensajes
+        for h in history[-12:]: 
             messages.append({"role": h["role"], "content": h["content"]})
     else:
         try:
@@ -134,7 +134,7 @@ def ask_community_assistant(
 
     messages.append({"role": "user", "content": user_message})
 
-    # 6. Groq
+    
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=messages,

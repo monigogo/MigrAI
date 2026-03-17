@@ -7,7 +7,6 @@ from ..rag.embeddings import _get_model
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Pre-carga el modelo de embeddings una sola vez al arrancar
     _get_model()
     yield
 

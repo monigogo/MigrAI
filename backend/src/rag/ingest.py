@@ -3,11 +3,10 @@ from ..db.supabase_client import supabase_manager, supabase
 from .embeddings import get_embedding
 from ..config.settings import dev_config
 
-# Nombre exacto de tu bucket en Supabase Storage
+
 BUCKET = "documentos-legales"
 
-# Estructura exacta de tu Storage
-# formato: "carpeta_tramite/subcarpeta" → { tramite, fuente_tipo }
+
 ESTRUCTURA = {
     # ── Arraigo sociolaboral ──────────────────────────────────────
     "arraigo_sociolaboral/normativa":   {"tramite": "arraigo_sociolaboral", "fuente_tipo": "normativa"},
@@ -36,7 +35,7 @@ ESTRUCTURA = {
 
 
 def trocear_texto(texto: str, chunk_size: int, overlap: int) -> list[str]:
-    """Divide el texto en trozos con solapamiento para no perder contexto."""
+
     trozos, inicio = [], 0
     while inicio < len(texto):
         trozo = texto[inicio: inicio + chunk_size]
@@ -47,11 +46,6 @@ def trocear_texto(texto: str, chunk_size: int, overlap: int) -> list[str]:
 
 
 def cargar_desde_storage() -> int:
-    """
-    Recorre toda la estructura de documentos-legales en Supabase Storage.
-    Por cada PDF: lo descarga, trocea, genera embedding y guarda en Supabase.
-    Devuelve el total de fragmentos guardados.
-    """
     cfg   = dev_config["rag"]
     total = 0
 
@@ -61,7 +55,7 @@ def cargar_desde_storage() -> int:
 
         print(f"\n── {ruta_carpeta} [{fuente_tipo}] ──────────")
 
-        # Lista los ficheros de esta subcarpeta
+
         try:
             ficheros = supabase_manager.listar_ficheros(BUCKET, ruta_carpeta)
         except Exception as e:
