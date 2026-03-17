@@ -20,12 +20,8 @@ RUN echo "server { \
     location /api/ { \
         proxy_pass \${BACKEND_URL}; \
         proxy_ssl_server_name on; \
-        proxy_set_header Host \$proxy_host; \
         proxy_set_header X-Real-IP \$remote_addr; \
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for; \
-        proxy_set_header X-Forwarded-Proto \$scheme; \
-        proxy_buffering off; \
-        proxy_cache off; \
     } \
 }" > /etc/nginx/conf.d/default.conf.template
 
