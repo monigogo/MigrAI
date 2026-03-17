@@ -17,8 +17,8 @@ RUN echo "server { \
         index index.html index.htm; \
         try_files \$uri \$uri/ /index.html; \
     } \
-    location /api/ { \
-        proxy_pass \${BACKEND_URL}; \
+    location /api/v1/ { \
+        proxy_pass \${BACKEND_URL}/api/v1/; \
         proxy_ssl_server_name on; \
         proxy_set_header X-Real-IP \$remote_addr; \
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for; \
