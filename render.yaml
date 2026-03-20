@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: migrai-frontend
+    runtime: docker
+    buildCommand: null
+    dockerContext: frontend
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          name: migrai-backend
+          type: web
+          property: host
