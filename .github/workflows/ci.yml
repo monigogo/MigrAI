@@ -72,7 +72,7 @@ jobs:
         run: docker compose build
 
   # ==========================================
-  # DEPLOY AUTOMÁTICO A RENDER (CD)
+  # DEPLOY AUTOMÁTICO A Render
   # ==========================================
   deploy-render:
     name: Deploy to Render
