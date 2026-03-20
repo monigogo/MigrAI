@@ -64,5 +64,5 @@ El proyecto utiliza flujos de trabajo en **GitHub Actions**. Cualquier Pull Requ
 
 ---
 
-## link demo: https://migrai-pat1sd.sliplane.app/
+## link demo: 
 _Hecho con ❤️ para facilitar la integración y por la comunidad migrante._
