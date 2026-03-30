@@ -1,6 +1,6 @@
 
 
-from ...config.settings import settings
+from .config.settings import settings
 import os
 import re
 import logging
