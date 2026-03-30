@@ -1,5 +1,6 @@
 
 
+import os
 import re
 import logging
 from functools import wraps
@@ -8,7 +9,12 @@ from langchain_core.messages import HumanMessage, AIMessage
 
 logger = logging.getLogger(__name__)
 
-_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+_llm = ChatOpenAI(model="openai/gpt-4o-mini", temperature=0,
+        openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+        openai_api_base="https://openrouter.ai/api/v1",
+        default_headers={
+        "HTTP-Referer": os.getenv("APP_URL", "http://localhost"), 
+        "X-Title": "MigrAI Guardarrail" } , )
 
 _TEMA = (
     "trámites de extranjería en España: arraigo familiar, arraigo social, "
