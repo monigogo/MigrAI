@@ -1,7 +1,17 @@
 import os
 from langchain_groq import ChatGroq
 from langchain_core.runnables import Runnable
-from .settings import settings, dev_config
+from langfuse.callback import CallbackHandler
+from .settings import settings
+
+def get_langfuse_callback():
+    if not settings.langfuse_public_key or not settings.langfuse_secret_key:
+        return None
+    return CallbackHandler(
+        public_key=settings.langfuse_public_key,
+        secret_key=settings.langfuse_secret_key,
+        host=settings.langfuse_host
+    )
 
 def get_llm(agent_name: str) -> Runnable:
 
