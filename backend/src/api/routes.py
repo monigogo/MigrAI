@@ -8,6 +8,7 @@ from ..graph.orchestrator import migrai_graph
 from ..tools.pdf_reader import extract_text_from_pdf
 from ..db.supabase_client import supabase_manager, supabase
 from ..config.cultural import construir_contexto_cultural, PAISES_IDIOMAS
+from ..config.llm import get_langfuse_callback
 from fastapi.responses import StreamingResponse
 import json
 
@@ -98,7 +99,15 @@ async def preguntar(request: PreguntaRequest):
             "tono_edad": perfil["tono_edad"],
         }
 
-        config = {"configurable": {"thread_id": request.sesion_id}}
+        config = {
+            "configurable": {"thread_id": request.sesion_id},
+            "callbacks": [get_langfuse_callback()] if get_langfuse_callback() else [],
+            "metadata": {
+                "session_id": request.sesion_id,
+                "user_id": request.sesion_id, # Usando sesion_id como user_id temporalmente
+                "pais": request.pais
+            }
+        }
        
         resultado = await migrai_graph.ainvoke(input_data, config=config)
 
@@ -141,7 +150,15 @@ async def preguntar_stream(request: PreguntaRequest):
                 "tono_edad": perfil["tono_edad"],
             }
 
-            config = {"configurable": {"thread_id": request.sesion_id}}
+            config = {
+                "configurable": {"thread_id": request.sesion_id},
+                "callbacks": [get_langfuse_callback()] if get_langfuse_callback() else [],
+                "metadata": {
+                    "session_id": request.sesion_id,
+                    "user_id": request.sesion_id,
+                    "pais": request.pais
+                }
+            }
             respuesta_completa = ""
             tramite_detectado  = "desconocido"
             last_agent         = "desconocido"
@@ -151,11 +168,10 @@ async def preguntar_stream(request: PreguntaRequest):
                 tipo = evento.get("event")
             
                 if tipo == "on_chat_model_stream" and evento.get("name", "").startswith("llm_respuesta_final"):
-                    chunk = evento.get("data", {}).get("chunk")
-                    if chunk and hasattr(chunk, "content") and chunk.content:
-                        respuesta_completa += chunk.content
-                 
-                        yield f"data: {json.dumps({'token': chunk.content})}\n\n"
+                    chunk_content = evento.get("data", {}).get("chunk", {}).get("content")
+                    if chunk_content:
+                        respuesta_completa += chunk_content
+                        yield f"data: {json.dumps({'token': chunk_content})}\n\n"
 
                 # Cuando el grafo termina, capturamos los metadatos del estado final
                 elif tipo == "on_chain_end" and evento.get("name") == "LangGraph":

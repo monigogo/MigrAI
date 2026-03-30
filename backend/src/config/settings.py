@@ -26,9 +26,10 @@ class Settings(BaseSettings):
     supabase_key: str = Field(..., env="SUPABASE_ANON_KEY")
     supabase_db_url: str = Field("", env="SUPABASE_DB_URL")
 
-  
-    app_env: str = Field("development", env="APP_ENV")
-
+    # Langfuse
+    langfuse_public_key: str = Field("", env="LANGFUSE_PUBLIC_KEY")
+    langfuse_secret_key: str = Field("", env="LANGFUSE_SECRET_KEY")
+    langfuse_host: str = Field("https://cloud.langfuse.com", env="LANGFUSE_HOST")
     model_config = {
         "env_file": str(_env_path),
         "env_file_encoding": "utf-8",

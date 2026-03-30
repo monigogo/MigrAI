@@ -1,7 +1,7 @@
-from typing import TypedDict, Optional, Annotated
+from typing import Optional
 from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import MemorySaver
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import SystemMessage
 from ..agents.arraigos.familiar            import agente_arraigo_familiar
 from ..agents.arraigos.socioformativo      import agente_arraigo_socioformativo
 from ..agents.arraigos.sociolaboral        import agente_arraigo_sociolaboral
@@ -15,6 +15,7 @@ from ..config.cultural                     import construir_contexto_cultural
 from ..prompts.orchestrator                import ORCHESTRATOR_PROMPT
 from ..prompts.documentos                  import DOCUMENTOS_PROMPT
 from ..prompts.base                        import BLOQUE_CULTURAL
+from ..guardarrail import aplicar_guardarrail
 
 
 # ── Estado del grafo ──────────────────────────────────────────────────────
@@ -147,9 +148,9 @@ def build_graph():
         )
 
     graph.add_edge("respuesta_final", END)
-
     memoria = MemorySaver()
-    return graph.compile(checkpointer=memoria)
+    grafo_compilado = graph.compile(checkpointer=memoria)  
+    return aplicar_guardarrail(grafo_compilado)
 
 
 migrai_graph = build_graph()

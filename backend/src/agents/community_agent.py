@@ -82,9 +82,12 @@ def ask_community_assistant(
 
     # 3. Info usuario
     info_usuario = ""
-    if country:       info_usuario += f"Usuario de {country}. "
-    if age:           info_usuario += f"Tiene {age}. "
-    if gender:        info_usuario += f"Género: {gender}. "
+    if country:
+        info_usuario += f"Usuario de {country}. "
+    if age:
+        info_usuario += f"Tiene {age}. "
+    if gender:
+        info_usuario += f"Género: {gender}. "
     if stayDuration == "2años":
         info_usuario += "⚠️ LLEVA 2 AÑOS EN ESPAÑA. Ya cumple arraigo. NO preguntes cuánto tiempo lleva. "
     elif stayDuration:
