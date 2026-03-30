@@ -1,5 +1,6 @@
 
 
+from .config.settings import settings
 import os
 import re
 import logging
@@ -10,7 +11,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 logger = logging.getLogger(__name__)
 
 _llm = ChatOpenAI(model="openai/gpt-4o-mini", temperature=0,
-        openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+        openai_api_key=settings.openrouter_api_key,
         openai_api_base="https://openrouter.ai/api/v1",
         default_headers={
         "HTTP-Referer": os.getenv("APP_URL", "http://localhost"), 
