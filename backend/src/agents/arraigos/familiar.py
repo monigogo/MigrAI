@@ -4,7 +4,7 @@ from ...config.cultural import construir_contexto_cultural
 from ...rag.retriever import buscar_contexto
 from ...prompts.arraigo_familiar import ARRAIGO_FAMILIAR_PROMPT
 from ...prompts.base import BLOQUE_CULTURAL
-from ..guardarrail import guardarrail_agente
+from ...guardarrail import guardarrail_agente
 
 @guardarrail_agente
 async def agente_arraigo_familiar(state: dict) -> dict:

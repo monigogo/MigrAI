@@ -1,25 +1,30 @@
 import os
 from langchain_groq import ChatGroq
 from langchain_core.runnables import Runnable
-from langfuse.callback import CallbackHandler
+from langfuse.langchain import CallbackHandler
 from .settings import settings
+
 
 def get_langfuse_callback():
     if not settings.langfuse_public_key or not settings.langfuse_secret_key:
+        print("Langfuse no configurado, saltando.")
         return None
-    return CallbackHandler(
-        public_key=settings.langfuse_public_key,
-        secret_key=settings.langfuse_secret_key,
-        host=settings.langfuse_host
-    )
+    
+    print("Langfuse configurado, devolviendo CallbackHandler.")
+    return CallbackHandler()
 
 def get_llm(agent_name: str) -> Runnable:
 
     # Activa LangSmith
     os.environ["LANGCHAIN_API_KEY"]    = settings.langchain_api_key
-    os.environ["LANGCHAIN_TRACING_V2"] = settings.langchain_tracing_v2
+    os.environ["LANGCHAIN_TRACING_V2"] = "false"
     os.environ["LANGCHAIN_PROJECT"]    = settings.langchain_project
     os.environ["LANGCHAIN_ENDPOINT"]   = settings.langchain_endpoint
+    os.environ["LANGFUSE_PUBLIC_KEY"] = settings.langfuse_public_key
+    os.environ["LANGFUSE_SECRET_KEY"] = settings.langfuse_secret_key
+    os.environ["LANGFUSE_HOST"] = settings.langfuse_host
+
+    callback = get_langfuse_callback()
 
     # 1. MODELO PRINCIPAL 
     llm_principal = ChatGroq(
@@ -47,5 +52,8 @@ def get_llm(agent_name: str) -> Runnable:
         api_key=settings.groq_api_key,
         name=f"llm_{agent_name}_fallback_2",
     )
+    llm = llm_principal.with_fallbacks([llm_respaldo_1, llm_respaldo_2])
+    if callback:
+        llm = llm.with_config({"callbacks": [callback]})
 
-    return llm_principal.with_fallbacks([llm_respaldo_1, llm_respaldo_2])
+    return llm

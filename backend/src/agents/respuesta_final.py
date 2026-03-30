@@ -1,4 +1,4 @@
-from langchain_core.messages import AIMessage, SystemMessage
+from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
 from ..config.llm import get_llm
 from ..config.cultural import construir_contexto_cultural
 from ..prompts.respuesta_final import RESPUESTA_FINAL_PROMPT
