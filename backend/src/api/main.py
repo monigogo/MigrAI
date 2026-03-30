@@ -7,7 +7,6 @@ from .routes import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # _get_model()
     yield
 
 
@@ -24,7 +23,7 @@ app.add_middleware(
         "http://localhost:8080",
         "http://localhost:5173",
         "http://frontend:3000",
-        # "https://migrai-frontend.onrender.com",
+        "https://migrai.onrender.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
