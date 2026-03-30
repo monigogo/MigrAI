@@ -4,7 +4,7 @@ from ...config.cultural import construir_contexto_cultural
 from ...rag.retriever import buscar_contexto
 from ...prompts.arraigo_sociolaboral import ARRAIGO_SOCIOLABORAL_PROMPT
 from ...prompts.base import BLOQUE_CULTURAL
-from ..guardarrail import guardarrail_agente
+from ...guardarrail import guardarrail_agente
 
 
 @guardarrail_agente
