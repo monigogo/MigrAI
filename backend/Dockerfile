@@ -52,7 +52,6 @@ COPY . .
 ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
-ENV PORT=10000
+EXPOSE 10000
 
-# En despliegues 
-CMD ["sh", "-c", "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
+CMD uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
