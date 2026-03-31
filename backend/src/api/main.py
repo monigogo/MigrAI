@@ -24,6 +24,7 @@ app.add_middleware(
         "http://localhost:5173",
         "http://frontend:3000",
         "https://migrai.onrender.com",
+        "https://migrai-1.onrender.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
