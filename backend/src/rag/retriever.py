@@ -4,11 +4,7 @@ from ..config.settings import dev_config
 
 
 def buscar_contexto(pregunta: str, tramite: str) -> str:
-    """
-    Busca los fragmentos más relevantes para la pregunta.
-    Devuelve normativa, experiencias de comunidad, tasas
-    y formularios separados en secciones claras.
-    """
+
     top_k  = dev_config["rag"]["top_k"]
     vector = get_embedding(pregunta)
 
@@ -44,7 +40,7 @@ def buscar_contexto(pregunta: str, tramite: str) -> str:
         else:
             secciones["normativa"].append(bloque)
 
-    # Construye el texto final con secciones claras
+
     partes = []
 
     if secciones["normativa"]:
@@ -72,16 +68,10 @@ def buscar_contexto(pregunta: str, tramite: str) -> str:
 
 
 def buscar_contexto_comunidad(pregunta: str, tramite: str = None) -> str:
-    """
-    Búsqueda específica solo en experiencias de comunidad.
-    La usa el agente_comunidad.
-    Si se pasa tramite, filtra por ese trámite.
-    Si no, busca en todos.
-    """
+
     top_k  = dev_config["rag"]["top_k"]
     vector = get_embedding(pregunta)
 
-    # Si hay trámite específico buscamos en ese, si no en el más general
     tramite_busqueda = tramite or "arraigo_sociolaboral"
 
     resultado = supabase.rpc(

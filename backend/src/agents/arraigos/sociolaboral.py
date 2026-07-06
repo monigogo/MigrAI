@@ -1,11 +1,13 @@
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import SystemMessage
 from ...config.llm import get_llm
 from ...config.cultural import construir_contexto_cultural
 from ...rag.retriever import buscar_contexto
 from ...prompts.arraigo_sociolaboral import ARRAIGO_SOCIOLABORAL_PROMPT
 from ...prompts.base import BLOQUE_CULTURAL
+from ...guardarrail import guardarrail_agente
 
 
+@guardarrail_agente
 async def agente_arraigo_sociolaboral(state: dict) -> dict:
     llm      = get_llm("arraigo_sociolaboral")
     pais     = state.get("pais") or "Colombia"
@@ -32,11 +34,8 @@ async def agente_arraigo_sociolaboral(state: dict) -> dict:
     # Construimos la lista de mensajes para el LLM
     messages = [SystemMessage(content=prompt)] + state["messages"]
     respuesta = await llm.ainvoke(messages)
-    ai_message = AIMessage(content=respuesta.content)
 
     return {
-        **state,
-        "messages":          state["messages"] + [ai_message],
         "expert_response":   respuesta.content,
         "tramite_detectado": "arraigo_sociolaboral",
         "last_agent":        "arraigo_sociolaboral",

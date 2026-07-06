@@ -1,4 +1,4 @@
-from langchain_core.messages import AIMessage, SystemMessage
+from langchain_core.messages import SystemMessage
 from ...config.llm import get_llm
 from ...config.cultural import construir_contexto_cultural
 from ...rag.retriever import buscar_contexto
@@ -32,11 +32,8 @@ async def agente_nie_tie(state: dict) -> dict:
     # Construimos la lista de mensajes para el LLM
     messages = [SystemMessage(content=prompt)] + state["messages"]
     respuesta = await llm.ainvoke(messages)
-    ai_message = AIMessage(content=respuesta.content)
 
     return {
-        **state,
-        "messages":          state["messages"] + [ai_message],
         "expert_response":   respuesta.content,
         "tramite_detectado": "nie_tie",
         "last_agent":        "nie_tie",

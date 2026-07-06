@@ -1,30 +1,24 @@
-# === Python & Backend ===
-__pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-.venv/
-venv/
-.pytest_cache/
-.coverage
-uv.lock
-
-# === Node / Bun / Frontend ===
-node_modules/
-dist/
-build/
-.vite/
-frontend/bun.lock
-frontend/bun.lockb
-
-# === Secretos y Entorno (¡CRÍTICO!) ===
+# === Credenciales y Secretos (Tus reglas) ===
 .env
 *.env
 .env.*
 backend/.env
 frontend/.env
 
-# === IDEs & Sistema ===
+# === Node.js (Frontend) - CRÍTICO ===
+frontend/node_modules/
+frontend/dist/
+frontend/.eslintcache
+
+# === Python (Backend) - CRÍTICO ===
+**/__pycache__/
+**/*.py[cod]
+**/*.venv/
+venv/
+.venv/
+backend/env/
+
+# === IDEs & Sistema (Tus reglas) ===
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
@@ -32,7 +26,7 @@ frontend/.env
 .DS_Store
 *.log
 
-# === Datos & Modelos ===
+# === Datos & Modelos (Tus reglas) ===
 data/pdfs/
 *.bin
 *.safetensors

@@ -1,7 +1,7 @@
-from typing import TypedDict, Optional, Annotated
+from typing import Optional
 from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import MemorySaver
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import SystemMessage
 from ..agents.arraigos.familiar            import agente_arraigo_familiar
 from ..agents.arraigos.socioformativo      import agente_arraigo_socioformativo
 from ..agents.arraigos.sociolaboral        import agente_arraigo_sociolaboral
@@ -15,20 +15,18 @@ from ..config.cultural                     import construir_contexto_cultural
 from ..prompts.orchestrator                import ORCHESTRATOR_PROMPT
 from ..prompts.documentos                  import DOCUMENTOS_PROMPT
 from ..prompts.base                        import BLOQUE_CULTURAL
+from ..guardarrail import aplicar_guardarrail
 
 
-# ── Estado del grafo con historial de mensajes integrado ──────────────────
+# ── Estado del grafo ──────────────────────────────────────────────────────
 class MigraiState(MessagesState):
-    # Perfil del usuario
     pais:              Optional[str]
     rango_edad:        Optional[str]
     idioma_codigo:     Optional[str]
     idioma_nombre:     Optional[str]
     contexto_cultural: Optional[str]
     tono_edad:         Optional[str]
-    # Documento adjunto
     document_content:  Optional[str]
-    # Flujo interno
     next_agent:        Optional[str]
     expert_response:   Optional[str]
     tramite_detectado: Optional[str]
@@ -39,15 +37,15 @@ class MigraiState(MessagesState):
 # ── Orquestador ───────────────────────────────────────────────────────────
 async def orchestrator_node(state: MigraiState) -> MigraiState:
     if state.get("document_content"):
-        return {**state, "next_agent": "documentos"}
+        return {"next_agent": "documentos"}
 
     llm = get_llm("orchestrator")
-
-    # Usar todo el historial de mensajes para dar contexto al orquestador
     messages = [SystemMessage(content=ORCHESTRATOR_PROMPT)] + state["messages"]
+    respuesta = await llm.ainvoke(messages)
 
-    respuesta  = await llm.ainvoke(messages)
-    next_agent = respuesta.content.strip().lower().strip(".")
+    raw = respuesta.content.strip().lower()
+    raw = raw.replace(" ", "_").replace("-", "_").rstrip(".")
+    next_agent = raw.split()[0] if " " not in raw else raw
 
     agentes_validos = [
         "arraigo_familiar", "arraigo_socioformativo", "arraigo_sociolaboral",
@@ -56,32 +54,22 @@ async def orchestrator_node(state: MigraiState) -> MigraiState:
     ]
 
     if next_agent not in agentes_validos:
-        last_message = state["messages"][-1]
-        pregunta = last_message.content
-        pregunta_lower = pregunta.lower()
-        if "familiar" in pregunta_lower or "hijo" in pregunta_lower:
-            next_agent = "arraigo_familiar"
-        elif "formacion" in pregunta_lower or "estudiar" in pregunta_lower:
-            next_agent = "arraigo_socioformativo"
-        elif "contrato" in pregunta_lower and "arraigo" in pregunta_lower:
-            next_agent = "arraigo_sociolaboral"
-        elif "nie" in pregunta_lower or "tie" in pregunta_lower:
-            next_agent = "nie_tie"
-        elif "reagrup" in pregunta_lower:
-            next_agent = "reagrupacion"
-        elif "modificacion" in pregunta_lower or "estancia" in pregunta_lower:
-            next_agent = "modif_estancia_trabajo"
-        else:
-            next_agent = "arraigo_social"
 
-    return {**state, "next_agent": next_agent}
+        return {
+            "next_agent": "respuesta_final",
+            "expert_response": respuesta.content,
+            "tramite_detectado": "conversacion_orquestador",
+            "last_agent": "orchestrator"
+        }
+
+    return {"next_agent": next_agent}
 
 
 # ── Agente de documentos ──────────────────────────────────────────────────
 async def agente_documentos(state: MigraiState) -> MigraiState:
     llm    = get_llm("documentos")
-    pais   = state.get("pais") 
-    edad   = state.get("rango_edad") 
+    pais   = state.get("pais")
+    edad   = state.get("rango_edad")
     perfil = construir_contexto_cultural(pais, edad)
 
     bloque = BLOQUE_CULTURAL.format(
@@ -95,17 +83,14 @@ async def agente_documentos(state: MigraiState) -> MigraiState:
         document_content=state.get("document_content", ""),
     )
 
-    # Incluye el historial de mensajes
     messages = [SystemMessage(content=prompt)] + state["messages"]
     respuesta = await llm.ainvoke(messages)
 
     return {
-        **state,
         "expert_response":   respuesta.content,
         "tramite_detectado": "documentos",
         "last_agent":        "documentos",
         "idioma_codigo":     perfil["idioma_codigo"],
-        "messages":          state["messages"] + [AIMessage(content=respuesta.content)],
     }
 
 
@@ -113,14 +98,13 @@ async def agente_documentos(state: MigraiState) -> MigraiState:
 def route_to_agent(state: MigraiState) -> str:
     return state.get("next_agent", "arraigo_social")
 
-
 def should_end(state: MigraiState) -> str:
     if state.get("last_agent") == "respuesta_final":
         return END
     return "respuesta_final"
 
 
-# ── Construcción del grafo con memoria ────────────────────────────────────
+# ── Construcción del grafo ────────────────────────────────────────────────
 def build_graph():
     graph = StateGraph(MigraiState)
 
@@ -148,6 +132,7 @@ def build_graph():
             "nie_tie":                "nie_tie",
             "reagrupacion":           "reagrupacion",
             "documentos":             "documentos",
+            "respuesta_final":        "respuesta_final",
         },
     )
 
@@ -163,10 +148,9 @@ def build_graph():
         )
 
     graph.add_edge("respuesta_final", END)
-
-    # MemorySaver guarda el historial en memoria por session_id
     memoria = MemorySaver()
-    return graph.compile(checkpointer=memoria)
+    grafo_compilado = graph.compile(checkpointer=memoria)  
+    return aplicar_guardarrail(grafo_compilado)
 
 
 migrai_graph = build_graph()

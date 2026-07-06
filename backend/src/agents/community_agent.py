@@ -82,9 +82,12 @@ def ask_community_assistant(
 
     # 3. Info usuario
     info_usuario = ""
-    if country:       info_usuario += f"Usuario de {country}. "
-    if age:           info_usuario += f"Tiene {age}. "
-    if gender:        info_usuario += f"Género: {gender}. "
+    if country:
+        info_usuario += f"Usuario de {country}. "
+    if age:
+        info_usuario += f"Tiene {age}. "
+    if gender:
+        info_usuario += f"Género: {gender}. "
     if stayDuration == "2años":
         info_usuario += "⚠️ LLEVA 2 AÑOS EN ESPAÑA. Ya cumple arraigo. NO preguntes cuánto tiempo lleva. "
     elif stayDuration:
@@ -110,11 +113,11 @@ def ask_community_assistant(
     )
     prompt_final = apply_tone_to_prompt(base_prompt, tone_config)
 
-    # 5. Historial — priorizar frontend sobre Supabase
+    # 5. Historial 
     messages = [{"role": "system", "content": prompt_final}]
 
     if history:
-        for h in history[-12:]:  # últimos 12 mensajes
+        for h in history[-12:]: 
             messages.append({"role": h["role"], "content": h["content"]})
     else:
         try:
@@ -134,7 +137,7 @@ def ask_community_assistant(
 
     messages.append({"role": "user", "content": user_message})
 
-    # 6. Groq
+    
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=messages,
