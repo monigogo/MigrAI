@@ -1,7 +1,10 @@
 """
+Script manual de inspección visual — NO es un test automatizado (no tiene
+asserts, pytest no lo recoge). Hace llamadas reales al LLM configurado.
+
 CÓMO EJECUTAR:
     cd migrai/backend
-    uv run python tests/test_arraigo_sociolaboral.py
+    uv run python scripts/test_arraigo_sociolaboral.py
 """
 import asyncio
 import sys
@@ -9,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.agents.arraigos.sociolaboral import agente_arraigo_sociolaboral
+from src.agents.factory import agente_arraigo_sociolaboral
 
 PRUEBAS = [
     {

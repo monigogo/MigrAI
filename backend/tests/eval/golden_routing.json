@@ -1,0 +1,39 @@
+[
+  {"pregunta": "Estoy casado con una ciudadana española, ¿puedo pedir el arraigo familiar?", "expected_agent": "arraigo_familiar"},
+  {"pregunta": "Mi hijo nació en España y tiene nacionalidad española, ¿eso me ayuda a regularizarme?", "expected_agent": "arraigo_familiar"},
+  {"pregunta": "Soy padre de un menor español, ¿qué arraigo me corresponde?", "expected_agent": "arraigo_familiar"},
+  {"pregunta": "Mi pareja de hecho es residente legal, ¿puedo solicitar arraigo por eso?", "expected_agent": "arraigo_familiar"},
+
+  {"pregunta": "Llevo 2 años empadronado en España, ¿puedo pedir el arraigo social?", "expected_agent": "arraigo_social"},
+  {"pregunta": "¿Qué es el informe de integración social y quién lo hace?", "expected_agent": "arraigo_social"},
+  {"pregunta": "Tengo una oferta de trabajo pero llevo poco tiempo, ¿me sirve para el arraigo social?", "expected_agent": "arraigo_social"},
+  {"pregunta": "¿Cuánto tiempo de empadronamiento continuado necesito para el arraigo social?", "expected_agent": "arraigo_social"},
+
+  {"pregunta": "Estoy haciendo un curso de formación profesional, ¿puedo pedir arraigo por eso?", "expected_agent": "arraigo_socioformativo"},
+  {"pregunta": "¿El arraigo para la formación me exige estar matriculado en algún centro específico?", "expected_agent": "arraigo_socioformativo"},
+  {"pregunta": "Quiero inscribirme en un curso para poder regularizar mi situación, ¿cómo funciona el arraigo socioformativo?", "expected_agent": "arraigo_socioformativo"},
+  {"pregunta": "¿Qué diferencia hay entre el arraigo social y el arraigo socioformativo?", "expected_agent": "arraigo_socioformativo"},
+
+  {"pregunta": "La Inspección de Trabajo me hizo un acta, ¿me sirve para el arraigo sociolaboral?", "expected_agent": "arraigo_sociolaboral"},
+  {"pregunta": "Llevo 6 meses trabajando sin contrato, ¿puedo pedir el arraigo sociolaboral?", "expected_agent": "arraigo_sociolaboral"},
+  {"pregunta": "¿Qué documentos laborales necesito para demostrar una relación laboral en el arraigo sociolaboral?", "expected_agent": "arraigo_sociolaboral"},
+  {"pregunta": "Mi jefe nunca me dio de alta, ¿puedo denunciarlo y usar eso para el arraigo sociolaboral?", "expected_agent": "arraigo_sociolaboral"},
+
+  {"pregunta": "¿Cómo saco cita para renovar mi TIE?", "expected_agent": "nie_tie"},
+  {"pregunta": "Perdí mi tarjeta de identidad de extranjero, ¿qué hago?", "expected_agent": "nie_tie"},
+  {"pregunta": "¿Cuál es la diferencia entre el NIE y el TIE?", "expected_agent": "nie_tie"},
+  {"pregunta": "¿Dónde puedo consultar el estado de mi NIE?", "expected_agent": "nie_tie"},
+
+  {"pregunta": "Quiero traer a mi esposa e hijos desde mi país, ¿qué necesito para la reagrupación familiar?", "expected_agent": "reagrupacion"},
+  {"pregunta": "¿Cuánto tiempo tengo que llevar con residencia para reagrupar a mis padres?", "expected_agent": "reagrupacion"},
+  {"pregunta": "¿Qué ingresos mínimos necesito para reagrupar a mi familia?", "expected_agent": "reagrupacion"},
+  {"pregunta": "Ya tengo la reagrupación aprobada, ¿cuánto tarda en llegar el visado de mi hijo?", "expected_agent": "reagrupacion"},
+
+  {"pregunta": "Tengo un permiso de estudiante y ya me sale un contrato de trabajo, ¿cómo lo cambio a residencia por trabajo?", "expected_agent": "modif_estancia_trabajo"},
+  {"pregunta": "¿Puedo modificar mi autorización de estancia a una de residencia y trabajo por cuenta ajena?", "expected_agent": "modif_estancia_trabajo"},
+  {"pregunta": "Estoy con visado de estudios, ¿puedo pasar a un contrato indefinido sin salir de España?", "expected_agent": "modif_estancia_trabajo"},
+
+  {"pregunta": "Hola, ¿qué tal?", "expected_agent": "respuesta_final"},
+  {"pregunta": "Muchas gracias por la ayuda, hasta luego", "expected_agent": "respuesta_final"},
+  {"pregunta": "¿Qué hora es en Madrid ahora mismo?", "expected_agent": "respuesta_final"}
+]

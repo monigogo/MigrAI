@@ -1,11 +1,13 @@
 """
+Script manual de chat interactivo por terminal — NO es un test automatizado.
+Hace llamadas reales al LLM configurado.
+
 CÓMO EJECUTAR:
     cd /workspaces/migrAI/backend
-    uv run python tests/chat_interactivo.py
+    uv run python scripts/chat_interactivo.py
 """
 import asyncio
 import sys
-import uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -65,8 +67,7 @@ async def preguntar(
     if not historial:
         agente_actual = await detectar_agente(pregunta)
 
-    tramite = agente_actual.replace("modif_estancia_trabajo", "residencia_trabajo")
-    rag     = buscar_contexto(pregunta, tramite=tramite)
+    rag = buscar_contexto(pregunta, tramite=agente_actual)
 
     bloque  = BLOQUE_CULTURAL.format(
         pais=perfil["pais"],
@@ -97,9 +98,9 @@ async def preguntar(
 
 async def main():
     print(f"\n{'═'*50}")
-    print(f"  MIGRAI — Chat interactivo con memoria")
+    print("  MIGRAI — Chat interactivo con memoria")
     print(f"  País: {PERFIL['pais']} | Edad: {PERFIL['rango_edad']}")
-    print(f"  Comandos: 'salir' · 'limpiar' · 'cambiar'")
+    print("  Comandos: 'salir' · 'limpiar' · 'cambiar'")
     print(f"{'═'*50}\n")
     print("Bot: ¡Hola! Soy Migrai 👋 Pregúntame lo que necesites.\n")
 
@@ -129,8 +130,10 @@ async def main():
         if pregunta.lower() == "cambiar":
             nuevo_pais = input(f"  País [{PERFIL['pais']}]: ").strip()
             nueva_edad = input(f"  Edad [{PERFIL['rango_edad']}]: ").strip()
-            if nuevo_pais: PERFIL["pais"]       = nuevo_pais
-            if nueva_edad: PERFIL["rango_edad"] = nueva_edad
+            if nuevo_pais:
+                PERFIL["pais"] = nuevo_pais
+            if nueva_edad:
+                PERFIL["rango_edad"] = nueva_edad
             historial     = []
             agente_actual = "arraigo_social"
             print(f"  Perfil: {PERFIL['pais']} | {PERFIL['rango_edad']}\n")
