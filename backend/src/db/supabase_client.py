@@ -1,28 +1,14 @@
-import os
-from pathlib import Path
+import logging
 from supabase import create_client, Client
-from dotenv import load_dotenv
+from ..config.settings import settings
 
-env_path = Path(__file__).parent.parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+logger = logging.getLogger(__name__)
 
 
 class SupabaseManager:
     def __init__(self):
-        url: str = os.environ.get("SUPABASE_URL")
-        key: str = os.environ.get("SUPABASE_KEY")  # ← corregido
-
-        if not url or not key:
-            raise ValueError(
-                f"Faltan credenciales de Supabase.\n"
-                f"SUPABASE_URL: {url}\n"
-                f"SUPABASE_KEY: {'encontrada' if key else 'NO encontrada'}\n"
-                f"Buscando .env en: {env_path}\n"
-                f"¿Existe el fichero?: {env_path.exists()}"
-            )
-
-        self.client: Client = create_client(url, key)
-        print(f"✅ Supabase conectado: {url}")
+        self.client: Client = create_client(settings.supabase_url, settings.supabase_key)
+        logger.info(f"Supabase conectado: {settings.supabase_url}")
 
 
 

@@ -1,69 +1,8 @@
 {
-  "models": {
-    "orchestrator": {
-      "model": "openai/gpt-4o-mini",
-      "temperature": 0.0,
-      "max_tokens": 500,
-      "description": "Decide qué agente experto responde"
-    },
-    "arraigo_familiar": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.0,
-      "max_tokens": 3000,
-      "description": "Experto en arraigo por vínculo familiar"
-    },
-    "arraigo_socioformativo": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.0,
-      "max_tokens": 3000,
-      "description": "Experto en arraigo para la formación"
-    },
-    "arraigo_sociolaboral": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.0,
-      "max_tokens": 3000,
-      "description": "Experto en arraigo social y laboral"
-    },
-    "residencia_trabajo": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.0,
-      "max_tokens": 3000,
-      "description": "Experto en modificación de estancia a residencia"
-    },
-    "nie_tie": {
-      "model": "openai/gpt-4o-mini",
-      "temperature": 0.1,
-      "max_tokens": 2000,
-      "description": "Experto en NIE y TIE"
-    },
-    "reagrupacion": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.0,
-      "max_tokens": 3000,
-      "description": "Experto en reagrupación familiar"
-    },
-    "documentos": {
-      "model": "openai/gpt-4o-mini",
-      "temperature": 0.1,
-      "max_tokens": 2000,
-      "description": "Analiza PDFs de comunidades autónomas"
-    },
-    "respuesta_final": {
-      "model": "openai/gpt-4o",
-      "temperature": 0.3,
-      "max_tokens": 3000,
-      "description": "Redacta la respuesta final para el usuario"
-    }
-  },
-  "openrouter": {
-    "base_url": "https://openrouter.ai/api/v1",
-    "site_url": "https://migrai.app",
-    "site_name": "Migrai"
-  },
   "rag": {
     "chunk_size": 1000,
     "chunk_overlap": 200,
     "top_k": 5,
-    "embedding_model": "text-embedding-3-small"
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
   }
 }
