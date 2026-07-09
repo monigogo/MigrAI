@@ -1,8 +1,9 @@
-from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
+from langchain_core.messages import AIMessage, SystemMessage
 from ..config.llm import get_llm
 from ..config.cultural import construir_contexto_cultural
 from ..prompts.respuesta_final import RESPUESTA_FINAL_PROMPT
 from ..prompts.base import BLOQUE_CULTURAL
+from .historial import recortar_historial
 
 async def agente_respuesta_final(state: dict) -> dict:
     llm  = get_llm("respuesta_final")
@@ -22,8 +23,7 @@ async def agente_respuesta_final(state: dict) -> dict:
         info_experto=state.get("expert_response", "Sin información del agente experto"),
     )
 
-    
-    messages = [SystemMessage(content=prompt)] + state["messages"]
+    messages = [SystemMessage(content=prompt)] + recortar_historial(state["messages"])
     respuesta = await llm.ainvoke(messages)
     ai_message = AIMessage(content=respuesta.content)
 

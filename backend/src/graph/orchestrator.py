@@ -2,20 +2,34 @@ from typing import Optional
 from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_core.messages import SystemMessage
-from ..agents.arraigos.familiar            import agente_arraigo_familiar
-from ..agents.arraigos.socioformativo      import agente_arraigo_socioformativo
-from ..agents.arraigos.sociolaboral        import agente_arraigo_sociolaboral
-from ..agents.arraigos.social              import agente_arraigo_social
-from ..agents.tramites.nie_tie             import agente_nie_tie
-from ..agents.tramites.reagrupacion        import agente_reagrupacion
-from ..agents.tramites.modif_estan_trabajo import agente_modif_estancia_trabajo
-from ..agents.respuesta_final              import agente_respuesta_final
-from ..config.llm                          import get_llm
-from ..config.cultural                     import construir_contexto_cultural
-from ..prompts.orchestrator                import ORCHESTRATOR_PROMPT
-from ..prompts.documentos                  import DOCUMENTOS_PROMPT
-from ..prompts.base                        import BLOQUE_CULTURAL
-from ..guardarrail import aplicar_guardarrail
+from ..agents.factory import (
+    agente_arraigo_familiar,
+    agente_arraigo_social,
+    agente_arraigo_socioformativo,
+    agente_arraigo_sociolaboral,
+    agente_modif_estancia_trabajo,
+    agente_nie_tie,
+    agente_reagrupacion,
+)
+from ..agents.respuesta_final import agente_respuesta_final
+from ..agents.historial       import recortar_historial
+from ..config.llm             import get_llm
+from ..config.cultural        import construir_contexto_cultural
+from ..prompts.orchestrator   import ORCHESTRATOR_PROMPT
+from ..prompts.documentos     import DOCUMENTOS_PROMPT
+from ..prompts.base           import BLOQUE_CULTURAL
+
+# Única fuente de verdad para los agentes del grafo (nodos y enrutado)
+AGENTES_EXPERTOS = [
+    "arraigo_familiar", "arraigo_socioformativo", "arraigo_sociolaboral",
+    "arraigo_social", "modif_estancia_trabajo", "nie_tie",
+    "reagrupacion", "documentos",
+]
+
+# El LLM solo puede derivar a estos: a "documentos" se llega únicamente
+# subiendo un fichero (ruta automática por document_content) — sin documento,
+# ese agente respondería sobre un PDF que no existe.
+AGENTES_DERIVABLES = [a for a in AGENTES_EXPERTOS if a != "documentos"]
 
 
 # ── Estado del grafo ──────────────────────────────────────────────────────
@@ -34,26 +48,36 @@ class MigraiState(MessagesState):
     last_agent:        Optional[str]
 
 
+def _extraer_agente(texto: str) -> Optional[str]:
+    """El LLM debería responder SOLO con el nombre del agente, pero en la
+    práctica a veces añade conversación y deja la derivación en la última
+    línea ("¡Claro que puedes!...\narraigo_familiar"). Si la última línea
+    contiene exactamente un agente válido, esa es la decisión; si hay cero
+    o varios (p. ej. una pregunta aclaratoria que enumera opciones), se
+    trata como respuesta conversacional."""
+    normalizado = texto.strip().lower().replace(" ", "_").replace("-", "_").rstrip(".")
+    if normalizado in AGENTES_DERIVABLES:
+        return normalizado
+
+    ultima_linea = texto.strip().splitlines()[-1].lower().replace(" ", "_").replace("-", "_")
+    encontrados = {a for a in AGENTES_DERIVABLES if a in ultima_linea}
+    if len(encontrados) == 1:
+        return encontrados.pop()
+    return None
+
+
 # ── Orquestador ───────────────────────────────────────────────────────────
 async def orchestrator_node(state: MigraiState) -> MigraiState:
     if state.get("document_content"):
         return {"next_agent": "documentos"}
 
     llm = get_llm("orchestrator")
-    messages = [SystemMessage(content=ORCHESTRATOR_PROMPT)] + state["messages"]
+    messages = [SystemMessage(content=ORCHESTRATOR_PROMPT)] + recortar_historial(state["messages"])
     respuesta = await llm.ainvoke(messages)
 
-    raw = respuesta.content.strip().lower()
-    raw = raw.replace(" ", "_").replace("-", "_").rstrip(".")
-    next_agent = raw.split()[0] if " " not in raw else raw
+    next_agent = _extraer_agente(respuesta.content)
 
-    agentes_validos = [
-        "arraigo_familiar", "arraigo_socioformativo", "arraigo_sociolaboral",
-        "arraigo_social", "modif_estancia_trabajo", "nie_tie",
-        "reagrupacion", "documentos",
-    ]
-
-    if next_agent not in agentes_validos:
+    if next_agent is None:
 
         return {
             "next_agent": "respuesta_final",
@@ -83,7 +107,7 @@ async def agente_documentos(state: MigraiState) -> MigraiState:
         document_content=state.get("document_content", ""),
     )
 
-    messages = [SystemMessage(content=prompt)] + state["messages"]
+    messages = [SystemMessage(content=prompt)] + recortar_historial(state["messages"])
     respuesta = await llm.ainvoke(messages)
 
     return {
@@ -136,12 +160,7 @@ def build_graph():
         },
     )
 
-    agentes_expertos = [
-        "arraigo_familiar", "arraigo_socioformativo", "arraigo_sociolaboral",
-        "arraigo_social", "modif_estancia_trabajo", "nie_tie",
-        "reagrupacion", "documentos",
-    ]
-    for agente in agentes_expertos:
+    for agente in AGENTES_EXPERTOS:
         graph.add_conditional_edges(
             agente, should_end,
             {"respuesta_final": "respuesta_final", END: END},
@@ -149,8 +168,7 @@ def build_graph():
 
     graph.add_edge("respuesta_final", END)
     memoria = MemorySaver()
-    grafo_compilado = graph.compile(checkpointer=memoria)  
-    return aplicar_guardarrail(grafo_compilado)
+    return graph.compile(checkpointer=memoria)
 
 
 migrai_graph = build_graph()
