@@ -23,3 +23,8 @@ coverage.xml
 tests/
 Dockerfile
 .dockerignore
+
+# Secretos — nunca deben entrar en la imagen
+.env
+*.env
+.env.*

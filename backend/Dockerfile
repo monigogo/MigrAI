@@ -18,18 +18,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN pip install --no-cache-dir uv
 
-COPY pyproject.toml ./
-
-# Instalar la versión CPU de PyTorch
-
+# pyproject + lock: --frozen garantiza las mismas versiones que en desarrollo
+COPY pyproject.toml uv.lock ./
 
 # Crear y activar entorno virtual aislado
 RUN uv venv /app/.venv
 ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Instalar dependencias de producción
-RUN uv sync --no-dev
+# Instalar dependencias de producción (la app se importa vía PYTHONPATH, no como paquete)
+RUN uv sync --frozen --no-dev --no-install-project
 
 
 # ===== ETAPA 2: Producción =====
@@ -52,6 +50,13 @@ COPY . .
 ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
-EXPOSE 10000
+# Usuario sin privilegios
+RUN useradd --create-home app && chown -R app:app /app
+USER app
 
-CMD uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD python -c 'import os, urllib.request; urllib.request.urlopen("http://localhost:" + os.environ.get("PORT", "8000") + "/api/v1/health")' || exit 1
+
+CMD uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}
