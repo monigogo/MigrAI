@@ -27,6 +27,12 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Run Vitest
+        run: npm test
+
       - name: Build JS/TS
         run: npm run build
 
@@ -49,13 +55,17 @@ jobs:
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --frozen
+
+      - name: Lint (ruff)
+        run: uv run ruff check src/ tests/ scripts/
 
       - name: Run Pytest
         run: uv run pytest tests/
-        continue-on-error: true # Quitamos esto cuando los tests tengan mockups de las APIs
         env:
           GROQ_API_KEY: "dummy"
+          OPENROUTER_API_KEY: "dummy"
+          LANGCHAIN_API_KEY: "dummy"
           SUPABASE_URL: "https://dummy.supabase.co"
           SUPABASE_KEY: "dummy"
 
