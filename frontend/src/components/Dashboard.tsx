@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, Send, X, ChevronRight } from "lucide-react";
-import ResolucionFavorableTab from "@/components/ResolucionFavorableTab";
-import { enviarPregunta, enviarPreguntaStream } from "@/services/api";
+import { Send, X } from "lucide-react";
+import { enviarPreguntaStream } from "@/services/api";
 
 interface DashboardProps {
   userData: { country: string; age: string; sex: string };
@@ -76,7 +75,7 @@ const BotAvatar = ({ country, size = "sm" }: { country: string; size?: "sm" | "m
   );
 };
 
-type ChatMessage = { role: "user" | "assistant"; content: string };
+type ChatMessage = { role: "user" | "assistant"; content: string; blocked?: boolean };
 
 const exampleResponses: Record<string, string> = {
   default: "¡Hola! Soy migrAI 👋\n\nEstoy aquí para ayudarte con tu proceso migratorio. Puedes preguntarme sobre documentos, tus derechos o los pasos que debes seguir.\n\n¿Con qué te puedo ayudar hoy?",
@@ -105,7 +104,6 @@ const Dashboard = ({ userData, path, onBack, sesionId }: DashboardProps) => {
     { role: "assistant", content: exampleResponses.default },
   ]);
   const [input, setInput] = useState("");
-  const [isResolucionOpen, setResolucionOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -134,7 +132,19 @@ const handleSend = async () => {
         return actualizados;
       });
     },
-    (_meta) => { setIsLoading(false); },
+    (meta) => {
+      if (meta.tramite_detectado === "bloqueado") {
+        setMessages(prev => {
+          const actualizados = [...prev];
+          actualizados[actualizados.length - 1] = {
+            ...actualizados[actualizados.length - 1],
+            blocked: true,
+          };
+          return actualizados;
+        });
+      }
+      setIsLoading(false);
+    },
     (msg) => {
       setMessages(prev => {
         const actualizados = [...prev];
@@ -165,7 +175,19 @@ const handleQuickQuestion = async (text: string) => {
         return actualizados;
       });
     },
-    (_meta) => { setIsLoading(false); },
+    (meta) => {
+      if (meta.tramite_detectado === "bloqueado") {
+        setMessages(prev => {
+          const actualizados = [...prev];
+          actualizados[actualizados.length - 1] = {
+            ...actualizados[actualizados.length - 1],
+            blocked: true,
+          };
+          return actualizados;
+        });
+      }
+      setIsLoading(false);
+    },
     (msg) => {
       setMessages(prev => {
         const actualizados = [...prev];
@@ -176,9 +198,6 @@ const handleQuickQuestion = async (text: string) => {
     }
   );
 };
-  function setChatOpen(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className="min-h-screen bg-background flex justify-center">
@@ -194,7 +213,7 @@ const handleQuickQuestion = async (text: string) => {
             </div>
           </div>
           <button
-            onClick={() => setChatOpen(false)}
+            onClick={onBack}
             className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/20 hover:bg-white/30 transition-colors active:scale-95"
             aria-label="Cerrar chat"
           >
@@ -207,7 +226,20 @@ const handleQuickQuestion = async (text: string) => {
           {messages.map((msg, index) => (
             <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
               {msg.role === 'assistant' && <BotAvatar country={userData.country} />}
-              <div className={`max-w-[80%] rounded-2xl px-4 py-3 whitespace-pre-wrap ${msg.role === 'user' ? `${theme.buttonBg} text-white` : `bg-card border ${theme.chatBubble}`}`}>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-3 whitespace-pre-wrap ${
+                  msg.role === 'user'
+                    ? `${theme.buttonBg} text-white`
+                    : msg.blocked
+                      ? 'bg-amber-50 border border-amber-300 text-amber-900 dark:bg-amber-950/40 dark:border-amber-700 dark:text-amber-200'
+                      : `bg-card border ${theme.chatBubble}`
+                }`}
+              >
+                {msg.role === 'assistant' && msg.blocked && (
+                  <p className="mb-1 text-xs font-bold uppercase tracking-wide">
+                    🔒 Consulta no procesada
+                  </p>
+                )}
                 {msg.content}
               </div>
             </div>

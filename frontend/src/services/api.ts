@@ -1,6 +1,4 @@
-/**
- * Todas las funciones para interactuar con la API del backend de migrAI.
- */
+
 
 // ── Tipos de Datos ──────────────────────────────────────────────────────────
 
@@ -88,7 +86,9 @@ export const obtenerPaises = async (): Promise<PaisesResponse> => {
   return response.json();
 };
 
-export const crearSesion = async (perfil: PerfilData): Promise<any> => {
+export const crearSesion = async (
+  perfil: PerfilData
+): Promise<{ sesion_id: string; idioma: string; status: string }> => {
   const response = await fetch(`${API_BASE_URL}/sesion`, {
     method:  "POST",
     headers: { "Content-Type": "application/json" },
@@ -146,18 +146,23 @@ export const enviarPreguntaStream = async (
 
     const reader  = response.body.getReader();
     const decoder = new TextDecoder();
+    let buffer = "";
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
-      const texto = decoder.decode(value);
-      const lineas = texto.split("\n\n");
+      // { stream: true }: no corta caracteres UTF-8 (acentos, ñ) partidos entre chunks
+      buffer += decoder.decode(value, { stream: true });
 
-      for (const linea of lineas) {
-        if (!linea.startsWith("data: ")) continue;
+      // El último elemento puede ser un evento incompleto: se guarda para el próximo chunk
+      const eventos = buffer.split("\n\n");
+      buffer = eventos.pop() ?? "";
+
+      for (const evento of eventos) {
+        if (!evento.startsWith("data: ")) continue;
         try {
-          const data = JSON.parse(linea.replace("data: ", ""));
+          const data = JSON.parse(evento.replace("data: ", ""));
           if (data.token)  onToken(data.token);
           if (data.error)  onError(data.error);
           if (data.fin)    onFin({
@@ -167,7 +172,7 @@ export const enviarPreguntaStream = async (
             idioma_usado:      data.idioma_usado,
           });
         } catch {
-          // chunk incompleto, se ignora
+          // evento malformado, se ignora
         }
       }
     }
@@ -180,7 +185,7 @@ export const enviarPreguntaStream = async (
 export const enviarFeedback = async (
   conversacionId: string,
   dudasResueltas: boolean
-): Promise<any> => {
+): Promise<{ status: string } | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/feedback`, {
       method:  "POST",

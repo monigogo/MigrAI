@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import { crearSesion } from "@/services/api";
+import { useState } from "react";
+import { crearSesion, getSesionId } from "@/services/api";
 import { Compass, ArrowRight, GraduationCap, Star, ChevronRight, Briefcase, Home, Sparkles } from "lucide-react";
 import PathCard from "@/components/PathCard";
 import OnboardingForm from "@/components/OnboardingForm";
@@ -12,7 +11,18 @@ import AnimatedGlobe from "@/components/AnimatedGlobe";
 
 type AppState = "home" | "onboarding" | "dashboard";
 
-const recommendations = [
+type Recommendation = {
+  title: string;
+  tag: string;
+  emoji: string;
+  desc: string;
+  color: string;
+  url?: string;
+  logo?: string;
+  action?: "empleo" | "hogar";
+};
+
+const recommendations: Recommendation[] = [
   { title: "Asistencia Jurídica Gratuita", tag: "Legal", emoji: "⚖️", desc: "Asesoramiento legal gratuito del Colegio de Abogados de Madrid.", url: "https://web.icam.es/ciudadanos/asistencia-juridica-gratuita/", logo: "https://www.google.com/s2/favicons?domain=web.icam.es&sz=64", color: "from-violet-500/20 to-purple-600/10" },
   { title: "Buscar vivienda", tag: "Hogar", emoji: "🏠", desc: "Recursos para encontrar piso o alquiler en España.", action: "hogar" as const, color: "from-emerald-400/20 to-green-500/10" },
   { title: "Derechos laborales del inmigrante", tag: "Legal", emoji: "⚖️", desc: "Conoce tus derechos legales en el trabajo.", url: "https://www.seg-social.es/wps/wcm/connect/wss/37cada90-3821-4c78-ba53-e22ee3bfb7f9/94_F06.pdf?MOD=AJPERES", logo: "https://www.google.com/s2/favicons?domain=seg-social.es&sz=64", color: "from-blue-500/20 to-indigo-500/10" },
@@ -31,17 +41,7 @@ const Index = () => {
   const [path, setPath] = useState<"new" | "continue">("new");
   const [userData, setUserData] = useState<{ country: string; age: string; sex: string } | null>(null);
   const [tab, setTab] = useState<"inicio" | "formaciones" | "empleo" | "hogar">("inicio");
-  const [sesionId, setSesionId] = useState<string>('');
-
-  useEffect(() => {
-    // Generar y guardar el ID de sesión al cargar el componente
-    let id = localStorage.getItem('sesionId');
-    if (!id) {
-      id = uuidv4();
-      localStorage.setItem('sesionId', id);
-    }
-    setSesionId(id);
-  }, []);
+  const [sesionId, setSesionId] = useState<string>(() => getSesionId());
 
   const handleSelectPath = (selected: "new" | "continue") => {
     setPath(selected);
@@ -51,11 +51,7 @@ const Index = () => {
       const handleOnboardingComplete = async (data: { country: string; age: string; sex: string }) => {
     setUserData(data);
     try {
-      let id = localStorage.getItem('sesionId');
-      if (!id) {
-        id = uuidv4();
-        localStorage.setItem('sesionId', id);
-      }
+      const id = getSesionId();
       setSesionId(id);
 
       await crearSesion({
@@ -177,9 +173,9 @@ const Index = () => {
                     <button
                       key={i}
                       onClick={() => {
-                        if ((r as any).action === "empleo") {
+                        if (r.action === "empleo") {
                           setTab("empleo");
-                        } else if ((r as any).action === "hogar") {
+                        } else if (r.action === "hogar") {
                           setTab("hogar");
                         } else if (r.url) {
                           window.open(r.url, '_blank', 'noopener,noreferrer');
