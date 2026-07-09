@@ -4,9 +4,9 @@ from .config.settings import settings
 import os
 import re
 import logging
-from functools import wraps
+from typing import Optional
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ _llm = ChatOpenAI(model="openai/gpt-4o-mini", temperature=0,
         openai_api_key=settings.openrouter_api_key,
         openai_api_base="https://openrouter.ai/api/v1",
         default_headers={
-        "HTTP-Referer": os.getenv("APP_URL", "http://localhost"), 
+        "HTTP-Referer": os.getenv("APP_URL", "http://localhost"),
         "X-Title": "MigrAI Guardarrail" } , )
 
 _TEMA = (
@@ -110,9 +110,9 @@ def _es_consulta_valida(texto: str) -> bool:
     ]
     return "?" in texto or any(p in texto.lower() for p in palabras)
 
-def _clasificar_llm(mensaje: str) -> str:
+async def _clasificar_llm(mensaje: str) -> str:
     try:
-        r = _llm.invoke([HumanMessage(content=_PROMPT_ENTRADA.format(
+        r = await _llm.ainvoke([HumanMessage(content=_PROMPT_ENTRADA.format(
             tema=_TEMA, mensaje=mensaje
         ))])
         c = r.content.strip().upper()
@@ -122,9 +122,9 @@ def _clasificar_llm(mensaje: str) -> str:
         logger.error(f"Guardarraíl LLM error: {e}")
         return "FUERA_DE_TEMA"
 
-def _revisar_salida_llm(respuesta: str) -> str:
+async def _revisar_salida_llm(respuesta: str) -> str:
     try:
-        r = _llm.invoke([HumanMessage(content=_PROMPT_SALIDA.format(respuesta=respuesta))])
+        r = await _llm.ainvoke([HumanMessage(content=_PROMPT_SALIDA.format(respuesta=respuesta))])
         c = r.content.strip().upper()
         validas = {"CORRECTA", "CONTIENE_DATOS", "FUERA_DE_TEMA", "DISCRIMINACION"}
         return c if c in validas else "CORRECTA"
@@ -132,139 +132,66 @@ def _revisar_salida_llm(respuesta: str) -> str:
         logger.error(f"Guardarraíl salida LLM error: {e}")
         return "CORRECTA"
 
-def _obtener_ultimo_mensaje(state: dict) -> str:
-    """Saca el texto del último mensaje humano del estado."""
-    mensajes = state.get("messages", [])
-    if not mensajes:
-        return ""
-    ultimo = mensajes[-1]
-    return ultimo.content if hasattr(ultimo, "content") else str(ultimo)
-
-def _respuesta_bloqueada(state: dict, texto: str) -> dict:
-    """Devuelve el estado con un mensaje de bloqueo añadido."""
-    mensajes = state.get("messages", [])
-    return {**state, "messages": [*mensajes, AIMessage(content=texto)]}
-
-def _limpiar_respuesta(resultado: dict, texto: str) -> dict:
-    """Reemplaza el último mensaje del resultado por uno limpio."""
-    mensajes = resultado.get("messages", [])
-    return {**resultado, "messages": [*mensajes[:-1], AIMessage(content=texto)]}
-
 # ─────────────────────────────────────────────────────────────────────────────
-# HERRAMIENTA 1 — para el orquestador
-# Envuelve el grafo compilado completo
+# Validación de entrada/salida — capa única de guardarraíl.
+# Se llama una vez en cada endpoint de src/api/routes.py, antes de invocar
+# el grafo (validar_entrada) y después de obtener la respuesta final
+# (revisar_salida). Cubre a los 7 agentes expertos por igual, porque
+# ninguno es alcanzable salvo a través de esos endpoints.
 # ─────────────────────────────────────────────────────────────────────────────
 
-def aplicar_guardarrail(grafo_compilado):
-    """
-    Uso en orchestrator.py:
-        grafo_compilado = graph.compile(checkpointer=memoria)
-        return aplicar_guardarrail(grafo_compilado)
-    """
-    ainvoke_original = grafo_compilado.ainvoke
+async def validar_entrada(texto: str, contexto: str = "") -> Optional[str]:
+    """Devuelve el texto de bloqueo si el mensaje no es válido, o None si puede continuar."""
+    if not texto:
+        return None
 
-    async def ainvoke_seguro(state, config=None, **kwargs):
-        texto = _obtener_ultimo_mensaje(state)
+    if len(texto) > 2000:
+        logger.warning(f"Guardarraíl {contexto}: mensaje largo bloqueado")
+        return "Tu mensaje es muy largo. Por favor, resume tu consulta en menos de 2000 caracteres."
 
-        if texto:
-            # Capa 1 — longitud
-            if len(texto) > 2000:
-                logger.warning("Guardarraíl orquestador: mensaje largo bloqueado")
-                return _respuesta_bloqueada(state, _BLOQUEOS["INJECTION"])
+    if _detecta_injection(texto):
+        logger.warning(f"Guardarraíl {contexto}: INJECTION | {texto[:80]}")
+        return _BLOQUEOS["INJECTION"]
 
-            # Capa 2 — injection sin LLM
-            if _detecta_injection(texto):
-                logger.warning(f"Guardarraíl orquestador: INJECTION | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS["INJECTION"])
+    if _detecta_datos(texto) and not _es_consulta_valida(texto):
+        logger.warning(f"Guardarraíl {contexto}: DATOS_SENSIBLES | {texto[:80]}")
+        return _BLOQUEOS["DATOS_SENSIBLES"]
 
-            # Capa 3 — datos sensibles solos
-            if _detecta_datos(texto) and not _es_consulta_valida(texto):
-                logger.warning(f"Guardarraíl orquestador: DATOS_SENSIBLES | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS["DATOS_SENSIBLES"])
+    clasificacion = await _clasificar_llm(texto)
+    if clasificacion != "PERMITIDO":
+        logger.info(f"Guardarraíl {contexto}: [{clasificacion}] | {texto[:80]}")
+        return _BLOQUEOS[clasificacion]
 
-            # Capa 4 — LLM
-            clasificacion = _clasificar_llm(texto)
-            if clasificacion != "PERMITIDO":
-                logger.info(f"Guardarraíl orquestador: [{clasificacion}] | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS[clasificacion])
-
-        # Grafo corre normalmente
-        resultado = await ainvoke_original(state, config, **kwargs)
-
-        # Guardarraíl salida
-        mensajes_resultado = resultado.get("messages", [])
-        if mensajes_resultado:
-            respuesta_texto = mensajes_resultado[-1].content \
-                if hasattr(mensajes_resultado[-1], "content") else ""
-            if _detecta_datos(respuesta_texto):
-                logger.warning("Guardarraíl orquestador salida: datos en respuesta, limpiando")
-                return _limpiar_respuesta(resultado, _LIMPIEZAS["CONTIENE_DATOS"])
-            revision = _revisar_salida_llm(respuesta_texto)
-            if revision != "CORRECTA":
-                logger.warning(f"Guardarraíl orquestador salida: [{revision}] limpiado")
-                return _limpiar_respuesta(resultado, _LIMPIEZAS.get(revision, _LIMPIEZAS["FUERA_DE_TEMA"]))
-
-        return resultado
-
-    grafo_compilado.ainvoke = ainvoke_seguro
-    return grafo_compilado
+    return None
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HERRAMIENTA 2 — para cada agente individual
-# ─────────────────────────────────────────────────────────────────────────────
+def validar_documento(texto: str, contexto: str = "documento") -> Optional[str]:
+    """Escanea texto extraído de un documento (p.ej. un PDF) en busca de instrucciones
+    ocultas (prompt injection indirecto). A diferencia de validar_entrada, no aplica el
+    límite de longitud (un documento real puede tener miles de caracteres) ni la
+    clasificación temática por LLM (un documento no se formula como una pregunta)."""
+    if not texto:
+        return None
 
-def guardarrail_agente(func):
-    """
-    Uso en cada agente:
-        from ..guardarrail import guardarrail_agente
+    if _detecta_injection(texto):
+        logger.warning(f"Guardarraíl {contexto}: INJECTION detectada en documento")
+        return _BLOQUEOS["INJECTION"]
 
-        @guardarrail_agente
-        async def agente_sociolaboral(state):
-            ...
-    """
-    @wraps(func)
-    async def wrapper(state, *args, **kwargs):
-        texto = _obtener_ultimo_mensaje(state)
+    return None
 
-        if texto:
-            # Capa 1 — longitud
-            if len(texto) > 2000:
-                logger.warning(f"Guardarraíl {func.__name__}: mensaje largo bloqueado")
-                return _respuesta_bloqueada(state, _BLOQUEOS["INJECTION"])
 
-            # Capa 2 — injection sin LLM
-            if _detecta_injection(texto):
-                logger.warning(f"Guardarraíl {func.__name__}: INJECTION | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS["INJECTION"])
+async def revisar_salida(texto: str, contexto: str = "") -> str:
+    """Devuelve el texto tal cual si es correcto, o un texto de reemplazo si no lo es."""
+    if not texto:
+        return texto
 
-            # Capa 3 — datos sensibles solos
-            if _detecta_datos(texto) and not _es_consulta_valida(texto):
-                logger.warning(f"Guardarraíl {func.__name__}: DATOS_SENSIBLES | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS["DATOS_SENSIBLES"])
+    if _detecta_datos(texto):
+        logger.warning(f"Guardarraíl {contexto} salida: datos en respuesta, limpiando")
+        return _LIMPIEZAS["CONTIENE_DATOS"]
 
-            # Capa 4 — LLM
-            clasificacion = _clasificar_llm(texto)
-            if clasificacion != "PERMITIDO":
-                logger.info(f"Guardarraíl {func.__name__}: [{clasificacion}] | {texto[:80]}")
-                return _respuesta_bloqueada(state, _BLOQUEOS[clasificacion])
+    revision = await _revisar_salida_llm(texto)
+    if revision != "CORRECTA":
+        logger.warning(f"Guardarraíl {contexto} salida: [{revision}] limpiado")
+        return _LIMPIEZAS.get(revision, _LIMPIEZAS["FUERA_DE_TEMA"])
 
-        # El agente corre normalmente
-        resultado = await func(state, *args, **kwargs)
-
-        # Guardarraíl salida
-        mensajes_resultado = resultado.get("messages", [])
-        if mensajes_resultado:
-            respuesta_texto = mensajes_resultado[-1].content \
-                if hasattr(mensajes_resultado[-1], "content") else ""
-            if _detecta_datos(respuesta_texto):
-                logger.warning(f"Guardarraíl {func.__name__} salida: datos en respuesta, limpiando")
-                return _limpiar_respuesta(resultado, _LIMPIEZAS["CONTIENE_DATOS"])
-            revision = _revisar_salida_llm(respuesta_texto)
-            if revision != "CORRECTA":
-                logger.warning(f"Guardarraíl {func.__name__} salida: [{revision}] limpiado")
-                return _limpiar_respuesta(resultado, _LIMPIEZAS.get(revision, _LIMPIEZAS["FUERA_DE_TEMA"]))
-
-        return resultado
-
-    return wrapper
+    return texto

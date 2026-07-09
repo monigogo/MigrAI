@@ -7,11 +7,9 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.111.0",
     "uvicorn>=0.29.0",
-    "langchain>=0.2.0",
+    "langchain>=0.2.0",  # lo requiere la integración langchain de Langfuse
     "langchain-openai>=0.1.0",
-    "langchain-community>=0.2.0",
     "langgraph>=0.1.0",
-    "langsmith>=0.1.0",
     "supabase>=2.4.0",
     "python-dotenv>=1.0.0",
     "httpx>=0.27.0",
@@ -19,14 +17,12 @@ dependencies = [
     "pydantic-settings>=2.2.0",
     "python-multipart>=0.0.9",
     "PyMuPDF>=1.24.0",
-    "tiktoken>=0.7.0",
-    "openai>=1.30.0",
     "sentence-transformers>=3.0.0",
     "langchain-groq>=1.1.2",
     "torch>=2.0.0",
-    "torchvision>=0.15.0",
     "langfuse>=4.0.2",
     "langchain-core>=1.2.19",
+    "slowapi>=0.1.10",
 ]
 
 [build-system]
@@ -35,7 +31,6 @@ build-backend = "hatchling.build"
 
 [tool.uv.sources]
 torch = { index = "pytorch-cpu" }
-torchvision = { index = "pytorch-cpu" }
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -50,4 +45,11 @@ dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "httpx>=0.27.0",
+    "ruff>=0.6.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "eval_live: llama al LLM real (Groq) — no se ejecuta en CI, requiere RUN_LIVE_EVAL=1 y credenciales reales.",
 ]
