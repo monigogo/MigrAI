@@ -2,15 +2,22 @@
 create extension if not exists vector;
 
 -- ── Tabla principal: fragmentos de PDFs con vectores ──────────────────────
+-- NOTA: embedding es vector(384) porque el modelo usado en
+-- src/rag/embeddings.py es sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+-- (384 dimensiones). Si el modelo de embeddings cambia alguna vez, este valor
+-- y el de la función buscar_documentos() deben cambiar juntos, y hay que
+-- re-ingerir todo (los vectores no son portables entre modelos distintos).
 create table if not exists documentos_normativa (
-  id          uuid      primary key default gen_random_uuid(),
-  contenido   text      not null,
-  embedding   vector(1536),
-  tramite     text      not null,
-  fuente      text,
-  pagina      int,
-  tipo        text      default 'normativa',  -- 'normativa' o 'comunidad'
-  fecha_carga timestamp default now()
+  id             uuid      primary key default gen_random_uuid(),
+  contenido      text      not null,
+  embedding      vector(384),
+  tramite        text      not null,
+  fuente         text,
+  pagina         int,
+  tipo           text      default 'normativa',  -- 'normativa' | 'comunidad' | 'tasa' | 'formulario'
+  contenido_hash text,                            -- sha256(fuente|pagina|indice|contenido), para deduplicar reingestas
+  activo         boolean   not null default true,  -- false = superado por una reingesta más reciente del mismo fichero
+  fecha_carga    timestamp default now()
 );
 
 -- Índice para búsqueda rápida por similitud de vectores
@@ -22,6 +29,10 @@ create index if not exists idx_docs_embedding
 -- Índice para filtrar por trámite
 create index if not exists idx_docs_tramite
   on documentos_normativa(tramite);
+
+-- Índice para el chequeo de deduplicación en cada reingesta
+create index if not exists idx_docs_contenido_hash
+  on documentos_normativa(contenido_hash);
 
 -- ── Sesiones anónimas ─────────────────────────────────────────────────────
 create table if not exists sesiones (
@@ -61,7 +72,7 @@ create index if not exists idx_conv_tramite
 
 -- ── Función de búsqueda por similitud (la usa el RAG) ─────────────────────
 create or replace function buscar_documentos(
-  query_embedding vector(1536),
+  query_embedding vector(384),
   tramite_filtro  text,
   top_k           int default 5
 )
@@ -84,6 +95,7 @@ as $$
     1 - (embedding <=> query_embedding) as similitud
   from documentos_normativa
   where tramite = tramite_filtro
+    and activo = true
   order by embedding <=> query_embedding
   limit top_k;
 $$;

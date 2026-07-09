@@ -1,6 +1,11 @@
+import logging
 from ..db.supabase_client import supabase
 from .embeddings import get_embedding
 from ..config.settings import dev_config
+
+logger = logging.getLogger(__name__)
+
+_SIN_CONTEXTO = "No se encontró información específica para este trámite."
 
 
 def buscar_contexto(pregunta: str, tramite: str) -> str:
@@ -8,17 +13,23 @@ def buscar_contexto(pregunta: str, tramite: str) -> str:
     top_k  = dev_config["rag"]["top_k"]
     vector = get_embedding(pregunta)
 
-    resultado = supabase.rpc(
-        "buscar_documentos",
-        {
-            "query_embedding": vector,
-            "tramite_filtro":  tramite,
-            "top_k":           top_k,
-        },
-    ).execute()
+    try:
+        resultado = supabase.rpc(
+            "buscar_documentos",
+            {
+                "query_embedding": vector,
+                "tramite_filtro":  tramite,
+                "top_k":           top_k,
+            },
+        ).execute()
+    except Exception:
+        # Si el RAG cae (Supabase inaccesible, RPC roto...), el agente debe
+        # responder sin contexto en vez de tumbar toda la petición.
+        logger.exception(f"RAG no disponible para tramite={tramite}, respondiendo sin contexto")
+        return _SIN_CONTEXTO
 
     if not resultado.data:
-        return "No se encontró información específica para este trámite."
+        return _SIN_CONTEXTO
 
     # Agrupa por tipo de fuente
     secciones = {
@@ -29,14 +40,14 @@ def buscar_contexto(pregunta: str, tramite: str) -> str:
     }
 
     for doc in resultado.data:
-        fuente      = doc.get("fuente", "")
-        pagina      = doc.get("pagina", "")
-        contenido   = doc.get("contenido", "")
-        fuente_tipo = doc.get("fuente_tipo", "normativa")
-        bloque      = f"[{fuente} — pág. {pagina}]\n{contenido}"
+        fuente    = doc.get("fuente", "")
+        pagina    = doc.get("pagina", "")
+        contenido = doc.get("contenido", "")
+        tipo      = doc.get("tipo", "normativa")
+        bloque    = f"[{fuente} — pág. {pagina}]\n{contenido}"
 
-        if fuente_tipo in secciones:
-            secciones[fuente_tipo].append(bloque)
+        if tipo in secciones:
+            secciones[tipo].append(bloque)
         else:
             secciones["normativa"].append(bloque)
 
@@ -74,14 +85,18 @@ def buscar_contexto_comunidad(pregunta: str, tramite: str = None) -> str:
 
     tramite_busqueda = tramite or "arraigo_sociolaboral"
 
-    resultado = supabase.rpc(
-        "buscar_documentos",
-        {
-            "query_embedding": vector,
-            "tramite_filtro":  tramite_busqueda,
-            "top_k":           top_k,
-        },
-    ).execute()
+    try:
+        resultado = supabase.rpc(
+            "buscar_documentos",
+            {
+                "query_embedding": vector,
+                "tramite_filtro":  tramite_busqueda,
+                "top_k":           top_k,
+            },
+        ).execute()
+    except Exception:
+        logger.exception(f"RAG comunidad no disponible para tramite={tramite_busqueda}")
+        return ""
 
     if not resultado.data:
         return ""
@@ -89,7 +104,7 @@ def buscar_contexto_comunidad(pregunta: str, tramite: str = None) -> str:
     bloques = [
         doc.get("contenido", "")
         for doc in resultado.data
-        if doc.get("fuente_tipo") == "comunidad"
+        if doc.get("tipo") == "comunidad"
     ]
 
     return "\n---\n".join(bloques) if bloques else ""
